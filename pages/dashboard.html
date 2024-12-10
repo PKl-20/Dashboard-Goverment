@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Responsive Dashboard Design #1 | AsmrProg</title>
+</head>
+<body>
+    <div class="container">
+        <aside>
+            <div class="toggle">
+                <div class="logo">
+                    <img src="../assets/images/logo.png">
+                    <h2>Asmr<span class="danger">Prog</span></h2>
+                </div>
+                <div class="close" id="close-btn">
+                    <span class="material-icons-sharp">
+                        close
+                    </span>
+                </div>
+            </div>
+            <div class="sidebar">
+                <a href="#" class="active">
+                    <span class="material-icons-sharp">
+                        dashboard
+                    </span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">
+                        person_outline
+                    </span>
+                    <h3>Bidang Perdagangan</h3>
+                    <ul class="sub-menu" id="sub-menu-1">
+                        <li><a href="#">• Data</a></li>
+                        <li><a href="#">• Fungsi</a></li>
+                    </ul>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">
+                        receipt_long
+                    </span>
+                    <h3>Bidang Pasar</h3>
+                    <ul class="sub-menu" id="sub-menu-2">
+                        <li><a href="#">• Data</a></li>
+                        <li><a href="#">• Fungsi</a></li>
+                    </ul>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">
+                        insights
+                    </span>
+                    <h3>Bidang Koperasi</h3>
+                    <ul class="sub-menu" id="sub-menu-3">
+                        <li><a href="#">• Data</a></li>
+                        <li><a href="#">• Fungsi</a></li>
+                    </ul>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">
+                        add
+                    </span>
+                    <h3>New Document</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">
+                        add
+                    </span>
+                    <h3>Export Data</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">
+                        logout
+                    </span>
+                    <h3 id="Logout-button">Logout</h3>
+                </a>
+            </div>
+        </aside>
+        <main id="Dashboard">
+            <h1>Dashboard</h1>
+        </main>
+        <main id="Bidang-Perdagangan">
+            <h1>Bidang Perdagangan</h1>
+        </main>
+        <main id="Bidang-Pasar">
+            <h1>Bidang Pasar</h1>
+        </main>
+        <main id="Bidang-Koperasi">
+            <h1>Bidang Koperasi</h1>
+        </main>
+        <main id="Export-Data">
+            <h1>Export Data</h1>
+        </main>
+        <main id="New-Document">
+            <h1>New Document</h1>
+            <div class="document-card">
+                <div class="icon">
+                    <span class="material-icons-sharp">add</span>
+                </div>
+                <h3>Upload New Document</h3>
+            </div>
+            <div class="document-popup" id="documentPopup">
+                <div class="document-popup-content">
+                    <span class="material-icons-sharp close-document-popup">close</span>
+                    <h2>Upload New Document</h2>
+                    <form id="documentForm">
+                        <input type="text" id="documentName" placeholder="Document Name" required>
+                        <input type="file" id="documentFile" required>
+                        <button type="submit">Upload Document</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <div class="right-section">
+            <div class="nav">
+                <button id="menu-btn">
+                    <span class="material-icons-sharp">
+                        menu
+                    </span>
+                </button>
+                <div class="dark-mode">
+                    <span class="material-icons-sharp active">
+                        light_mode
+                    </span>
+                    <span class="material-icons-sharp">
+                        dark_mode
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="order-popup" class="popup" style="display: none;">
+      <div class="popup-content">
+        <span class="close-popup">&times;</span>
+        <h2>Order Details</h2>
+        <div id="order-details"></div>
+        <button id="approve-order-btn">Approve</button>
+        <button id="decline-order-btn">Decline</button>
+      </div>
+    </div>
+</body>
+<script type="module" src="../js/scripts.js"></script>
+<script src="../js/orders.js"></script>
+<script src="../js/index.js"></script>
+</html>

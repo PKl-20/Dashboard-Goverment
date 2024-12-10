@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login Page</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
     <div class="container">
@@ -16,25 +16,22 @@
                 <h1>Welcome back!</h1>
                 <p>Please enter your details</p>
                 
-                <form>
+                <form id="loginForm">
                     <div class="form-group">
-                        <input type="email" placeholder="Email">
+                        <input type="text" id="username" placeholder="Username" required>
                     </div>
                     <div class="form-group">
-                        <input type="password" placeholder="Password">
-                        <span class="password-toggle">👁</span>
+                        <input type="password" placeholder="Password" id="password">
+                        <span class="password-toggle" onclick="pwToggle()">👁</span>
                     </div>
                     <div class="form-options">
-                        <label>
-                            <input type="checkbox"> Remember for 30 days
-                        </label>
-                        <a href="#">Forgot password?</a>
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">Remember for 30 days</label>
+                        </div>
+                        <a href="#" class="forgot-link">Forgot password?</a>
                     </div>
                     <button type="submit" class="btn-login">Log In</button>
-                    <button type="button" class="btn-google">
-                        <img src="google-icon.png" alt="Google">
-                        Log in with Google
-                    </button>
                 </form>
                 <p class="signup-link">
                     Don't have an account? <a href="#">Sign Up</a>
@@ -43,4 +40,15 @@
         </div>
     </div>
 </body>
+<script type="module" src="js/scripts.js"></script>
+<script>
+    function pwToggle() {
+        var x = document.getElementById("password");
+        if (x.type === "password") {
+        x.type = "text";
+        } else {
+        x.type = "password";
+        }
+    }
+</script>
 </html>

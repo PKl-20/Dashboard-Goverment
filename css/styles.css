@@ -121,6 +121,22 @@ input {
     justify-content: space-between;
     align-items: center;
     margin: 20px 0;
+    font-size: 14px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.remember-me input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+.forgot-link {
+    color: #666;
 }
 
 .btn-login {
@@ -131,20 +147,6 @@ input {
     border: none;
     border-radius: 8px;
     font-size: 16px;
-    margin-bottom: 16px;
-    cursor: pointer;
-}
-
-.btn-google {
-    width: 100%;
-    padding: 12px;
-    background: #f5f5f5;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
     cursor: pointer;
 }
 

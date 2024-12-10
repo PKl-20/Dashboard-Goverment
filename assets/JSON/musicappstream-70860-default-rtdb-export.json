@@ -1,0 +1,22 @@
+{
+  "admin": {
+    "ADMP0001": {
+      "password": "pkl-perdagangan",
+      "username": "PKL-01"
+    }
+  },
+  "Bidang Perdagangan":{
+    "PASAR A":{
+      "Nama MarketPlace":"Pasar A",
+      "Tahun n-2":"RP. 21000000",
+      "Tahun n-1":"RP. 30000000",
+      "Tahun": [
+        { "triwulan 1": "RP. 10000000" },
+        { "triwulan 2": "RP. 20000000" },
+        { "triwulan 3": ""},
+        { "triwulan 4": ""}
+      ],
+      "Keterangan":"Pasar A"
+    }
+  }
+}
