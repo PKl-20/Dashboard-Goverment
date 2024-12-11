@@ -18,43 +18,118 @@ darkMode.addEventListener('click', () => {
     darkMode.querySelector('span:nth-child(2)').classList.toggle('active');
 })
 
-// Select all sidebar links and main sections
-const sidebarLinks = document.querySelectorAll('.sidebar a');
-const mainSections = document.querySelectorAll('main');
+const dashboardLink = document.getElementById('dashboard-link');
+const bidangPerdaganganLink = document.getElementById('perdagangan-link');
+const bidangPasarLink = document.getElementById('pasar-link');
+const bidangKoperasiLink = document.getElementById('koperasi-link');
+const exportDataLink = document.getElementById('data-link');
+const newDocumentLink = document.getElementById('document-link');
 
-// Initially hide all main sections except the Dashboard
-mainSections.forEach(section => {
-    if (section.id !== 'Dashboard') {
-        section.style.display = 'none';
+const Dashboard = document.getElementById('Dashboard');
+const bidangPerdagangan = document.getElementById('Bidang-Perdagangan');
+const bidangPasar = document.getElementById('Bidang-Pasar');
+const bidangKoperasi = document.getElementById('Bidang-Koperasi');
+const exportData = document.getElementById('Export-Data');
+const newDocument = document.getElementById('New-Document');
+
+bidangPerdagangan.style.display = 'none';
+bidangPasar.style.display = 'none';
+bidangKoperasi.style.display = 'none';
+exportData.style.display = 'none';
+newDocument.style.display = 'none';
+        
+function updateActiveState(activeLink) {
+    document.querySelectorAll('.sidebar a').forEach(link => {
+        if (!link.classList.contains('dropdown-btn')) {
+            link.classList.remove('active');
+        }
+    });
+    
+    if (activeLink && !activeLink.classList.contains('dropdown-btn')) {
+        activeLink.classList.add('active');
     }
-});
-
-// Function to update active state and display the correct section
-function updateSection(activeLink, sectionId) {
-    // Remove 'active' class from all links
-    sidebarLinks.forEach(link => link.classList.remove('active'));
-    // Add 'active' class to the clicked link
-    activeLink.classList.add('active');
-
-    // Hide all main sections
-    mainSections.forEach(section => section.style.display = 'none');
-    // Show the selected main section
-    document.getElementById(sectionId).style.display = 'block';
+}
+        
+if (dashboardLink) {
+    dashboardLink.addEventListener('click', function() {
+        Dashboard.style.display = 'block';
+        bidangPerdagangan.style.display = 'none';
+        bidangPasar.style.display = 'none';
+        bidangKoperasi.style.display = 'none';
+        exportData.style.display = 'none';
+        newDocument.style.display = 'none';
+        subMenuPerdagangan = 'none';
+        subMenuPasar = 'none';
+        subMenuKoperasi = 'none';
+        updateActiveState(this);
+    });
+}
+        
+if (bidangPerdaganganLink) {
+    bidangPerdaganganLink.addEventListener('click', function() {
+        Dashboard.style.display = 'none';
+        bidangPerdagangan.style.display = 'block';
+        bidangPasar.style.display = 'none';
+        bidangKoperasi.style.display = 'none';
+        exportData.style.display = 'none';
+        newDocument.style.display = 'none';
+        subMenuPerdagangan = 'block';
+        subMenuPasar = 'none';
+        subMenuKoperasi = 'none';
+        updateActiveState(this);
+    });
 }
 
-// Add event listeners to each sidebar link
-sidebarLinks.forEach(link => {
-    link.addEventListener('click', function(event) {
-        const sectionId = this.querySelector('h3').textContent.replace(/\s+/g, '-');
-
-        // Check if the clicked link is the logout button
-        if (sectionId === 'Logout') {
-            event.preventDefault();
-            return;
-        }
-
-        updateSection(this, sectionId);
+if (bidangPasarLink) {
+    bidangPasarLink.addEventListener('click', function() {
+        Dashboard.style.display = 'none';
+        bidangPerdagangan.style.display = 'none';
+        bidangPasar.style.display = 'block';
+        bidangKoperasi.style.display = 'none';
+        exportData.style.display = 'none';
+        newDocument.style.display = 'none';
+        subMenuPerdagangan = 'none';
+        subMenuPasar = 'block';
+        subMenuKoperasi = 'none';
+        updateActiveState(this);
     });
-});
+}
 
-document.getElementById('Dashboard').style.display = 'block';
+if (bidangKoperasiLink) {
+    bidangKoperasiLink.addEventListener('click', function() {
+        Dashboard.style.display = 'none';
+        bidangPerdagangan.style.display = 'none';
+        bidangPasar.style.display = 'none';
+        bidangKoperasi.style.display = 'block';
+        exportData.style.display = 'none';
+        newDocument.style.display = 'none';
+        subMenuPerdagangan = 'none';
+        subMenuPasar = 'none';
+        subMenuKoperasi = 'block';
+        updateActiveState(this);
+    });
+}
+
+if (exportDataLink) {
+    exportDataLink.addEventListener('click', function() {
+        Dashboard.style.display = 'none';
+        bidangPerdagangan.style.display = 'none';
+        bidangPasar.style.display = 'none';
+        bidangKoperasi.style.display = 'none';
+        exportData.style.display = 'block';
+        newDocument.style.display = 'none';
+        updateActiveState(this);
+    });
+}
+
+if (newDocumentLink) {
+    newDocumentLink.addEventListener('click', function() {
+        Dashboard.style.display = 'none';
+        bidangPerdagangan.style.display = 'none';
+        bidangPasar.style.display = 'none';
+        bidangKoperasi.style.display = 'none';
+        exportData.style.display = 'none';
+        newDocument.style.display = 'block';
+        updateActiveState(this);
+    });
+}

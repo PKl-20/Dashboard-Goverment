@@ -27,12 +27,51 @@ document.addEventListener('DOMContentLoaded', function() {
         checkLoginStatus();
     } else if (currentPage.includes('dashboard.html')) {
         checkLoginStatus();
-        loadDashboard();
+        setupDocumentUpload();
+        
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tableContainers = document.querySelectorAll('.table-container');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.dataset.tab;
+                
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tableContainers.forEach(container => container.classList.remove('active'));
+                
+                button.classList.add('active');
+                document.getElementById(`${tabId}Table`).classList.add('active');
+            });
+        });
+
+        loadBidangPasar();
+
+        // Tambahkan event listener untuk tombol "Tambah Data"
+        document.querySelectorAll('.add-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const tableId = button.closest('.table-container').id;
+                if (tableId === 'kondisiPasarTable') {
+                    openAddDataPopup('kondisiPasar');
+                } else if (tableId === 'losKiosTable') {
+                    openAddDataPopup('losKios');
+                } else if (tableId === 'profilTable') {
+                    openAddDataPopup('profil');
+                }
+            });
+        });
     }
+    
     const logoutButton = document.getElementById('logout-button');
     if (logoutButton) {
         logoutButton.addEventListener('click', logoutUser);
-}
+    }
+
+    const closePopup = document.querySelector('.close-popup');
+    if (closePopup) {
+        closePopup.addEventListener('click', function() {
+            document.getElementById('addDataPopup').style.display = 'none';
+        });
+    }
 });
 
 function setupLoginForm() {
@@ -40,18 +79,13 @@ function setupLoginForm() {
     if (loginForm) {
         loginForm.addEventListener('submit', handleLogin);
     }
-
-    const passwordToggle = document.querySelector('.password-toggle');
-    if (passwordToggle) {
-        passwordToggle.addEventListener('click', togglePassword);
-    }
 }
 
 async function handleLogin(event) {
     event.preventDefault();
     
     const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    const password = document.getElementById('Password').value;
     
     try {
         const adminRef = ref(db, 'admin');
@@ -83,13 +117,6 @@ async function handleLogin(event) {
     }
 }
 
-function togglePassword() {
-    const passwordInput = document.getElementById('password');
-    if (passwordInput) {
-        passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
-    }
-}
-
 function checkLoginStatus() {
     const isLoggedIn = sessionStorage.getItem('isLoggedIn');
     const currentPage = window.location.pathname;
@@ -102,15 +129,6 @@ function checkLoginStatus() {
         if (currentPage.includes('dashboard.html')) {
             window.location.href = '../index.html';
         }
-    }
-}
-
-function loadDashboard() {
-    const username = sessionStorage.getItem('username');
-    console.log('Loading dashboard for user:', username);
-    
-    if (window.location.pathname.includes('dashboard.html')) {
-        setupDocumentUpload();
     }
 }
 
@@ -267,3 +285,269 @@ async function handleDocumentUpload(e) {
         uploadButton.textContent = 'Upload Document';
     }
 }
+
+function loadBidangPasar() {
+    const bidangPasarRef = ref(db, 'Bidang Pasar');
+    
+    onValue(bidangPasarRef, (snapshot) => {
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            renderKondisiPasarTable(data.dataKondisiPasar);
+            renderLosKiosTable(data.jumlahLosKiosPasar.dataPasar);
+            renderProfilTable(data.matriksProfilPasar.dataUPT);
+        }
+    });
+}
+
+function renderKondisiPasarTable(data) {
+    const tbody = document.getElementById('kondisiPasarBody');
+    tbody.innerHTML = '';
+
+    data.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.namaPasar}</td>
+            <td>${item.fasilitas.arealParkir}</td>
+            <td>${item.fasilitas.TPS}</td>
+            <td>${item.fasilitas.MCK}</td>
+            <td>${item.fasilitas.tempatIbadah}</td>
+            <td>${item.fasilitas.bongkarMuat}</td>
+            <td>${item.kondisi.baik}</td>
+            <td>${item.kondisi.tidakBaik}</td>
+            <td>${item.kondisi.perluPenyempurnaan}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="edit-btn" onclick="editKondisiPasar(${index})">
+                        <span class="material-icons-sharp">edit</span>
+                    </button>
+                    <button class="delete-btn" onclick="deleteKondisiPasar(${index})">
+                        <span class="material-icons-sharp">delete</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+// Fungsi untuk render tabel Los & Kios
+function renderLosKiosTable(data) {
+    const tbody = document.getElementById('losKiosBody');
+    tbody.innerHTML = '';
+
+    data.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.namaPasar}</td>
+            <td>${item.alamatLengkap}</td>
+            <td>${item.jumlahLosKios.los}</td>
+            <td>${item.jumlahLosKios.kios}</td>
+            <td>${item.jumlahPedagang.los}</td>
+            <td>${item.jumlahPedagang.kios}</td>
+            <td>${item.jumlahTidakTermanfaatkan.los}</td>
+            <td>${item.jumlahTidakTermanfaatkan.kios}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="edit-btn" onclick="editLosKios(${index})">
+                        <span class="material-icons-sharp">edit</span>
+                    </button>
+                    <button class="delete-btn" onclick="deleteLosKios(${index})">
+                        <span class="material-icons-sharp">delete</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function renderProfilTable(data) {
+    const tbody = document.getElementById('profilBody');
+    tbody.innerHTML = '';
+    let no = 1;
+    data.forEach((upt) => {
+        upt.dataPasar.forEach((item, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${no++}</td>
+                <td>${upt.UPT}</td>
+                <td>${item.namaPasar}</td>
+                <td>${item.jumlahPaguyubanPedagang}</td>
+                <td>${item.alamat}</td>
+                <td>${item.tahunBerdiri}</td>
+                <td>${item.luas.tanah}</td>
+                <td>${item.luas.bangunan}</td>
+                <td>${item.luas.lantai}</td>
+                <td>${item.jumlah.los}</td>
+                <td>${item.jumlah.kios}</td>
+                <td>${item.jumlah.dasaran}</td>
+                <td>${item.jumlahPedagang.los}</td>
+                <td>${item.jumlahPedagang.kios}</td>
+                <td>${item.jumlahPedagang.dasaran}</td>
+                <td>${item.fasilitasTersedia.arealParkir}</td>
+                <td>${item.fasilitasTersedia.TPS}</td>
+                <td>${item.fasilitasTersedia.MCK}</td>
+                <td>${item.fasilitasTersedia.tempatIbadah}</td>
+                <td>${item.fasilitasTersedia.bongkarMuat}</td>
+                <td>${item.keterangan}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="edit-btn" onclick="editProfil(${index})">
+                            <span class="material-icons-sharp">edit</span>
+                        </button>
+                        <button class="delete-btn" onclick="deleteProfil(${index})">
+                            <span class="material-icons-sharp">delete</span>
+                        </button>
+                    </div>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    });
+}
+
+let currentTable = '';
+
+function openAddDataPopup(table) {
+    currentTable = table;
+    const form = document.getElementById('addDataForm');
+    form.innerHTML = ''; // Kosongkan form
+
+    if (table === 'kondisiPasar') {
+        form.innerHTML = `
+            <input type="text" id="namaPasar" placeholder="Nama Pasar" required>
+            <select id="arealParkir" required>
+                <option value="">Pilih Areal Parkir</option>
+                <option value="ADA">ADA</option>
+                <option value="TIDAK ADA">TIDAK ADA</option>
+            </select>
+            <select id="TPS" required>
+                <option value="">Pilih TPS</option>
+                <option value="ADA">ADA</option>
+                <option value="TIDAK ADA">TIDAK ADA</option>
+            </select>
+            <select id="MCK" required>
+                <option value="">Pilih MCK</option>
+                <option value="ADA">ADA</option>
+                <option value="TIDAK ADA">TIDAK ADA</option>
+            </select>
+            <select id="tempatIbadah" required>
+                <option value="">Pilih Tempat Ibadah</option>
+                <option value="ADA">ADA</option>
+                <option value="TIDAK ADA">TIDAK ADA</option>
+            </select>
+            <select id="bongkarMuat" required>
+                <option value="">Pilih Bongkar Muat</option>
+                <option value="ADA">ADA</option>
+                <option value="TIDAK ADA">TIDAK ADA</option>
+            </select>
+            <label>
+                <input type="checkbox" id="kondisiBaik"> Baik
+            </label>
+            <button type="submit">Tambah Data</button>
+        `;
+    } else if (table === 'losKios') {
+        form.innerHTML = `
+            <input type="text" id="namaPasar" placeholder="Nama Pasar" required>
+            <input type="text" id="alamatLengkap" placeholder="Alamat Lengkap" required>
+            <input type="number" id="jumlahLos" placeholder="Jumlah Los" required>
+            <input type="number" id="jumlahKios" placeholder="Jumlah Kios" required>
+            <button type="submit">Tambah Data</button>
+        `;
+    } else if (table === 'profil') {
+        form.innerHTML = `
+            <input type="text" id="UPT" placeholder="UPT" required>
+            <input type="text" id="namaPasar" placeholder="Nama Pasar" required>
+            <input type="number" id="jumlahPaguyuban" placeholder="Jumlah Paguyuban" required>
+            <input type="text" id="alamat" placeholder="Alamat" required>
+            <button type="submit">Tambah Data</button>
+        `;
+    }
+
+    document.getElementById('addDataPopup').style.display = 'block';
+}
+
+function closeAddDataPopup() {
+    document.getElementById('addDataPopup').style.display = 'none';
+}
+
+document.getElementById('addDataForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    if (currentTable === 'kondisiPasar') {
+        const newData = {
+            namaPasar: document.getElementById('namaPasar').value,
+            fasilitas: {
+                arealParkir: document.getElementById('arealParkir').value,
+                TPS: document.getElementById('TPS').value,
+                MCK: document.getElementById('MCK').value,
+                tempatIbadah: document.getElementById('tempatIbadah').value,
+                bongkarMuat: document.getElementById('bongkarMuat').value
+            },
+            kondisi: {
+                baik: document.getElementById('kondisiBaik').checked ? 'X' : '',
+                tidakBaik: '',
+                perluPenyempurnaan: ''
+            }
+        };
+        const refPath = ref(db, 'Bidang Pasar/dataKondisiPasar');
+        await push(refPath, newData);
+    } else if (currentTable === 'losKios') {
+        const newData = {
+            namaPasar: document.getElementById('namaPasar').value,
+            alamatLengkap: document.getElementById('alamatLengkap').value,
+            jumlahLosKios: {
+                los: parseInt(document.getElementById('jumlahLos').value),
+                kios: parseInt(document.getElementById('jumlahKios').value)
+            },
+            jumlahPedagang: {
+                los: 0,
+                kios: 0
+            },
+            jumlahTidakTermanfaatkan: {
+                los: 0,
+                kios: 0
+            }
+        };
+        const refPath = ref(db, 'Bidang Pasar/jumlahLosKiosPasar/dataPasar');
+        await push(refPath, newData);
+    } else if (currentTable === 'profil') {
+        const newData = {
+            UPT: document.getElementById('UPT').value,
+            dataPasar: [{
+                namaPasar: document.getElementById('namaPasar').value,
+                jumlahPaguyubanPedagang: parseInt(document.getElementById('jumlahPaguyuban').value),
+                alamat: document.getElementById('alamat').value,
+                tahunBerdiri: '',
+                luas: {
+                    tanah: 0,
+                    bangunan: 0,
+                    lantai: 0
+                },
+                jumlah: {
+                    los: 0,
+                    kios: 0,
+                    dasaran: 0
+                },
+                jumlahPedagang: {
+                    los: 0,
+                    kios: 0,
+                    dasaran: 0
+                },
+                fasilitasTersedia: {
+                    arealParkir: '',
+                    TPS: '',
+                    MCK: '',
+                    tempatIbadah: '',
+                    bongkarMuat: ''
+                },
+                keterangan: ''
+            }]
+        };
+        const refPath = ref(db, 'Bidang Pasar/matriksProfilPasar/dataUPT');
+        await push(refPath, newData);
+    }
+
+    closeAddDataPopup();
+    loadBidangPasar(); // Refresh data
+});

@@ -22,59 +22,40 @@
                 </div>
             </div>
             <div class="sidebar">
-                <a href="#" class="active">
-                    <span class="material-icons-sharp">
-                        dashboard
-                    </span>
+                <a href="#" class="active" id="dashboard-link">
+                    <span class="material-icons-sharp">dashboard</span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="#">
-                    <span class="material-icons-sharp">
-                        person_outline
-                    </span>
+                <a href="#" id="perdagangan-link">
+                    <span class="material-icons-sharp">person_outline</span>
                     <h3>Bidang Perdagangan</h3>
-                    <ul class="sub-menu" id="sub-menu-1">
-                        <li><a href="#">• Data</a></li>
-                        <li><a href="#">• Fungsi</a></li>
-                    </ul>
                 </a>
-                <a href="#">
-                    <span class="material-icons-sharp">
-                        receipt_long
-                    </span>
+                <a href="#" id="pasar-link">
+                    <span class="material-icons-sharp">receipt_long</span>
                     <h3>Bidang Pasar</h3>
-                    <ul class="sub-menu" id="sub-menu-2">
-                        <li><a href="#">• Data</a></li>
-                        <li><a href="#">• Fungsi</a></li>
-                    </ul>
                 </a>
-                <a href="#">
-                    <span class="material-icons-sharp">
-                        insights
-                    </span>
+                <a href="#" id="koperasi-link">
+                    <span class="material-icons-sharp">receipt_long</span>
                     <h3>Bidang Koperasi</h3>
-                    <ul class="sub-menu" id="sub-menu-3">
-                        <li><a href="#">• Data</a></li>
-                        <li><a href="#">• Fungsi</a></li>
-                    </ul>
                 </a>
-                <a href="#">
+                <a href="#" id="data-link">
                     <span class="material-icons-sharp">
-                        add
+                        mail_outline
+                    </span>
+                    <h3>Export Data</h3>
+                    <span class="message-count">27</span>
+                </a>
+                <a href="#" id="document-link">
+                    <span class="material-icons-sharp">
+                        inventory
                     </span>
                     <h3>New Document</h3>
                 </a>
                 <a href="#">
                     <span class="material-icons-sharp">
-                        add
-                    </span>
-                    <h3>Export Data</h3>
-                </a>
-                <a href="#">
-                    <span class="material-icons-sharp">
                         logout
                     </span>
-                    <h3 id="Logout-button">Logout</h3>
+                    <h3 id="logout-button">Logout</h3>
                 </a>
             </div>
         </aside>
@@ -86,6 +67,127 @@
         </main>
         <main id="Bidang-Pasar">
             <h1>Bidang Pasar</h1>
+            <div class="tab-container">
+                <button class="tab-button active" data-tab="kondisiPasar">Kondisi Pasar</button>
+                <button class="tab-button" data-tab="losKios">Jumlah Los & Kios</button>
+                <button class="tab-button" data-tab="profil">Matriks Profil</button>
+            </div>
+            <div id="kondisiPasarTable" class="table-container active">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nama Pasar</th>
+                                <th colspan="5">Fasilitas</th>
+                                <th colspan="3">Kondisi</th>
+                                <th>Aksi</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th>Areal Parkir</th>
+                                <th>TPS</th>
+                                <th>MCK</th>
+                                <th>Tempat Ibadah</th>
+                                <th>Bongkar Muat</th>
+                                <th>Baik</th>
+                                <th>Tidak Baik</th>
+                                <th>Perlu Penyempurnaan</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="kondisiPasarBody">
+                            <!-- Data akan diisi melalui JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabel untuk Los & Kios -->
+            <div id="losKiosTable" class="table-container">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Nama Pasar</th>
+                                <th rowspan="2">Alamat Lengkap</th>
+                                <th colspan="2">Jumlah Los & Kios</th>
+                                <th colspan="2">Jumlah Pedagang</th>
+                                <th colspan="2">Tidak Termanfaatkan</th>
+                                <th rowspan="2">Aksi</th>
+                            </tr>
+                            <tr>
+                                <th>Los</th>
+                                <th>Kios</th>
+                                <th>Los</th>
+                                <th>Kios</th>
+                                <th>Los</th>
+                                <th>Kios</th>
+                            </tr>
+                        </thead>
+                        <tbody id="losKiosBody">
+                            <!-- Data akan diisi melalui JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="profilTable" class="table-container">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>UPT</th>
+                                <th>Nama Pasar</th>
+                                <th>Jumlah Paguyuban</th>
+                                <th>Alamat</th>
+                                <th>Tahun Berdiri</th>
+                                <th colspan="3">Luas</th>
+                                <th colspan="3">Jumlah</th>
+                                <th colspan="3">Jumlah Pedagang</th>
+                                <th colspan="5">Fasilitas Tersedia</th>
+                                <th>Keterangan</th>
+                                <th>Aksi</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>Tanah</th>
+                                <th>Bangunan</th>
+                                <th>Lantai</th>
+                                <th>Los</th>
+                                <th>Kios</th>
+                                <th>Dasaran</th>
+                                <th>Los</th>
+                                <th>Kios</th>
+                                <th>Dasaran</th>
+                                <th>Areal Parkir</th>
+                                <th>TPS</th>
+                                <th>MCK</th>
+                                <th>Tempat Ibadah</th>
+                                <th>Bongkar Muat</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="profilBody">
+                            <!-- Data akan diisi melalui JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </main>
         <main id="Bidang-Koperasi">
             <h1>Bidang Koperasi</h1>
@@ -131,14 +233,14 @@
             </div>
         </div>
     </div>
-    <div id="order-popup" class="popup" style="display: none;">
-      <div class="popup-content">
-        <span class="close-popup">&times;</span>
-        <h2>Order Details</h2>
-        <div id="order-details"></div>
-        <button id="approve-order-btn">Approve</button>
-        <button id="decline-order-btn">Decline</button>
-      </div>
+    <div class="add-data-popup" id="addDataPopup" style="display: none;">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h2>Tambah Data</h2>
+            <form id="addDataForm">
+                
+            </form>
+        </div>
     </div>
 </body>
 <script type="module" src="../js/scripts.js"></script>

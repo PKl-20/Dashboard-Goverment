@@ -149,16 +149,82 @@ aside .sidebar:hover{
     box-shadow: none;
 }
 
-aside .sidebar a{
+/* Reset semua style default untuk sidebar links */
+aside .sidebar a {
     display: flex;
     align-items: center;
     color: var(--color-info-dark);
     height: 3.7rem;
     gap: 1rem;
     position: relative;
-    margin-left: 2rem;
     transition: all 0.3s ease;
     cursor: pointer;
+    padding: 0 1rem;
+    margin-left: 0;
+    text-decoration: none;
+}
+
+/* Style khusus untuk link non-dropdown */
+aside .sidebar > a {
+    margin-left: 2rem;
+}
+
+/* Style untuk link active non-dropdown */
+aside .sidebar > a.active {
+    width: 100%;
+    color: var(--color-primary);
+    background-color: var(--color-light);
+    margin-left: 0;
+}
+
+/* Style untuk dropdown container */
+.dropdown-container {
+    display: none;
+    background-color: var(--color-white);
+}
+
+/* Style untuk link dalam dropdown */
+.dropdown-container a {
+    padding: 0.5rem 1rem 0.5rem 3.5rem;
+    height: 2.5rem;
+    margin-left: 0;
+}
+
+/* Style untuk dropdown button */
+.dropdown-btn {
+    width: 100%;
+    margin-left: 2rem;
+}
+
+/* Style untuk dropdown button saat active */
+.dropdown-btn.active {
+    color: var(--color-primary);
+    background-color: var(--color-light);
+    margin-left: 0;
+}
+
+/* Hover effects */
+aside .sidebar a:hover:not(.active),
+.dropdown-btn:hover:not(.active) {
+    color: var(--color-primary);
+    margin-left: 0;
+}
+
+.dropdown-container a:hover {
+    color: var(--color-primary);
+}
+
+/* Style untuk sidebar-item */
+.sidebar-item {
+    width: 100%;
+}
+
+/* Reset margin untuk last child */
+aside .sidebar a:last-child {
+    position: absolute;
+    bottom: 2rem;
+    width: 100%;
+    margin-left: 0;
 }
 
 aside .sidebar a span{
@@ -166,37 +232,16 @@ aside .sidebar a span{
     transition: all 0.3s ease;
 }
 
-aside .sidebar a:last-child{
-    position: absolute;
-    bottom: 2rem;
-    width: 100%;
-}
-
-aside .sidebar a.active{
+aside .sidebar a.active {
     width: 100%;
     color: var(--color-primary);
     background-color: var(--color-light);
     margin-left: 0;
 }
 
-aside .sidebar a.active::before{
-    content: '';
-    width: 6px;
-    height: 18px;
-    background-color: var(--color-primary);
-}
-
-aside .sidebar a.active span{
+aside .sidebar a:hover {
     color: var(--color-primary);
-    margin-left: calc(1rem - 3px);
-}
-
-aside .sidebar a:hover{
-    color: var(--color-primary);
-}
-
-aside .sidebar a:hover span{
-    margin-left: 0.6rem;
+    margin-left: 0;
 }
 
 aside .sidebar .message-count{
@@ -575,11 +620,11 @@ main .recent-orders a, .Orders-List a{
         display: none;
     }
 
-    aside .sidebar a{
+    aside .sidebar a {
         width: 5.6rem;
     }
 
-    aside .sidebar a:last-child{
+    aside .sidebar a:last-child {
         position: relative;
         margin-top: 1.8rem;
     }
@@ -654,12 +699,11 @@ main .recent-orders a, .Orders-List a{
         display: inline;
     }
 
-    aside .sidebar a{
-        width: 100%;
+    aside .sidebar a {
         height: 3.4rem;
     }
 
-    aside .sidebar a:last-child{
+    aside .sidebar a:last-child {
         position: absolute;
         bottom: 5rem;
     }
@@ -829,27 +873,17 @@ main .recent-orders a, .Orders-List a{
 
 .popup {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.popup-content {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 500px;
   background-color: var(--color-white);
-  top: 40%;
-  left: 40%;
   padding: 20px;
   border-radius: var(--border-radius-1);
-  width: 300px;
-  text-align: center;
-  position: relative;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: none; /* Pastikan ini diatur ke 'none' secara default */
 }
 
 .close-popup {
@@ -989,21 +1023,290 @@ main .recent-orders a, .Orders-List a{
     color: var(--color-dark-variant);
 }
 
-.sub-menu {
+/* Dropdown container (hidden by default) */
+.dropdown-container {
     display: none;
-    margin-left: 2.1rem;
-    transition: all 0.3s ease;
-    max-height: 0;
-    overflow: hidden;
+    padding-left: 2.5rem;
+    background-color: var(--color-white);
 }
 
-.sub-menu.active {
+/* Dropdown button */
+.dropdown-btn {
+    width: 100%;
+    padding-right: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+/* Rotate icon when active */
+.dropdown-btn.active .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+/* Style dropdown links */
+.dropdown-container a {
+    padding: 0.5rem 0;
+    color: var(--color-info-dark);
+    font-size: 0.87rem;
     display: block;
-    max-height: 200px;
-    margin-top: 0.5rem;
+    transition: all 0.3s ease;
+    margin-left: 0 !important;
 }
 
-.sidebar a {
+.dropdown-container a:hover {
+    color: var(--color-primary);
+    padding-left: 0.6rem;
+}
+
+/* Transition for smooth dropdown */
+.dropdown-container {
+    transition: all 0.3s ease;
+}
+
+.dropdown-icon {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.dropdown-btn.active .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+/* Pastikan margin dan padding konsisten */
+aside .sidebar a {
+    padding: 0 1rem;
+}
+
+aside .sidebar .dropdown-btn {
+    padding-right: 1rem;
+}
+
+.sidebar-item {
+    position: relative;
+    width: 100%;
+}
+
+/* Update style untuk arrow */
+.arrow {
+    margin-left: auto;
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.dropdown-btn.active .arrow {
+    transform: rotate(90deg);
+}
+
+/* Update style untuk dropdown container */
+.dropdown-container {
+    display: none;
+    padding-left: 2.5rem;
+    background-color: var(--color-white);
+}
+
+.dropdown-container a {
+    padding: 0.5rem 0;
+    color: var(--color-info-dark);
+    font-size: 0.87rem;
+    display: block;
+    transition: all 0.3s ease;
+    margin-left: 0 !important;
+}
+
+.dropdown-container a:hover {
+    color: var(--color-primary);
+    padding-left: 0.6rem;
+}
+
+/* Update style untuk dropdown button */
+.dropdown-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-item {
+    position: relative;
+    width: 100%;
+}
+
+/* Tambahkan highlight saat dropdown aktif */
+.dropdown-btn.active {
+    color: var(--color-primary);
+    background-color: var(--color-light);
+    margin-left: 0;
+    width: 100%;
+}
+
+/* Reset margin untuk semua link dalam dropdown */
+.dropdown-container a,
+.dropdown-container a:hover,
+.dropdown-container a.active {
+    margin-left: 0 !important;
+}
+
+/* Styling untuk tab */
+.tab-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+
+.tab-button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    background: var(--color-white);
+    border-radius: var(--border-radius-1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-button.active {
+    background: var(--color-primary);
+    color: var(--color-white);
+}
+
+/* Styling untuk tabel Excel-like */
+.table-container {
+    display: none;
+    margin-top: 1rem;
+}
+
+.table-container.active {
+    display: block;
+}
+
+.table-actions {
+    margin-bottom: 1rem;
+}
+
+.add-button {
+    padding: 0.8rem 1.5rem;
+    background: var(--color-success);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--border-radius-1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-button:hover {
+    opacity: 0.8;
+}
+
+.excel-table {
+    background: var(--color-white);
+    border-radius: var(--card-border-radius);
+    padding: 1rem;
+    box-shadow: var(--box-shadow);
+    overflow-x: auto;
+}
+
+.excel-table table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+.excel-table th, .excel-table td {
+    border: 1px solid var(--color-light);
+    padding: 0.8rem;
+    text-align: center;
+}
+
+.excel-table th {
+    background: var(--color-light);
+    font-weight: 600;
+}
+
+.excel-table tbody tr:hover {
+    background: var(--color-light);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.edit-btn, .delete-btn {
+    padding: 0.5rem;
+    border: none;
+    border-radius: var(--border-radius-1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.edit-btn {
+    background: var(--color-warning);
+    color: var(--color-dark);
+}
+
+.delete-btn {
+    background: var(--color-danger);
+    color: var(--color-white);
+}
+
+.edit-btn:hover, .delete-btn:hover {
+    opacity: 0.8;
+}
+
+.add-data-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--color-white);
+    padding: 2rem;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius-2);
+    z-index: 1000;
+    display: none;
+}
+
+.popup-content {
+    position: relative;
+}
+
+.close-popup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+/* Style untuk combobox (select) */
+#addDataForm select {
+    width: 100%;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-light);
+    background-color: var(--color-white);
+    color: var(--color-dark);
+    font-size: 0.88rem;
+    transition: border-color 0.3s ease;
+}
+
+#addDataForm select:focus {
+    border-color: var(--color-primary);
+    outline: none;
+}
+
+/* Style untuk checkbox */
+#addDataForm label {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 0;
+    font-size: 0.88rem;
+    color: var(--color-dark);
+}
+
+#addDataForm input[type="checkbox"] {
+    margin-right: 0.5rem;
+    width: 1rem;
+    height: 1rem;
     cursor: pointer;
 }
-

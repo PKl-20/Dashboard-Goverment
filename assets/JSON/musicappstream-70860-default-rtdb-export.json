@@ -18,5 +18,140 @@
       ],
       "Keterangan":"Pasar A"
     }
+  },
+  "Bidang Pasar":{
+    "dataKondisiPasar": [
+      {
+        "namaPasar": "PASAR INDUK",
+        "fasilitas": {
+          "arealParkir": "ADA",
+          "TPS": "ADA",
+          "MCK": "ADA",
+          "tempatIbadah": "ADA",
+          "bongkarMuat": "ADA"
+        },
+        "kondisi": {
+          "baik": "X",
+          "tidakBaik": "",
+          "perluPenyempurnaan": ""
+        }
+      }
+    ],
+    "jumlahLosKiosPasar": {
+      "dataPasar": [
+        {
+          "namaPasar": "PASAR INDUK",
+          "alamatLengkap": "Kec. Wonosobo",
+          "jumlahLosKios": {
+            "los": 4142,
+            "kios": 321
+          },
+          "jumlahPedagang": {
+            "los": 4082,
+            "kios": 321
+          },
+          "jumlahTidakTermanfaatkan": {
+            "los": 60,
+            "kios": 0
+          }
+        }
+      ]
+    },
+    "matriksProfilPasar": {
+      "dataUPT": [
+        {
+          "UPT": "UPT Pasar Induk",
+          "dataPasar": [
+            {
+              "namaPasar": "Pasar Induk Wonosobo",
+              "jumlahPaguyubanPedagang": 3,
+              "alamat": "Kec. Wonosobo",
+              "tahunBerdiri": "2000",
+              "luas": {
+                "tanah": 4082,
+                "bangunan": 321,
+                "lantai": 9
+              },
+              "jumlah": {
+                "los": 4082,
+                "kios": 321,
+                "dasaran": 60
+              },
+              "jumlahPedagang": {
+                "los": 4082,
+                "kios": 321,
+                "dasaran": 60
+              },
+              "fasilitasTersedia": {
+                "arealParkir": "ADA",
+                "TPS": "ADA",
+                "MCK": "ADA",
+                "tempatIbadah": "ADA",
+                "bongkarMuat": "ADA"
+              },
+              "keterangan": "Baik"
+            },
+            {
+              "namaPasar": "Pasar Induk Wonosobo",
+              "jumlahPaguyubanPedagang": 3,
+              "alamat": "Kec. Wonosobo",
+              "tahunBerdiri": "2000",
+              "luas": {
+                "tanah": 4082,
+                "bangunan": 321,
+                "lantai": 9
+              },
+              "jumlah": {
+                "los": 4082,
+                "kios": 321,
+                "dasaran": 60
+              },
+              "jumlahPedagang": {
+                "los": 4082,
+                "kios": 321,
+                "dasaran": 60
+              },
+              "fasilitasTersedia": {
+                "arealParkir": "ADA",
+                "TPS": "ADA",
+                "MCK": "ADA",
+                "tempatIbadah": "ADA",
+                "bongkarMuat": "ADA"
+              },
+              "keterangan": "Baik"
+            },
+            {
+              "namaPasar": "Pasar Induk Wonosobo",
+              "jumlahPaguyubanPedagang": 3,
+              "alamat": "Kec. Wonosobo",
+              "tahunBerdiri": "2000",
+              "luas": {
+                "tanah": 4082,
+                "bangunan": 321,
+                "lantai": 9
+              },
+              "jumlah": {
+                "los": 4082,
+                "kios": 321,
+                "dasaran": 60
+              },
+              "jumlahPedagang": {
+                "los": 4082,
+                "kios": 321,
+                "dasaran": 60
+              },
+              "fasilitasTersedia": {
+                "arealParkir": "ADA",
+                "TPS": "ADA",
+                "MCK": "ADA",
+                "tempatIbadah": "ADA",
+                "bongkarMuat": "ADA"
+              },
+              "keterangan": "Baik"
+            }
+          ]
+        }
+      ]
+    }
   }
 }
