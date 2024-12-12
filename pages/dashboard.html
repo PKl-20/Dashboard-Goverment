@@ -68,9 +68,9 @@
         <main id="Bidang-Pasar">
             <h1>Bidang Pasar</h1>
             <div class="tab-container">
-                <button class="tab-button active" data-tab="kondisiPasar">Kondisi Pasar</button>
-                <button class="tab-button" data-tab="losKios">Jumlah Los & Kios</button>
-                <button class="tab-button" data-tab="profil">Matriks Profil</button>
+                <button class="tab-button active" data-tab="kondisiPasar">Data Kondisi Pasar</button>
+                <button class="tab-button" data-tab="losKios">Jumlah Los & Kios Pasar</button>
+                <button class="tab-button" data-tab="profil">Matriks Profil Pasar Daerah</button>
             </div>
             <div id="kondisiPasarTable" class="table-container active">
                 <div class="table-actions">
@@ -80,13 +80,13 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Nama Pasar</th>
+                                <th rowspan="2">No</th>
+                                <th rowspan="2">Nama Pasar</th>
                                 <th colspan="5">Fasilitas</th>
                                 <th colspan="3">Kondisi</th>
-                                <th>Aksi</th>
+                                <th rowspan="2">Aksi</th>
                             </tr>
                             <tr>
-                                <th></th>
                                 <th>Areal Parkir</th>
                                 <th>TPS</th>
                                 <th>MCK</th>
@@ -95,17 +95,14 @@
                                 <th>Baik</th>
                                 <th>Tidak Baik</th>
                                 <th>Perlu Penyempurnaan</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="kondisiPasarBody">
-                            <!-- Data akan diisi melalui JavaScript -->
+                            
                         </tbody>
                     </table>
                 </div>
             </div>
-
-            <!-- Tabel untuk Los & Kios -->
             <div id="losKiosTable" class="table-container">
                 <div class="table-actions">
                     <button class="add-button">+ Tambah Data</button>
@@ -114,6 +111,7 @@
                     <table>
                         <thead>
                             <tr>
+                                <th rowspan="2">No</th>
                                 <th rowspan="2">Nama Pasar</th>
                                 <th rowspan="2">Alamat Lengkap</th>
                                 <th colspan="2">Jumlah Los & Kios</th>
@@ -121,7 +119,7 @@
                                 <th colspan="2">Tidak Termanfaatkan</th>
                                 <th rowspan="2">Aksi</th>
                             </tr>
-                            <tr>
+                            <tr> 
                                 <th>Los</th>
                                 <th>Kios</th>
                                 <th>Los</th>
@@ -131,7 +129,7 @@
                             </tr>
                         </thead>
                         <tbody id="losKiosBody">
-                            <!-- Data akan diisi melalui JavaScript -->
+                            
                         </tbody>
                     </table>
                 </div>
@@ -144,26 +142,20 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>No</th>
-                                <th>UPT</th>
-                                <th>Nama Pasar</th>
-                                <th>Jumlah Paguyuban</th>
-                                <th>Alamat</th>
-                                <th>Tahun Berdiri</th>
+                                <th rowspan="2">No</th>
+                                <th rowspan="2">UPT</th>
+                                <th rowspan="2">Nama Pasar</th>
+                                <th rowspan="2">Jumlah Paguyuban</th>
+                                <th rowspan="2">Alamat</th>
+                                <th rowspan="2">Tahun Berdiri</th>
                                 <th colspan="3">Luas</th>
                                 <th colspan="3">Jumlah</th>
                                 <th colspan="3">Jumlah Pedagang</th>
                                 <th colspan="5">Fasilitas Tersedia</th>
-                                <th>Keterangan</th>
-                                <th>Aksi</th>
+                                <th rowspan="2">Keterangan</th>
+                                <th rowspan="2">Aksi</th>
                             </tr>
                             <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
                                 <th>Tanah</th>
                                 <th>Bangunan</th>
                                 <th>Lantai</th>
@@ -178,12 +170,10 @@
                                 <th>MCK</th>
                                 <th>Tempat Ibadah</th>
                                 <th>Bongkar Muat</th>
-                                <th></th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="profilBody">
-                            <!-- Data akan diisi melalui JavaScript -->
+
                         </tbody>
                     </table>
                 </div>
@@ -191,6 +181,315 @@
         </main>
         <main id="Bidang-Koperasi">
             <h1>Bidang Koperasi</h1>
+            <div class="tab-container">
+                <button class="tab-button active" data-tab="pelakuUKM">Data Pelaku UKM</button>
+                <button class="tab-button" data-tab="ukmBerijin">UKM Berijin</button>
+                <button class="tab-button" data-tab="ukmAksesPerbankan">UKM Akses Perbankan</button>
+                <button class="tab-button" data-tab="wirausahaBermitraUKM">Masyarakat Wirausaha Bermitra UKM</button>
+                <button class="tab-button" data-tab="aksesModalUsaha">Masyarakat Akses Modal Usaha</button>
+                <button class="tab-button" data-tab="miskinPesertaPelatihan">Masyarakat Miskin Peserta Pelatihan</button>
+                <button class="tab-button" data-tab="jmlKoperasiProduksi">Jumlah Koperasi Produksi</button>
+                <button class="tab-button" data-tab="jmlKoperasiAktif">Jumlah Koperasi Seluruh Koperasi Aktif</button>
+                <button class="tab-button" data-tab="aksesPasarOnline">Koperasi Produksi Akses Pasar Online</button>
+                <button class="tab-button" data-tab="aksesKreditBank">Koperasi Akses Kredit Bank</button>
+                <button class="tab-button" data-tab="jmlKoperasiSehat">Jumlah Koperasi Sehat</button>
+                <button class="tab-button" data-tab="rekapOmzet">Rekap Omzet Koperasi</button>
+            </div>
+
+            <div id="pelakuUKMTable" class="table-container active">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Gender</th>
+                                <th>NIK</th>
+                                <th>No Telp</th>
+                                <th>Email</th>
+                                <th>Sektor Usaha</th>
+                                <th>Alamat</th>
+                                <th>NIB</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pelakuUKMBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabel UKM Berijin -->
+            <div id="ukmBerijinTable" class="table-container">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Gender</th>
+                                <th>NIK</th>
+                                <th>Alamat</th>
+                                <th>No HP</th>
+                                <th>Nama Usaha</th>
+                                <th>Jenis Usaha</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ukmBerijinBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabel UKM Akses Perbankan -->
+            <div id="ukmAksesPerbankanTable" class="table-container">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NIK</th>
+                                <th>Nama</th>
+                                <th>Gender</th>
+                                <th>Alamat</th>
+                                <th>Bidang Usaha</th>
+                                <th>Bank</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ukmAksesPerbankanBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabel Masyarakat Wirausaha Bermitra UKM -->
+            <div id="wirausahaBermitraUKMTable" class="table-container">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Gender</th>
+                                <th>Alamat</th>
+                                <th>Bidang Usaha</th>
+                                <th>No HP</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="wirausahaBermitraUKMBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabel Masyarakat Akses Modal Usaha -->
+            <div id="aksesModalUsahaTable" class="table-container">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Gender</th>
+                                <th>Alamat</th>
+                                <th>Bidang Usaha</th>
+                                <th>No HP</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="aksesModalUsahaBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabel Masyarakat Miskin Peserta Pelatihan -->
+            <div id="miskinPesertaPelatihanTable" class="table-container">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Gender</th>
+                                <th>Alamat</th>
+                                <th>Bidang Usaha</th>
+                                <th>No HP</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="miskinPesertaPelatihanBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabel Jumlah Koperasi Produksi -->
+            <div id="jmlKoperasiProduksiTable" class="table-container">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Koperasi</th>
+                                <th>Alamat</th>
+                                <th>Produk</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="jmlKoperasiProduksiBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabel Jumlah Koperasi Seluruh Koperasi Aktif -->
+            <div id="jmlKoperasiAktifTable" class="table-container">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NIK</th>
+                                <th>Nama Koperasi</th>
+                                <th>No Badan Hukum</th>
+                                <th>Alamat</th>
+                                <th>Desa</th>
+                                <th>Kelurahan</th>
+                                <th>Kecamatan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="jmlKoperasiAktifBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabel Koperasi Produksi Akses Pasar Online -->
+            <div id="aksesPasarOnlineTable" class="table-container">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Koperasi</th>
+                                <th>Alamat</th>
+                                <th>Media Pemasaran</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="aksesPasarOnlineBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabel Koperasi Akses Kredit Bank -->
+            <div id="aksesKreditBankTable" class="table-container">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Koperasi</th>
+                                <th>Alamat</th>
+                                <th>Bank Pemberi Fasilitas</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="aksesKreditBankBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabel Jumlah Koperasi Sehat -->
+            <div id="jmlKoperasiSehatTable" class="table-container">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Koperasi</th>
+                                <th>Alamat</th>
+                                <th>Hasil</th>
+                                <th>Tahun Penilaian</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="jmlKoperasiSehatBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabel Rekap Omzet Koperasi -->
+            <div id="rekapOmzetTable" class="table-container">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th rowspan="2">No</th>
+                                <th rowspan="2">Kecamatan</th>
+                                <th colspan="3">Koperasi</th>
+                                <th colspan="3">Anggota</th>
+                                <th rowspan="2">RAT Unit</th>
+                                <th colspan="3">Manajer</th>
+                                <th colspan="3">Karyawan</th>
+                                <th rowspan="2">Modal Sendiri</th>
+                                <th rowspan="2">Modal Luar</th>
+                                <th rowspan="2">Volume Usaha</th>
+                                <th rowspan="2">SHU</th>
+                                <th rowspan="2">Aksi</th>
+                            </tr>
+                            <tr>
+                                <th>Jumlah Koperasi</th>
+                                <th>Aktif</th>
+                                <th>Tidak Aktif</th>
+                                <th>Jumlah Anggota</th>
+                                <th>Aktif</th>
+                                <th>Tidak Aktif</th>
+                                <th>Jumlah</th>
+                                <th>Aktif</th>
+                                <th>Tidak Aktif</th>
+                                <th>Jumlah</th>
+                                <th>Aktif</th>
+                                <th>Tidak Aktif</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rekapOmzetBody"></tbody>
+                    </table>
+                </div>
+            </div>
         </main>
         <main id="Export-Data">
             <h1>Export Data</h1>
@@ -239,6 +538,15 @@
             <h2>Tambah Data</h2>
             <form id="addDataForm">
                 
+            </form>
+        </div>
+    </div>
+    <div class="edit-data-popup" id="editDataPopup" style="display: none;">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h2>Edit Data</h2>
+            <form id="editDataForm">
+
             </form>
         </div>
     </div>

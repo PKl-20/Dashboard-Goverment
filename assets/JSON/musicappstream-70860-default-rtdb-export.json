@@ -1,157 +1,273 @@
 {
+  "Bidang Pasar": {
+    "dataKondisiPasar": [
+      {
+        "fasilitas": {
+          "MCK": "ADA",
+          "TPS": "ADA",
+          "arealParkir": "ADA",
+          "bongkarMuat": "ADA",
+          "tempatIbadah": "ADA"
+        },
+        "kondisi": {
+          "baik": "",
+          "perluPenyempurnaan": "",
+          "tidakBaik": "X"
+        },
+        "namaPasar": "PASAR INDUK"
+      }
+    ],
+    "jumlahLosKiosPasar": {
+      "dataPasar": [
+        {
+          "alamatLengkap": "Kec. Wonosobo",
+          "jumlahLosKios": {
+            "kios": 321,
+            "los": 4142
+          },
+          "jumlahPedagang": {
+            "kios": 321,
+            "los": 4082
+          },
+          "jumlahTidakTermanfaatkan": {
+            "kios": 0,
+            "los": 60
+          },
+          "namaPasar": "PASAR INDUK"
+        }
+      ]
+    },
+    "matriksProfilPasar": {
+      "dataUPT": {
+        "-ODskztImFbrJIoU727_": {
+          "UPT": "UPT PASAR INDUK",
+          "dataPasar": [
+            {
+              "alamat": "Kec. Wonosobo",
+              "fasilitasTersedia": {
+                "MCK": "ADA",
+                "TPS": "ADA",
+                "arealParkir": "ADA",
+                "bongkarMuat": "ADA",
+                "tempatIbadah": "ADA"
+              },
+              "jumlah": {
+                "dasaran": 2,
+                "kios": 2,
+                "los": 2
+              },
+              "jumlahPaguyubanPedagang": 4,
+              "jumlahPedagang": {
+                "dasaran": 2,
+                "kios": 2,
+                "los": 2
+              },
+              "keterangan": "Baik",
+              "luas": {
+                "bangunan": 2222,
+                "lantai": 22,
+                "tanah": 1222
+              },
+              "namaPasar": "PASAR WONOSOBO",
+              "tahunBerdiri": "1810"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "Bidang Perdagangan": {
+    "Jumlah Pelayanan Tera":{
+      "Jumlah Pelayanan Tera":{
+        "ceuinvuiwe08":{
+          "UTTP": "Meteran",
+          "Triwulan 1": "32",
+          "Triwulan 2": "25",
+          "Triwulan 3": "234",
+          "Triwulan 4": "122"
+        },
+        "Total Semua Layanan": "1098"
+      }
+    },
+    "Data Semua Tera Kab WSB":{
+      "vbiebviw08":{
+        "Kecamatan": "Wonosobo",
+        "lokasi": "Pasar Puntuk",
+        "UP":{
+          "1M ≤ UP ≤ 2M": "",
+          "UP ≤ 1M": ""
+        },
+        "TAK":{
+          "TB 51 ≤ 251": "",
+          "TB > 27": ""
+        },
+        "Anak Timbangan":{
+          "Biasa (M2 dan M3)":{
+            "atb": "",
+            "atb": "",
+            "atb": ""
+          },
+          "Halu (F2 dan M1)":{
+            "atb": "",
+            "atb": "",
+            "atb": ""
+          }
+        }
+      }
+    }
+  },
   "admin": {
     "ADMP0001": {
       "password": "pkl-perdagangan",
       "username": "PKL-01"
     }
   },
-  "Bidang Perdagangan":{
-    "PASAR A":{
-      "Nama MarketPlace":"Pasar A",
-      "Tahun n-2":"RP. 21000000",
-      "Tahun n-1":"RP. 30000000",
-      "Tahun": [
-        { "triwulan 1": "RP. 10000000" },
-        { "triwulan 2": "RP. 20000000" },
-        { "triwulan 3": ""},
-        { "triwulan 4": ""}
-      ],
-      "Keterangan":"Pasar A"
-    }
-  },
-  "Bidang Pasar":{
-    "dataKondisiPasar": [
-      {
-        "namaPasar": "PASAR INDUK",
-        "fasilitas": {
-          "arealParkir": "ADA",
-          "TPS": "ADA",
-          "MCK": "ADA",
-          "tempatIbadah": "ADA",
-          "bongkarMuat": "ADA"
-        },
-        "kondisi": {
-          "baik": "X",
-          "tidakBaik": "",
-          "perluPenyempurnaan": ""
+  "Bidang Koperasi":{
+    "Data Pelaku UKM":{
+      "Triwulan 3":{
+        "po1":{
+          "NAMA": "MIFTAHUDIN",
+          "GENDER": "L",
+          "NIK": "3307113007320001",
+          "NO_TELP": "085227588572",
+          "ALAMAT_EMAIL": "miftahudin.yusufdoa@gmail.com",
+          "SEKTOR_USAHA": "Industri Makanan",
+          "ALAMAT": "Jalan Dieng km 3.5 Krasak Mojotengah Wonosobo",
+          "NOMOR_INDUK_BERUSAHA_(NIB)": null
+        }
+      } 
+    },
+    "UKM Berijin":{
+      "Triwulan 3":{
+        "poppj123":{
+          "NAMA": "Numa Liza Kumala Sari",
+          "Gender": "P",
+          "NIK": "3307094704890001",
+          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+          "No Hp": "083238780009",
+          "Nama Usaha": "Albaikitchen",
+          "Jenis Usaha": "Kuliner"
         }
       }
-    ],
-    "jumlahLosKiosPasar": {
-      "dataPasar": [
-        {
-          "namaPasar": "PASAR INDUK",
-          "alamatLengkap": "Kec. Wonosobo",
-          "jumlahLosKios": {
-            "los": 4142,
-            "kios": 321
-          },
-          "jumlahPedagang": {
-            "los": 4082,
-            "kios": 321
-          },
-          "jumlahTidakTermanfaatkan": {
-            "los": 60,
-            "kios": 0
-          }
-        }
-      ]
     },
-    "matriksProfilPasar": {
-      "dataUPT": [
-        {
-          "UPT": "UPT Pasar Induk",
-          "dataPasar": [
-            {
-              "namaPasar": "Pasar Induk Wonosobo",
-              "jumlahPaguyubanPedagang": 3,
-              "alamat": "Kec. Wonosobo",
-              "tahunBerdiri": "2000",
-              "luas": {
-                "tanah": 4082,
-                "bangunan": 321,
-                "lantai": 9
-              },
-              "jumlah": {
-                "los": 4082,
-                "kios": 321,
-                "dasaran": 60
-              },
-              "jumlahPedagang": {
-                "los": 4082,
-                "kios": 321,
-                "dasaran": 60
-              },
-              "fasilitasTersedia": {
-                "arealParkir": "ADA",
-                "TPS": "ADA",
-                "MCK": "ADA",
-                "tempatIbadah": "ADA",
-                "bongkarMuat": "ADA"
-              },
-              "keterangan": "Baik"
-            },
-            {
-              "namaPasar": "Pasar Induk Wonosobo",
-              "jumlahPaguyubanPedagang": 3,
-              "alamat": "Kec. Wonosobo",
-              "tahunBerdiri": "2000",
-              "luas": {
-                "tanah": 4082,
-                "bangunan": 321,
-                "lantai": 9
-              },
-              "jumlah": {
-                "los": 4082,
-                "kios": 321,
-                "dasaran": 60
-              },
-              "jumlahPedagang": {
-                "los": 4082,
-                "kios": 321,
-                "dasaran": 60
-              },
-              "fasilitasTersedia": {
-                "arealParkir": "ADA",
-                "TPS": "ADA",
-                "MCK": "ADA",
-                "tempatIbadah": "ADA",
-                "bongkarMuat": "ADA"
-              },
-              "keterangan": "Baik"
-            },
-            {
-              "namaPasar": "Pasar Induk Wonosobo",
-              "jumlahPaguyubanPedagang": 3,
-              "alamat": "Kec. Wonosobo",
-              "tahunBerdiri": "2000",
-              "luas": {
-                "tanah": 4082,
-                "bangunan": 321,
-                "lantai": 9
-              },
-              "jumlah": {
-                "los": 4082,
-                "kios": 321,
-                "dasaran": 60
-              },
-              "jumlahPedagang": {
-                "los": 4082,
-                "kios": 321,
-                "dasaran": 60
-              },
-              "fasilitasTersedia": {
-                "arealParkir": "ADA",
-                "TPS": "ADA",
-                "MCK": "ADA",
-                "tempatIbadah": "ADA",
-                "bongkarMuat": "ADA"
-              },
-              "keterangan": "Baik"
-            }
-          ]
+    "UKM Akses Perbankan":{
+      "Triwulan 3":{
+        "onfsnfsdofn123":{
+          "NIK": "3307094704890001",
+          "NAMA": "Numa Liza Kumala Sari",
+          "Gender": "P",
+          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+          "Bidang Usaha": "Kuliner",
+          "Bank": "BSI"
         }
-      ]
+      }
+    },
+    "Masyarakat Wirausaha Bermitra UKM":{
+      "Triwulan 3":{
+        "pdfdfrgsf342":{
+          "NAMA": "Numa Liza Kumala Sari",
+          "Gender": "P",
+          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+          "Bidang Usaha": "Kuliner",
+          "No Hp": "083238780009"
+        } 
+      }
+    },
+    "Masyarakat Akses Modal Usaha":{
+      "Triwulan 3":{
+        "sgbwgwe23":{
+          "NAMA": "Numa Liza Kumala Sari",
+          "Gender": "P",
+          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+          "Bidang Usaha": "Kuliner",
+          "No Hp": "083238780009"
+        }
+      }
+    },
+    "Masyarakat Miskin Peserta Pelatihan":{
+      "Triwulan 3":{
+        "bebebr221":{
+          "NAMA": "Numa Liza Kumala Sari",
+          "Gender": "P",
+          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+          "Bidang Usaha": "Kuliner",
+          "No Hp": "083238780009"
+        } 
+      }
+    },
+    "Jumlah Koperasi Produksi":{
+      "Desember":{
+        "sfbsr76":{
+          "Nama Koperasi": "Koperasi S",
+          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+          "Produk": "Kuliner"
+        }
+      }
+    },
+    "Jumlah Koperasi Seluruh Koperasi Aktif":{
+      "sbebrgerg7657":{
+        "NIK": "3307094704890001",
+        "Nama Koperasi": "Koperasi S",
+        "No Badan Hukum": "1234567890",
+        "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+        "Desa": "Wonosobo",
+        "Kelurahan": "Wonosobo",
+        "Kecamatan": "Wonosobo"
+      }
+    },
+    "Koperasi Produksi Akses Pasar Online":{
+      "ovnbwebvow812":{
+        "Nama Koperasi": "Koperasi S",
+        "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+        "Media Pemasaran": "Instagram"
+      }
+    },
+    "Koperasi Akses Kredit Bank":{
+      "acoaucoq7892":{
+        "Nama Koperasi": "Koperasi S",
+        "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+        "Bank Pemberi Fasilitas": "BSI"
+      }
+    },
+    "Jumlah Koperasi Sehat":{
+      "Triwulan 3":{
+        "qhfohqoqo1074":{
+          "Nama Koperasi": "Koperasi S",
+          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+          "Hasil": "Koperasi Sehat",
+          "Tahun Penilaian": "2024"
+        }
+      }
+    },
+    "Rekap Omzet Koperasi":{
+      "vgweiwih187412":{
+        "Kecamatan": "Wonosobo",
+        "Koperasi":{
+          "Jumlah Koperasi": 10,
+          "Aktif": 10,
+          "Tidak Aktif": 0
+        },
+        "Anggota":{
+          "Jumlah Anggota": 10,
+          "Aktif": 10,
+          "Tidak Aktif": 0
+        },
+        "RAT Unit": 4,
+        "Manajer":{
+          "Jumlah": 4,
+          "Aktif": 4,
+          "Tidak Aktif": 0
+        },
+        "Karyawan":{
+          "Jumlah": 4,
+          "Aktif": 4,
+          "Tidak Aktif": 0
+        },
+        "Modal Sendiri": "Rp. 10000000",
+        "Modal Luar": "Rp. 10000000",
+        "Volume Usaha": "Rp. 10000000",
+        "SHU": "Rp. 10000000"
+      }
     }
   }
 }
