@@ -1329,6 +1329,18 @@ function loadBidangKoperasi() {
             // Render data untuk setiap tabel
             renderPelakuUKMTable(data['Data Pelaku UKM']?.['Triwulan 3'] || {});
             renderUKMBerijinTable(data['UKM Berijin']?.['Triwulan 3'] || {});
+            renderKoperasiProduksiTable(data['Jumlah Koperasi Produksi']?.['Desember'] || {});
+            renderKoperasiSeluruhTable(data['Jumlah Koperasi Seluruh Koperasi Aktif'] || {});
+            renderKoperasiProduksiTable(data['Jumlah Koperasi Produksi']?.['Desember'] || {});
+            renderKoperasiSeluruhTable(data['Jumlah Koperasi Seluruh Koperasi Aktif'] || {});
+            renderKoperasiProduksiTable(data['Jumlah Koperasi Produksi']?.['Desember'] || {});
+            renderKoperasiSeluruhTable(data['Jumlah Koperasi Seluruh Koperasi Aktif'] || {});
+            renderKoperasiProduksiTable(data['Jumlah Koperasi Produksi']?.['Desember'] || {});
+            renderKoperasiSeluruhTable(data['Jumlah Koperasi Seluruh Koperasi Aktif'] || {});
+            renderKoperasiProduksiTable(data['Jumlah Koperasi Produksi']?.['Desember'] || {});
+            renderKoperasiSeluruhTable(data['Jumlah Koperasi Seluruh Koperasi Aktif'] || {});
+            renderKoperasiProduksiTable(data['Jumlah Koperasi Produksi']?.['Desember'] || {});
+            renderKoperasiSeluruhTable(data['Jumlah Koperasi Seluruh Koperasi Aktif'] || {});
             // Tambahkan fungsi render untuk tabel lainnya
         }
     });
