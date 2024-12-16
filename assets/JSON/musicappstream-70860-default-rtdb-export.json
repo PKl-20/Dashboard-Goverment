@@ -91,28 +91,209 @@
     },
     "Data Semua Tera Kab WSB":{
       "vbiebviw08":{
-        "Kecamatan": "Wonosobo",
-        "lokasi": "Pasar Puntuk",
-        "UP":{
-          "1M ≤ UP ≤ 2M": "",
-          "UP ≤ 1M": ""
-        },
-        "TAK":{
-          "TB 51 ≤ 251": "",
-          "TB > 27": ""
-        },
-        "Anak Timbangan":{
-          "Biasa (M2 dan M3)":{
-            "atb": "",
-            "atb23": "",
-            "atb3": ""
+        "LOKASI": "Kecamatan Wonosobo",
+        "DETAIL": [
+          {
+            "Pasar Induk": {
+              "UP": { "1 m ≤ up ≤ 2 m": "-", "up ≤ 1 m": "-", "5 ≤ ts ≤ 25 l": "-", "ts ≥ 2 l": "3" },
+              "ANAK TIMBANGAN": { "ats ≤ 1 kg": "919", "1 < ats ≤ 5 kg": "329", "5 < ats ≥ 20 kg": "23", "ats ≤ 1 kg (H)": "547", "1 < ats ≤ 5 kg (H)": "189", "5 < ats ≥ 20 kg (H)": "32" },
+              "DACIN LOGAM": { "DL ≤ 25 kg": "-", "DL > 25 kg": "2" },
+              "SENTISIMAL": { "S ≥ 150 kg": "1" },
+              "TIMBANGAN": {
+                "BOBOT INGSUT": "5",
+                "PEGAS": { "TP ≤ 25 kg": "2", "TP > 25 kg": "24" },
+                "MEJA": "345",
+                "NERACA": { "TE ≤ 1 kg": "5", "TE > 1 kg": "22", "TE ≤ 25 kg": "10", "TE > 25 kg": "9" },
+                "TOTAL": 2475
+              }
+            }
           },
-          "Halu (F2 dan M1)":{
-            "atb": "",
-            "atb2": "",
-            "atb3": ""
+          {
+            "Pasar Sumberan": {
+              "UP": { "1 m ≤ up ≤ 2 m": "-", "up ≤ 1 m": "-", "5 ≤ ts ≤ 25 l": "-", "ts ≥ 2 l": "-" },
+              "ANAK TIMBANGAN": { "ats ≤ 1 kg": "44", "1 < ats ≤ 5 kg": "-", "5 < ats ≥ 20 kg": "-", "ats ≤ 1 kg (H)": "-", "1 < ats ≤ 5 kg (H)": "-", "5 < ats ≥ 20 kg (H)": "-" },
+              "DACIN LOGAM": { "DL ≤ 25 kg": "-", "DL > 25 kg": "-" },
+              "SENTISIMAL": { "S ≥ 150 kg": "1" },
+              "TIMBANGAN": {
+              "BOBOT INGSUT": "-",
+              "PEGAS": { "TP ≤ 25 kg": "-", "TP > 25 kg": "-" },
+              "MEJA": "-",
+                "NERACA": { "TE ≤ 1 kg": "-", "TE > 1 kg": "-", "TE ≤ 25 kg": "-", "TE > 25 kg": "-" },
+                "TOTAL": 72
+              }
+            }
+          },
+          {
+            "Pasar Tosari": {
+              "UP": { "1 m ≤ up ≤ 2 m": "-", "up ≤ 1 m": "-", "5 ≤ ts ≤ 25 l": "-", "ts ≥ 2 l": "-" },
+              "ANAK TIMBANGAN": { "ats ≤ 1 kg": "80", "1 < ats ≤ 5 kg": "5", "5 < ats ≥ 20 kg": "-", "ats ≤ 1 kg (H)": "-", "1 < ats ≤ 5 kg (H)": "-", "5 < ats ≥ 20 kg (H)": "-" },
+              "DACIN LOGAM": { "DL ≤ 25 kg": "-", "DL > 25 kg": "-" },
+              "SENTISIMAL": { "S ≥ 150 kg": "-" },
+              "TIMBANGAN": {
+                "BOBOT INGSUT": "-",
+                "PEGAS": { "TP ≤ 25 kg": "-", "TP > 25 kg": "-" },
+                "MEJA": "17",
+                "NERACA": { "TE ≤ 1 kg": "-", "TE > 1 kg": "-", "TE ≤ 25 kg": "-", "TE > 25 kg": "-" },
+                "TOTAL": 111
+              }
+            }
           }
+        ]
+      },
+      "ofq8338hr":{
+        "LOKASI": "Kecamatan Garung",
+        "DETAIL": [
+          {
+            "Pasar Garung I": {
+              "UP": { "1 m ≤ up ≤ 2 m": "2", "up ≤ 1 m": "1", "5 ≤ ts ≤ 25 l": "2", "ts ≥ 2 l": "-" },
+              "ANAK TIMBANGAN": { "ats ≤ 1 kg": "653", "1 < ats ≤ 5 kg": "80", "5 < ats ≥ 20 kg": "2", "ats ≤ 1 kg (H)": "63", "1 < ats ≤ 5 kg (H)": "48", "5 < ats ≥ 20 kg (H)": "3" },
+              "DACIN LOGAM": { "DL ≤ 25 kg": "-", "DL > 25 kg": "1" },
+              "SENTISIMAL": { "S ≥ 150 kg": "1" },
+              "TIMBANGAN": {
+                "BOBOT INGSUT": "7",
+                "PEGAS": { "TP ≤ 25 kg": "3", "TP > 25 kg": "-" },
+                "MEJA": "161",
+                "NERACA": { "TE ≤ 1 kg": "3", "TE > 1 kg": "-", "TE ≤ 25 kg": "-", "TE > 25 kg": "1" },
+                "TOTAL": 1029
+              }
+            }
+          },
+          {
+            "Pasar Garung II": {
+              "UP": { "1 m ≤ up ≤ 2 m": "-", "up ≤ 1 m": "-", "5 ≤ ts ≤ 25 l": "-", "ts ≥ 2 l": "-" },
+              "ANAK TIMBANGAN": { "ats ≤ 1 kg": "5", "1 < ats ≤ 5 kg": "1", "5 < ats ≥ 20 kg": "-", "ats ≤ 1 kg (H)": "-", "1 < ats ≤ 5 kg (H)": "-", "5 < ats ≥ 20 kg (H)": "-" },
+              "DACIN LOGAM": { "DL ≤ 25 kg": "-", "DL > 25 kg": "-" },
+              "SENTISIMAL": { "S ≥ 150 kg": "-" },
+              "TIMBANGAN": {
+                "BOBOT INGSUT": "-",
+                "PEGAS": { "TP ≤ 25 kg": "-", "TP > 25 kg": "-" },
+                "MEJA": "6",
+                "NERACA": { "TE ≤ 1 kg": "3", "TE > 1 kg": "-", "TE ≤ 25 kg": "-", "TE > 25 kg": "-" },
+                "TOTAL": 24
+              }
+            }
+          }
+        ]
+      }    
+    },
+    "Data Marketplace Lokal":{
+      "anwovn342we":{
+        "Nama Marketplace": "Ritra",
+        "Tahun n-2": "RP. 100000000",
+        "Tahun n-1": "RP. 13904130",
+        "Tahun n":{
+          "Triwuan 1": "RP. 1000000",
+          "Triwuan 2": "RP. 39403421",
+          "Triwuan 3": "RP. 23874234",
+          "Triwuan 4": "RP. 149809404"
+        },
+        "Keterangan": "Marketplace tahun 2018"
+      }
+    },
+    "Data Toko Modern":{
+      "qofh38913":{
+        "TANGGAL SK": "30-12-2019",
+        "NAMA DAN ALAMAT LOKASI TEMPAT USAHA": {
+          "NAMA": "CV SUMBER MAKMUR",
+          "ALAMAT": "Jawar Rt. 04/03 Bumirejo, Kec. Mojotengah Wonosobo"
+        },
+        "NAMA DAN ALAMAT PEMILIK": {
+          "NAMA": "JULIANI, SE",
+          "ALAMAT": "Jl. Ahmad Yani Rt 02/06 Payaman, Kec/Kab. Nganjuk"
+        },
+        "NOMOR INDUK BERUSAHA": {
+          "NB": "ADA",
+          "NO NB": "9120110281781"
+        },
+        "STATUS": "Aktif",
+        "PERIZINAN": {
+          "SIUP": "ADA",
+          "TDP": "ADA",
+          "HO": "ADA"
+        },
+        "IUTM": "503/01-12/IUTM/XII/2015, 11/29/2018",
+        "JENIS TOKO MODERN": "Indomaret",
+        "KOMODITI atau KBLI": "47 111",
+        "CATATAN PERUBAHAN": "Daftar Ulang",
+        "KETERANGAN": "Ganti Direktur"
+      }
+    },
+    "Data Toko Modern OSS":{
+      "gweg3312":{
+        "Nama dan Alamat Lokasi Tempat Usaha":{
+          "Nama": "Lupin",
+          "Alamat": "Jln. SAMBEK"
+        },
+        "Nama dan Alamat Pemilik":{
+          "Nama": "Fuan",
+          "Alamat": "Jln. SAMBEK"
+        },
+        "NOMOR_INDUK_BERUSAHA_(NIB)":{
+          "NIB": "Ada",
+          "Nomor": "10384",
+          "Status": "Aktif"
+        },
+        "No Telp": "08193463413",
+        "Komoditi atau KBLI": "47111",
+        "Jenis Toko": "WarKom"
+      }
+    },
+    "Data Toko Modern Memasarkan UMKM":{
+      "G0FI28G3qfcs":{
+        "Toko Modern": "Toko Tuyul",
+        "Alamat": "Jln. Jaraksari",
+        "Produk UMKM yang Dipasarkan": "Mie Ongklok"
+      }
+    },
+    "Komoditas Ekspor":{
+      "Komoditas": "Arang",
+      "Perusahaan": "PT. PASAR LOAK",
+      "Alamat": "Jln. Madura",
+      "Negara Tujuan": "Italia",
+      "Keterangan": "Mamalia"
+    },
+    "Matrika Ekspor":{
+      "Tembakau":{
+        "nh923fnh98":{
+          "Perusahaan": "PT Mekar Abdi",
+          "Produksi":{
+            "Kapasitas": "242342342",
+            "Satuan": "gram"
+          },
+          "Ekspor":{
+            "Kapasitas": "41343",
+            "Satuan": "gram"
+          },
+          "Nilai (usd)": "$ 231231",
+          "Negara Tujuan": "India, China",
+          "Komoditas": "Barecore",
+          "Keterangan": "Triwulan 1 dan 2 tidak ekspor"
         }
+      }
+    },
+    "Disparitas Harga":{
+      "fnh928h3f2":{
+        "Nama Sampel Komoditi": "Beras Premium",
+        "Satuan": "kg",
+        "Bulan n":{
+          "Kabupaten Wonosobo": "RP. 15000",
+          "Kabupaten Temanggung": "RP. 12000"
+        },
+        "Selisih": "-RP. 3000",
+        "Persen": "-20%"
+      }
+    },
+    "Hasil Pengawasan":{
+      "hf82hf81h2f":{
+        "Kios Pupuk Lengkap": "Berkah Rejeki",
+        "Wilayah": "Kaliwiro",
+        "NOMOR_INDUK_BERUSAHA_(NIB)": "Ada",
+        "Harga HET": "Ada",
+        "Papan Nama": "Ada",
+        "SPJB": "Ada",
+        "Penyerapan Kartu Tani (%)": "100",
+        "RDKK": "Ada",
+        "Hasil": "Memenuhi Syarat"
       }
     }
   },
