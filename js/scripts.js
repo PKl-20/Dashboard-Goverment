@@ -532,7 +532,7 @@ function checkLoginStatus() {
 
     if (isLoggedIn === 'true') {
         if (currentPage.includes('index.html') || currentPage === '/') {
-            window.location.href = './dashboard.html';
+            window.location.href = 'dashboard.html';
         }
     } else {
         if (currentPage.includes('dashboard.html')) {
