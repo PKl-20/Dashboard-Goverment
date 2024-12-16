@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
+        loadBidangPerdagangan();
         loadBidangPasar();
         loadBidangKoperasi();
         
@@ -512,7 +513,7 @@ async function handleLogin(event) {
             if (isAuthenticated) {
                 sessionStorage.setItem('isLoggedIn', 'true');
                 sessionStorage.setItem('username', username);
-                window.location.href = 'pages/dashboard.html';
+                window.location.href = 'dashboard.html';
             } else {
                 alert('Username atau password salah!');
             }
@@ -531,11 +532,11 @@ function checkLoginStatus() {
 
     if (isLoggedIn === 'true') {
         if (currentPage.includes('index.html') || currentPage === '/') {
-            window.location.href = '../pages/dashboard.html';
+            window.location.href = 'dashboard.html';
         }
     } else {
         if (currentPage.includes('dashboard.html')) {
-            window.location.href = '../index.html';
+            window.location.href = 'index.html';
         }
     }
 }
@@ -543,7 +544,7 @@ function checkLoginStatus() {
 function logoutUser() {
     sessionStorage.removeItem('isLoggedIn');
     sessionStorage.removeItem('username');
-    window.location.href = '../index.html';
+    window.location.href = 'index.html';
 }
 
 function storeFiles(){
@@ -694,6 +695,465 @@ async function handleDocumentUpload(e) {
     }
 }
 
+function loadBidangPerdagangan() {
+    const bidangPerdaganganRef = ref(db, 'Bidang Perdagangan');
+    
+    onValue(bidangPerdaganganRef, (snapshot) => {
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            
+            const pelayananTeraData = data['Jumlah Pelayanan Tera']?.['Jumlah Pelayanan Tera'] || {};
+            
+            const teraKabWSBData = data['Data Semua Tera Kab WSB'] ?
+                Object.values(data['Data Semua Tera Kab WSB']) : [];
+            
+            // Data Marketplace
+            const marketplaceData = data['Data Marketplace Lokal'] ?
+                Object.values(data['Data Marketplace Lokal']) : [];
+            
+            const tokoModernData = data['Data Toko Modern'] ?
+                Object.values(data['Data Toko Modern']) : [];
+            
+            // Data Toko Modern OSS
+            const tokoModernOSSData = data['Data Toko Modern OSS'] ?
+                Object.values(data['Data Toko Modern OSS']) : [];
+            
+            const tokoUMKMData = data['Data Toko Modern Memasarkan UMKM'] ?
+                Object.values(data['Data Toko Modern Memasarkan UMKM']) : [];
+            
+            const komoditasEksporData = data['Komoditas Ekspor'] ?
+                [data['Komoditas Ekspor']] : [];
+            
+            const matrikaEksporData = data['Matrika Ekspor'] ?
+                Object.values(data['Matrika Ekspor']).flatMap(item => Object.values(item)) : [];
+            
+            const disparitasHargaData = data['Disparitas Harga'] ?
+                Object.values(data['Disparitas Harga']) : [];
+            
+            const hasilPengawasanData = data['Hasil Pengawasan'] ?
+                Object.values(data['Hasil Pengawasan']) : [];
+
+            renderPelayananTeraTable(pelayananTeraData);
+            renderTeraKabWSBTable(teraKabWSBData);
+            renderMarketplaceTable(marketplaceData);
+            renderTokoModernTable(tokoModernData);
+            renderTokoModernOSSTable(tokoModernOSSData);
+            renderTokoUMKMTable(tokoUMKMData);
+            renderKomoditasEksporTable(komoditasEksporData);
+            renderMatrikaEksporTable(matrikaEksporData);
+            renderDisparitasHargaTable(disparitasHargaData);
+            renderHasilPengawasanTable(hasilPengawasanData);
+        }
+    });
+}
+
+function renderPelayananTeraTable(data) {
+    const tbody = document.getElementById('pelayananTeraBody');
+    const tfoot = document.getElementById('pelayananTeraFooter');
+    if (!tbody || !tfoot) return;
+    
+    tbody.innerHTML = '';
+    let no = 1;
+    let totalLayanan = '';
+    let totalPerTriwulan = data['Total'] || {
+        'Triwulan 1': '0',
+        'Triwulan 2': '0',
+        'Triwulan 3': '0',
+        'Triwulan 4': '0'
+    };
+
+    const validData = Object.entries(data).filter(([key, value]) => {
+        return typeof value === 'object' && value !== null && 
+               key !== 'Total Semua Layanan' && key !== 'Total';
+    });
+
+    validData.forEach(([key, item]) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${no++}</td>
+            <td>${item.UTTP || ''}</td>
+            <td>${item['Triwulan 1'] || ''}</td>
+            <td>${item['Triwulan 2'] || ''}</td>
+            <td>${item['Triwulan 3'] || ''}</td>
+            <td>${item['Triwulan 4'] || ''}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="edit-btn" onclick="editPelayananTera('${key}')">
+                        <span class="material-icons-sharp">edit</span>
+                    </button>
+                    <button class="delete-btn" onclick="deletePelayananTera('${key}')">
+                        <span class="material-icons-sharp">delete</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+
+    totalLayanan = data['Total Semua Layanan'] || '0';
+
+    tfoot.innerHTML = `
+        <tr>
+            <td colspan="2">Total per Triwulan</td>
+            <td>${totalPerTriwulan['Triwulan 1']}</td>
+            <td>${totalPerTriwulan['Triwulan 2']}</td>
+            <td>${totalPerTriwulan['Triwulan 3']}</td>
+            <td>${totalPerTriwulan['Triwulan 4']}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2">Total Semua Layanan</td>
+            <td colspan="5">${totalLayanan}</td>
+        </tr>
+    `;
+}
+
+function renderTeraKabWSBTable(data) {
+    const tbody = document.getElementById('teraKabWSBBody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    let no = 1;
+    data.forEach((item, index) => {
+        if (!item) return;
+        
+        item.DETAIL.forEach((detail) => {
+            const pasarName = Object.keys(detail)[0];
+            const pasarData = detail[pasarName];
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${no++}</td>
+                <td>${item.LOKASI || ''}</td>
+                <td>${pasarData.UP?.['1 m ≤ up ≤ 2 m'] || '-'}</td>
+                <td>${pasarData.UP?.['up ≤ 1 m'] || '-'}</td>
+                <td>${pasarData.UP?.['5 ≤ ts ≤ 25 l'] || '-'}</td>
+                <td>${pasarData.UP?.['ts ≥ 2 l'] || '-'}</td>
+                <td>${pasarData['ANAK TIMBANGAN']?.['ats ≤ 1 kg'] || '-'}</td>
+                <td>${pasarData['ANAK TIMBANGAN']?.['1 < ats ≤ 5 kg'] || '-'}</td>
+                <td>${pasarData['ANAK TIMBANGAN']?.['5 < ats ≥ 20 kg'] || '-'}</td>
+                <td>${pasarData['ANAK TIMBANGAN']?.['ats ≤ 1 kg (H)'] || '-'}</td>
+                <td>${pasarData['ANAK TIMBANGAN']?.['1 < ats ≤ 5 kg (H)'] || '-'}</td>
+                <td>${pasarData['ANAK TIMBANGAN']?.['5 < ats ≥ 20 kg (H)'] || '-'}</td>
+                <td>${pasarData['DACIN LOGAM']?.['DL ≤ 25 kg'] || '-'}</td>
+                <td>${pasarData['DACIN LOGAM']?.['DL > 25 kg'] || '-'}</td>
+                <td>${pasarData['SENTISIMAL']?.['S ≤ 150 kg'] || '-'}</td>
+                <td>${pasarData['SENTISIMAL']?.['S > 150 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.['BOBOT INGSUT'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.PEGAS?.['TP ≤ 25 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.PEGAS?.['TP > 25 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.MEJA || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.NERACA || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.NERACA?.['TE ≤ 1 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.NERACA?.['TE > 1 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.NERACA?.['TE ≤ 25 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.NERACA?.['25 kg < TE ≤ 150 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.NERACA?.['150 kg < TE ≤ 500 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.['Alat Ukur Tinggi Orang'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.TOTAL || '-'}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="edit-btn" onclick="editTeraKabWSB('${index}', '${pasarName}')">
+                            <span class="material-icons-sharp">edit</span>
+                        </button>
+                        <button class="delete-btn" onclick="deleteTeraKabWSB('${index}', '${pasarName}')">
+                            <span class="material-icons-sharp">delete</span>
+                        </button>
+                    </div>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    });
+}
+
+function renderMarketplaceTable(data) {
+    const tbody = document.getElementById('marketplaceBody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    let no = 1;
+    data.forEach((item, index) => {
+        if (!item) return;
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${no++}</td>
+            <td>${item['Nama Marketplace'] || ''}</td>
+            <td>${item['Tahun n-2'] || ''}</td>
+            <td>${item['Tahun n-1'] || ''}</td>
+            <td>${item['Tahun n']?.['Triwuan 1'] || ''}</td>
+            <td>${item['Tahun n']?.['Triwuan 2'] || ''}</td>
+            <td>${item['Tahun n']?.['Triwuan 3'] || ''}</td>
+            <td>${item['Tahun n']?.['Triwuan 4'] || ''}</td>
+            <td>${item['Keterangan'] || ''}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="edit-btn" onclick="editMarketplace(${index})">
+                        <span class="material-icons-sharp">edit</span>
+                    </button>
+                    <button class="delete-btn" onclick="deleteMarketplace(${index})">
+                        <span class="material-icons-sharp">delete</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function renderTokoModernTable(data) {
+    const tbody = document.getElementById('tokoModernBody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    let no = 1;
+    data.forEach((item, index) => {
+        if (!item) return;
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${no++}</td>
+            <td>${item['TANGGAL SK'] || ''}</td>
+            <td>${item['NAMA DAN ALAMAT LOKASI TEMPAT USAHA']?.NAMA || ''}</td>
+            <td>${item['NAMA DAN ALAMAT LOKASI TEMPAT USAHA']?.ALAMAT || ''}</td>
+            <td>${item['NAMA DAN ALAMAT PEMILIK']?.NAMA || ''}</td>
+            <td>${item['NAMA DAN ALAMAT PEMILIK']?.ALAMAT || ''}</td>
+            <td>${item['NOMOR INDUK BERUSAHA']?.['NO NB'] || ''}</td>
+            <td>${item['STATUS'] || ''}</td>
+            <td>${item['IUTM'] || ''}</td>
+            <td>${item['JENIS TOKO MODERN'] || ''}</td>
+            <td>${item['KOMODITI atau KBLI'] || ''}</td>
+            <td>${item['CATATAN PERUBAHAN'] || ''}</td>
+            <td>${item['KETERANGAN'] || ''}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="edit-btn" onclick="editTokoModern(${index})">
+                        <span class="material-icons-sharp">edit</span>
+                    </button>
+                    <button class="delete-btn" onclick="deleteTokoModern(${index})">
+                        <span class="material-icons-sharp">delete</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function renderTokoModernOSSTable(data) {
+    const tbody = document.getElementById('tokoModernOSSBody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    let no = 1;
+    data.forEach((item, index) => {
+        if (!item) return;
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${no++}</td>
+            <td>${item['Nama dan Alamat Lokasi Tempat Usaha']?.Nama || ''}</td>
+            <td>${item['Nama dan Alamat Lokasi Tempat Usaha']?.Alamat || ''}</td>
+            <td>${item['Nama dan Alamat Pemilik']?.Nama || ''}</td>
+            <td>${item['Nama dan Alamat Pemilik']?.Alamat || ''}</td>
+            <td>${item['NOMOR_INDUK_BERUSAHA_(NIB)']?.NIB || ''}</td>
+            <td>${item['NOMOR_INDUK_BERUSAHA_(NIB)']?.Nomor || ''}</td>
+            <td>${item['NOMOR_INDUK_BERUSAHA_(NIB)']?.Status || ''}</td>
+            <td>${item['No Telp'] || ''}</td>
+            <td>${item['Komoditi atau KBLI'] || ''}</td>
+            <td>${item['Jenis Toko'] || ''}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="edit-btn" onclick="editTokoModernOSS(${index})">
+                        <span class="material-icons-sharp">edit</span>
+                    </button>
+                    <button class="delete-btn" onclick="deleteTokoModernOSS(${index})">
+                        <span class="material-icons-sharp">delete</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function renderTokoUMKMTable(data) {
+    const tbody = document.getElementById('tokoUMKMBody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    let no = 1;
+    data.forEach((item, index) => {
+        if (!item) return;
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${no++}</td>
+            <td>${item['Toko Modern'] || ''}</td>
+            <td>${item['Alamat'] || ''}</td>
+            <td>${item['Produk UMKM yang Dipasarkan'] || ''}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="edit-btn" onclick="editTokoUMKM(${index})">
+                        <span class="material-icons-sharp">edit</span>
+                    </button>
+                    <button class="delete-btn" onclick="deleteTokoUMKM(${index})">
+                        <span class="material-icons-sharp">delete</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function renderKomoditasEksporTable(data) {
+    const tbody = document.getElementById('komoditasEksporBody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    let no = 1;
+    data.forEach((item, index) => {
+        if (!item) return;
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${no++}</td>
+            <td>${item['Komoditas'] || ''}</td>
+            <td>${item['Perusahaan'] || ''}</td>
+            <td>${item['Alamat'] || ''}</td>
+            <td>${item['Negara Tujuan'] || ''}</td>
+            <td>${item['Keterangan'] || ''}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="edit-btn" onclick="editKomoditasEkspor(${index})">
+                        <span class="material-icons-sharp">edit</span>
+                    </button>
+                    <button class="delete-btn" onclick="deleteKomoditasEkspor(${index})">
+                        <span class="material-icons-sharp">delete</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function renderMatrikaEksporTable(data) {
+    const tbody = document.getElementById('matrikaEksporBody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    let no = 1;
+    data.forEach((item, index) => {
+        if (!item) return;
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${no++}</td>
+            <td>${item['Perusahaan'] || ''}</td>
+            <td>${item['Produksi']?.Kapasitas || ''}</td>
+            <td>${item['Produksi']?.Satuan || ''}</td>
+            <td>${item['Ekspor']?.Kapasitas || ''}</td>
+            <td>${item['Ekspor']?.Satuan || ''}</td>
+            <td>${item['Nilai (usd)'] || ''}</td>
+            <td>${item['Negara Tujuan'] || ''}</td>
+            <td>${item['Komoditas'] || ''}</td>
+            <td>${item['Keterangan'] || ''}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="edit-btn" onclick="editMatrikaEkspor(${index})">
+                        <span class="material-icons-sharp">edit</span>
+                    </button>
+                    <button class="delete-btn" onclick="deleteMatrikaEkspor(${index})">
+                        <span class="material-icons-sharp">delete</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function renderDisparitasHargaTable(data) {
+    const tbody = document.getElementById('disparitasHargaBody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    let no = 1;
+    data.forEach((item, index) => {
+        if (!item) return;
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${no++}</td>
+            <td>${item['Nama Sampel Komoditi'] || ''}</td>
+            <td>${item['Satuan'] || ''}</td>
+            <td>${item['Bulan n']?.['Kabupaten Wonosobo'] || ''}</td>
+            <td>${item['Bulan n']?.['Kabupaten Temanggung'] || ''}</td>
+            <td>${item['Selisih'] || ''}</td>
+            <td>${item['Persen'] || ''}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="edit-btn" onclick="editDisparitasHarga(${index})">
+                        <span class="material-icons-sharp">edit</span>
+                    </button>
+                    <button class="delete-btn" onclick="deleteDisparitasHarga(${index})">
+                        <span class="material-icons-sharp">delete</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function renderHasilPengawasanTable(data) {
+    const tbody = document.getElementById('hasilPengawasanBody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    let no = 1;
+    data.forEach((item, index) => {
+        if (!item) return;
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${no++}</td>
+            <td>${item['Kios Pupuk Lengkap'] || ''}</td>
+            <td>${item['Wilayah'] || ''}</td>
+            <td>${item['NOMOR_INDUK_BERUSAHA_(NIB)'] || ''}</td>
+            <td>${item['Harga HET'] || ''}</td>
+            <td>${item['Papan Nama'] || ''}</td>
+            <td>${item['SPJB'] || ''}</td>
+            <td>${item['Penyerapan Kartu Tani (%)'] || ''}</td>
+            <td>${item['RDKK'] || ''}</td>
+            <td>${item['Hasil'] || ''}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="edit-btn" onclick="editHasilPengawasan(${index})">
+                        <span class="material-icons-sharp">edit</span>
+                    </button>
+                    <button class="delete-btn" onclick="deleteHasilPengawasan(${index})">
+                        <span class="material-icons-sharp">delete</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
 function loadBidangPasar() {
     const bidangPasarRef = ref(db, 'Bidang Pasar');
     
@@ -726,7 +1186,6 @@ function loadBidangPasar() {
         }
     });
 
-    // Untuk tabel profil
     const profilRef = ref(db, 'Bidang Pasar/matriksProfilPasar/dataUPT');
     get(profilRef).then((snapshot) => {
         if (snapshot.exists()) {
@@ -783,7 +1242,6 @@ function renderKondisiPasarTable(data) {
 }
 
 function renderLosKiosTable(data) {
-    // Simpan data ke variabel global
     window.losKiosData = data;
     
     const tbody = document.getElementById('losKiosBody');

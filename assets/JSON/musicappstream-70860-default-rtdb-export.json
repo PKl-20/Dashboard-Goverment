@@ -86,7 +86,13 @@
           "Triwulan 3": "234",
           "Triwulan 4": "122"
         },
-        "Total Semua Layanan": "1098"
+        "Total":{
+          "Triwulan 1": "32",
+          "Triwulan 2": "25",
+          "Triwulan 3": "234",
+          "Triwulan 4": "122"
+        },
+        "Total Semua Layanan": "503"
       }
     },
     "Data Semua Tera Kab WSB":{

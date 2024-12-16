@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>Responsive Dashboard Design #1 | AsmrProg</title>
 </head>
 <body>
@@ -12,7 +12,7 @@
         <aside>
             <div class="toggle">
                 <div class="logo">
-                    <img src="../assets/images/logo.png">
+                    <img src="assets/images/logo.png">
                     <h2>Asmr<span class="danger">Prog</span></h2>
                 </div>
                 <div class="close" id="close-btn">
@@ -64,6 +64,310 @@
         </main>
         <main id="Bidang-Perdagangan">
             <h1>Bidang Perdagangan</h1>
+            <div class="tab-container">
+                <button class="tab-button active" data-tab="pelayananTera">Data Pelayanan Tera</button>
+                <button class="tab-button" data-tab="teraKabWSB">Data Semua Tera Kab WSB</button>
+                <button class="tab-button" data-tab="marketplace">Data Marketplace Lokal</button>
+                <button class="tab-button" data-tab="tokoModern">Data Toko Modern</button>
+                <button class="tab-button" data-tab="tokoModernOSS">Data Toko Modern OSS</button>
+                <button class="tab-button" data-tab="tokoUMKM">Data Toko Modern Memasarkan UMKM</button>
+                <button class="tab-button" data-tab="komoditasEkspor">Komoditas Ekspor</button>
+                <button class="tab-button" data-tab="matrikaEkspor">Matrika Ekspor</button>
+                <button class="tab-button" data-tab="disparitasHarga">Disparitas Harga</button>
+                <button class="tab-button" data-tab="hasilPengawasan">Hasil Pengawasan</button>
+            </div>
+            <div id="pelayananTeraTable" class="table-container active">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>UTTP</th>
+                                <th>Triwulan 1</th>
+                                <th>Triwulan 2</th>
+                                <th>Triwulan 3</th>
+                                <th>Triwulan 4</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pelayananTeraBody">
+
+                        </tbody>
+                        <tfoot id="pelayananTeraFooter">
+                            
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div id="teraKabWSBTable" class="table-container">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th rowspan="2">No</th>
+                                <th rowspan="2">Lokasi</th>
+                                <th colspan="2">UP</th>
+                                <th colspan="2">TAK</th>
+                                <th colspan="6">Anak Timbangan</th>
+                                <th colspan="2">Dacin Logam</th>
+                                <th colspan="2">Sentisimal</th>
+                                <th colspan="11">Timbangan</th>
+                                <th rowspan="2">Jumlah Total UTTP</th>
+                                <th rowspan="2">Aksi</th>
+                            </tr>
+                            <tr>
+                                <th>1 m ≤ up ≤ 2 m</th>
+                                <th>up ≤ 1 m</th>
+                                <th>5 ≤ ts ≤ 25 l</th>
+                                <th>ts ≥ 2 l</th>
+                                <th>ats ≤ 1 kg</th>
+                                <th>1 < ats ≤ 5 kg</th>
+                                <th>5 < ats ≥ 20 kg</th>
+                                <th>ats ≤ 1 kg (H)</th>
+                                <th>1 < ats ≤ 5 kg (H)</th>
+                                <th>5 < ats ≥ 20 kg (H)</th>
+                                <th>DL ≤ 25 kg</th>
+                                <th>DL > 25 kg</th>
+                                <th>S ≤ 150 kg</th>
+                                <th>S > 150 kg</th>
+                                <th>BOBOT INGSUT</th>
+                                <th>TP ≤ 25 kg</th>
+                                <th>TP > 25 kg</th>
+                                <th>MEJA</th>
+                                <th>NERACA</th>
+                                <th>TE ≤ 1 kg</th>
+                                <th>TE > 1 kg</th>
+                                <th>TE ≤ 25 kg</th>
+                                <th>25 kg < TE ≤ 150 kg</th>
+                                <th>150 kg < TE ≤ 500 kg</th>
+                                <th>Alat Ukur Tinggi Orang</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teraKabWSBBody">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="marketplaceTable" class="table-container">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th rowspan="2">No</th>
+                                <th rowspan="2">Nama Marketplace</th>
+                                <th rowspan="2">Tahun n-2</th>
+                                <th rowspan="2">Tahun n-1</th>
+                                <th colspan="4">Tahun n</th>
+                                <th rowspan="2">Keterangan</th>
+                                <th rowspan="2">Aksi</th>
+                            </tr>
+                            <tr>
+                                <th>Triwulan 1</th>
+                                <th>Triwulan 2</th>
+                                <th>Triwulan 3</th>
+                                <th>Triwulan 4</th>
+                            </tr>
+                        </thead>
+                        <tbody id="marketplaceBody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="tokoModernTable" class="table-container">
+                <div class="table-actions">
+                    <button class="add-button">+ Tambah Data</button>
+                </div>
+                <div class="excel-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Tanggal SK</th>
+                                <th>Nama Usaha</th>
+                                <th>Alamat Usaha</th>
+                                <th>Nama Pemilik</th>
+                                <th>Alamat Pemilik</th>
+                                <th>NIB</th>
+                                <th>Status</th>
+                                <th>IUTM</th>
+                                <th>Jenis Toko</th>
+                                <th>KBLI</th>
+                                <th>Catatan</th>
+                                <th>Keterangan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tokoModernBody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <div id="tokoModernOSSTable" class="table-container">
+            <div class="table-actions">
+                <button class="add-button">+ Tambah Data</button>
+            </div>
+            <div class="excel-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Usaha</th>
+                            <th>Alamat Usaha</th>
+                            <th>Nama Pemilik</th>
+                            <th>Alamat Pemilik</th>
+                            <th>NIB</th>
+                            <th>Nomor NIB</th>
+                            <th>Status</th>
+                            <th>No Telp</th>
+                            <th>KBLI</th>
+                            <th>Jenis Toko</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tokoModernOSSBody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="tokoUMKMTable" class="table-container">
+            <div class="table-actions">
+                <button class="add-button">+ Tambah Data</button>
+            </div>
+            <div class="excel-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Toko Modern</th>
+                            <th>Alamat</th>
+                            <th>Produk UMKM yang Dipasarkan</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tokoUMKMBody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="komoditasEksporTable" class="table-container">
+            <div class="table-actions">
+                <button class="add-button">+ Tambah Data</button>
+            </div>
+            <div class="excel-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Komoditas</th>
+                            <th>Perusahaan</th>
+                            <th>Alamat</th>
+                            <th>Negara Tujuan</th>
+                            <th>Keterangan</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="komoditasEksporBody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="matrikaEksporTable" class="table-container">
+            <div class="table-actions">
+                <button class="add-button">+ Tambah Data</button>
+            </div>
+            <div class="excel-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2">No</th>
+                            <th rowspan="2">Perusahaan</th>
+                            <th colspan="2">Produksi</th>
+                            <th colspan="2">Ekspor</th>
+                            <th rowspan="2">Nilai (USD)</th>
+                            <th rowspan="2">Negara Tujuan</th>
+                            <th rowspan="2">Komoditas</th>
+                            <th rowspan="2">Keterangan</th>
+                            <th rowspan="2">Aksi</th>
+                        </tr>
+                        <tr>
+                            <th>Kapasitas</th>
+                            <th>Satuan</th>
+                            <th>Kapasitas</th>
+                            <th>Satuan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matrikaEksporBody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="disparitasHargaTable" class="table-container">
+            <div class="table-actions">
+                <button class="add-button">+ Tambah Data</button>
+            </div>
+            <div class="excel-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Sampel Komoditi</th>
+                            <th>Satuan</th>
+                            <th>Kabupaten Wonosobo</th>
+                            <th>Kabupaten Temanggung</th>
+                            <th>Selisih</th>
+                            <th>Persen</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="disparitasHargaBody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="hasilPengawasanTable" class="table-container">
+            <div class="table-actions">
+                <button class="add-button">+ Tambah Data</button>
+            </div>
+            <div class="excel-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Kios Pupuk Lengkap</th>
+                            <th>Wilayah</th>
+                            <th>NIB</th>
+                            <th>Harga HET</th>
+                            <th>Papan Nama</th>
+                            <th>SPJB</th>
+                            <th>Penyerapan Kartu Tani (%)</th>
+                            <th>RDKK</th>
+                            <th>Hasil</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hasilPengawasanBody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
         </main>
         <main id="Bidang-Pasar">
             <h1>Bidang Pasar</h1>
@@ -551,7 +855,7 @@
         </div>
     </div>
 </body>
-<script type="module" src="../js/scripts.js"></script>
-<script src="../js/orders.js"></script>
-<script src="../js/index.js"></script>
+<script type="module" src="js/scripts.js"></script>
+<script src="js/orders.js"></script>
+<script src="js/index.js"></script>
 </html>
