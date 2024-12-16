@@ -1305,9 +1305,9 @@ aside .sidebar .dropdown-btn {
     font-size: 0.9rem;
 }
 
-/* Style untuk input dan select */
 .form-group input[type="text"],
 .form-group input[type="number"],
+.form-group input[type="email"],
 .form-group select {
     width: 100%;
     padding: 0.8rem;
@@ -1324,6 +1324,14 @@ aside .sidebar .dropdown-btn {
     border-color: var(--color-primary);
     outline: none;
     box-shadow: 0 0 0 2px rgba(108, 155, 207, 0.1);
+}
+
+/* Dark mode adjustments untuk input */
+.dark-mode-variables .form-group input,
+.dark-mode-variables .form-group select {
+    background: var(--color-white);
+    color: var(--color-dark);
+    border-color: var(--color-light);
 }
 
 /* Style untuk radio group */
@@ -1495,4 +1503,32 @@ aside .sidebar .dropdown-btn {
     display: flex;
     gap: 0.5rem;
     justify-content: center;
+}
+
+/* Style untuk textarea */
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--color-light);
+    border-radius: var(--border-radius-1);
+    background: var(--color-white);
+    color: var(--color-dark);
+    font-size: 0.9rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 100px;
+    transition: all 0.3s ease;
+}
+
+.form-group textarea:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(108, 155, 207, 0.1);
+}
+
+/* Dark mode adjustments untuk textarea */
+.dark-mode-variables .form-group textarea {
+    background: var(--color-white);
+    color: var(--color-dark);
+    border-color: var(--color-light);
 }
