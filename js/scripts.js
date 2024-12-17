@@ -513,7 +513,7 @@ async function handleLogin(event) {
             if (isAuthenticated) {
                 sessionStorage.setItem('isLoggedIn', 'true');
                 sessionStorage.setItem('username', username);
-                window.location.href = 'dashboard.html';
+                window.location.href = '/Dashboard-Goverment/dashboard.html';
             } else {
                 alert('Username atau password salah!');
             }
