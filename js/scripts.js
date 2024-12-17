@@ -528,18 +528,25 @@ async function handleLogin(event) {
 
 function checkLoginStatus() {
     const isLoggedIn = sessionStorage.getItem('isLoggedIn');
-    const currentPage = window.location.pathname;
+    const currentPath = window.location.pathname;
+    const lastPathSegment = currentPath.split('/').pop();
+
+    if (lastPathSegment === "" || lastPathSegment === "Dashboard-Goverment") {
+        window.location.replace("index.html");
+        return;
+    }
 
     if (isLoggedIn === 'true') {
-        if (currentPage.includes('index.html') || currentPage === '/') {
+        if (lastPathSegment === 'index.html') {
             window.location.href = 'dashboard.html';
         }
     } else {
-        if (currentPage.includes('dashboard.html')) {
+        if (lastPathSegment === 'dashboard.html') {
             window.location.href = 'index.html';
         }
     }
 }
+
 
 function logoutUser() {
     sessionStorage.removeItem('isLoggedIn');
