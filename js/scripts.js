@@ -25,9 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentPage.includes('index.html') || currentPage === '/') {
         setupLoginForm();
         checkLoginStatus();
-        if (!currentPage.endsWith('index.html') && currentPage.endsWith('/')) {
-            window.location.replace(window.location.origin + currentPage + 'index.html');
-        }
     } else if (currentPage.includes('dashboard.html')) {
         checkLoginStatus();
         setupDocumentUpload();
