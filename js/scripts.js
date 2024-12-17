@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentPage.includes('index.html') || currentPage === '/') {
         setupLoginForm();
         checkLoginStatus();
+        if (!currentPage.endsWith('index.html') && currentPage.endsWith('/')) {
+            window.location.replace(window.location.origin + currentPage + 'index.html');
+        }
     } else if (currentPage.includes('dashboard.html')) {
         checkLoginStatus();
         setupDocumentUpload();
@@ -513,7 +516,7 @@ async function handleLogin(event) {
             if (isAuthenticated) {
                 sessionStorage.setItem('isLoggedIn', 'true');
                 sessionStorage.setItem('username', username);
-                window.location.href = '/Dashboard-Goverment/dashboard.html';
+                window.location.href = 'dashboard.html';
             } else {
                 alert('Username atau password salah!');
             }
@@ -528,25 +531,18 @@ async function handleLogin(event) {
 
 function checkLoginStatus() {
     const isLoggedIn = sessionStorage.getItem('isLoggedIn');
-    const currentPath = window.location.pathname;
-    const lastPathSegment = currentPath.split('/').pop();
-
-    if (lastPathSegment === "" || lastPathSegment === "Dashboard-Goverment") {
-        window.location.replace("index.html");
-        return;
-    }
+    const currentPage = window.location.pathname;
 
     if (isLoggedIn === 'true') {
-        if (lastPathSegment === 'index.html') {
+        if (currentPage.includes('index.html') || currentPage === '/') {
             window.location.href = 'dashboard.html';
         }
     } else {
-        if (lastPathSegment === 'dashboard.html') {
+        if (currentPage.includes('dashboard.html')) {
             window.location.href = 'index.html';
         }
     }
 }
-
 
 function logoutUser() {
     sessionStorage.removeItem('isLoggedIn');
