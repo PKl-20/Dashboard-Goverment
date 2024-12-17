@@ -1418,3 +1418,15 @@ aside .sidebar .dropdown-btn {
     color: var(--color-dark);
     border-color: var(--color-light);
 }
+
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.currency-input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}

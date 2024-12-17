@@ -51,7 +51,31 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.add-button').forEach(button => {
             button.addEventListener('click', () => {
                 const mainElement = button.closest('main');
-                if (mainElement.id === 'Bidang-Pasar') {
+                if (mainElement.id === 'Bidang-Perdagangan') {
+                    // Untuk tabel di Bidang Perdagangan
+                    const tableContainer = button.closest('.table-container');
+                    if (tableContainer.id === 'pelayananTeraTable') {
+                        openAddDataPopup('pelayananTera');
+                    } else if (tableContainer.id === 'teraKabWSBTable') {
+                        openAddDataPopup('teraKabWSB');
+                    } else if (tableContainer.id === 'marketplaceTable') {
+                        openAddDataPopup('marketplace');
+                    } else if (tableContainer.id === 'tokoModernTable') {
+                        openAddDataPopup('tokoModern');
+                    } else if (tableContainer.id === 'tokoModernOSSTable') {
+                        openAddDataPopup('tokoModernOSS');
+                    } else if (tableContainer.id === 'tokoUMKMTable') {
+                        openAddDataPopup('tokoUMKM');
+                    } else if (tableContainer.id === 'komoditasEksporTable') {
+                        openAddDataPopup('komoditasEkspor');
+                    } else if (tableContainer.id === 'matrikaEksporTable') {
+                        openAddDataPopup('matrikaEkspor');
+                    } else if (tableContainer.id === 'disparitasHargaTable') {
+                        openAddDataPopup('disparitasHarga');
+                    } else if (tableContainer.id === 'hasilPengawasanTable') {
+                        openAddDataPopup('hasilPengawasan');
+                    }
+                } else if (mainElement.id === 'Bidang-Pasar') {
                     // Untuk tabel di Bidang Pasar
                     const tableContainer = button.closest('.table-container');
                     if (tableContainer.id === 'kondisiPasarTable') {
@@ -93,6 +117,391 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
+        //Bidang Perdagangan
+        document.getElementById('addDataForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+        
+            if (currentTable === 'pelayananTera') {
+                try {
+                    const refPath = ref(db, 'Bidang Perdagangan/Jumlah Pelayanan Tera/Jumlah Pelayanan Tera');
+                    const snapshot = await get(refPath);
+                    const existingData = snapshot.val() || {};
+                    const newData = {
+                        UTTP: document.getElementById('UTTP').value,
+                        'Triwulan 1': document.getElementById('triwulan1').value,
+                        'Triwulan 2': document.getElementById('triwulan2').value,
+                        'Triwulan 3': document.getElementById('triwulan3').value,
+                        'Triwulan 4': document.getElementById('triwulan4').value
+                    };
+            
+                    let totalTW1 = 0, totalTW2 = 0, totalTW3 = 0, totalTW4 = 0;
+
+                    Object.entries(existingData).forEach(([key, value]) => {
+                        if (key !== 'Total' && key !== 'Total Semua Layanan') {
+                            totalTW1 += parseInt(value['Triwulan 1'] || 0);
+                            totalTW2 += parseInt(value['Triwulan 2'] || 0);
+                            totalTW3 += parseInt(value['Triwulan 3'] || 0);
+                            totalTW4 += parseInt(value['Triwulan 4'] || 0);
+                        }
+                    });
+
+                    totalTW1 += parseInt(newData['Triwulan 1']);
+                    totalTW2 += parseInt(newData['Triwulan 2']);
+                    totalTW3 += parseInt(newData['Triwulan 3']);
+                    totalTW4 += parseInt(newData['Triwulan 4']);
+
+                    const totalSemuaLayanan = totalTW1 + totalTW2 + totalTW3 + totalTW4;
+
+                    const updates = {};
+
+                    const newPostKey = push(refPath).key;
+                    updates[newPostKey] = newData;
+
+                    updates['Total'] = {
+                        'Triwulan 1': totalTW1.toString(),
+                        'Triwulan 2': totalTW2.toString(),
+                        'Triwulan 3': totalTW3.toString(),
+                        'Triwulan 4': totalTW4.toString()
+                    };
+
+                    updates['Total Semua Layanan'] = totalSemuaLayanan.toString();
+
+                    await update(refPath, updates);
+            
+                    alert('Data berhasil ditambahkan!');
+                    closeAddDataPopup();
+                    loadBidangPerdagangan();
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menambahkan data!');
+                }
+            } else if (currentTable === 'marketplace') {
+                const newData = {
+                    'Nama Marketplace': document.getElementById('namaMarketplace').value,
+                    'Tahun n-2': document.getElementById('tahunN2').value,
+                    'Tahun n-1': document.getElementById('tahunN1').value,
+                    'Tahun n': {
+                        'Triwuan 1': document.getElementById('triwulan1').value,
+                        'Triwuan 2': document.getElementById('triwulan2').value,
+                        'Triwuan 3': document.getElementById('triwulan3').value,
+                        'Triwuan 4': document.getElementById('triwulan4').value
+                    },
+                    'Keterangan': document.getElementById('keterangan').value
+                };
+        
+                try {
+                    const refPath = ref(db, 'Bidang Perdagangan/Data Marketplace Lokal');
+                    await push(refPath, newData);
+                    alert('Data berhasil ditambahkan!');
+                    closeAddDataPopup();
+                    loadBidangPerdagangan();
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menambahkan data!');
+                }
+            } else if (currentTable === 'teraKabWSB') {
+                const form = document.getElementById('addDataForm');
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+            
+                    // Fungsi untuk menghitung total UTTP
+                    const calculateTotal = () => {
+                        let total = 0;
+                        const inputIds = [
+                            'up1', 'up2',                           // UP
+                            'tak1', 'tak2',                        // TAK
+                            'atb1', 'atb2', 'atb3',               // Anak Timbangan Biasa
+                            'atbh1', 'atbh2', 'atbh3',            // Anak Timbangan Halus
+                            'dl1', 'dl2',                         // Dacin Logam
+                            's1', 's2',                           // Sentisimal
+                            'tbi1', 'tbi2',                       // Bobot Ingsut
+                            'tp1', 'tp2',                         // Timbangan Pegas
+                            'meja', 'neraca',                     // Timbangan Lainnya
+                            'te2_1', 'te2_2',                     // TE II
+                            'te34_1', 'te34_2', 'te34_3',        // TE III & IV
+                            'alatUkur', 'teb'                     // Lainnya
+                        ];
+            
+                        inputIds.forEach(id => {
+                            const value = document.getElementById(id).value;
+                            if (value && value !== '-') {
+                                total += parseInt(value) || 0;
+                            }
+                        });
+                        return total;
+                    };
+            
+                    const newData = {
+                        LOKASI: document.getElementById('lokasi').value,
+                        DETAIL: [
+                            {
+                                [document.getElementById('namaPasar').value]: {
+                                    UP: {
+                                        '1 m ≤ up ≤ 2 m': document.getElementById('up1').value || '-',
+                                        'up ≤ 1 m': document.getElementById('up2').value || '-'
+                                    },
+                                    TAK: {
+                                        '5 l ≤  tb ≤ 25 l': document.getElementById('tak1').value || '-',
+                                        'tb > 2 l': document.getElementById('tak2').value || '-'
+                                    },
+                                    'ANAK TIMBANGAN': {
+                                        'Biasa': {
+                                            'atb ≤ 1 kg': document.getElementById('atb1').value || '-',
+                                            '1 < atb ≤ 5 kg': document.getElementById('atb2').value || '-',
+                                            '5 < atb ≤ 20 kg': document.getElementById('atb3').value || '-'
+                                        },
+                                        'Halus': {
+                                            'atb ≤ 1 kg': document.getElementById('atbh1').value || '-',
+                                            '1 < atb ≤ 5 kg': document.getElementById('atbh2').value || '-',
+                                            '5 < atb ≤ 20 kg': document.getElementById('atbh3').value || '-'
+                                        }
+                                    },
+                                    'TIMBANGAN': {
+                                        'DACIN LOGAM': {
+                                            'DL ≤ 25 kg': document.getElementById('dl1').value || '-',
+                                            'DL > 25 kg': document.getElementById('dl2').value || '-'
+                                        },
+                                        'SENTISIMAL': {
+                                            'S ≤ 150 kg': document.getElementById('s1').value || '-',
+                                            '150 kg < S ≤ 500 kg': document.getElementById('s2').value || '-'
+                                        },
+                                        'BOBOT INGSUT': {
+                                            'TBI ≤ 25 kg': document.getElementById('tbi1').value || '-',
+                                            '25 kg < TBI ≤ 150 kg': document.getElementById('tbi2').value || '-'
+                                        },
+                                        'PEGAS': {
+                                            'TP ≤ 25 kg': document.getElementById('tp1').value || '-',
+                                            'TP > 25 kg': document.getElementById('tp2').value || '-'
+                                        },
+                                        'MEJA': document.getElementById('meja').value || '-',
+                                        'NERACA': document.getElementById('neraca').value || '-',
+                                        'TE (II)': {
+                                            'TE ≤ 1 kg': document.getElementById('te2_1').value || '-',
+                                            'TE > 1 kg': document.getElementById('te2_2').value || '-'
+                                        },
+                                        'TE (III & IV)': {
+                                            '25 < kg TE ≤ 25 kg': document.getElementById('te34_1').value || '-',
+                                            '25 < kg TE ≤ 150 kg': document.getElementById('te34_2').value || '-',
+                                            '25 < kg TE ≤ 500 kg': document.getElementById('te34_3').value || '-'
+                                        }
+                                    },
+                                    'Alat Ukur Tinggi Orang': document.getElementById('alatUkur').value || '-',
+                                    'TEB 1000 KG': document.getElementById('teb').value || '-',
+                                    'Jumlah Total UTTP': calculateTotal().toString()
+                                }
+                            }
+                        ]
+                    };
+            
+                    try {
+                        const refPath = ref(db, 'Bidang Perdagangan/Data Semua Tera Kab WSB');
+                        await push(refPath, newData);
+                        alert('Data berhasil ditambahkan!');
+                        closeAddDataPopup();
+                        loadBidangPerdagangan();
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat menambahkan data!');
+                    }
+                });
+            } else if (currentTable === 'tokoModern') {
+                const newData = {
+                    'TANGGAL SK': document.getElementById('tanggalSK').value,
+                    'NAMA DAN ALAMAT LOKASI TEMPAT USAHA': {
+                        'NAMA': document.getElementById('namaUsaha').value,
+                        'ALAMAT': document.getElementById('alamatUsaha').value
+                    },
+                    'NAMA DAN ALAMAT PEMILIK': {
+                        'NAMA': document.getElementById('namaPemilik').value,
+                        'ALAMAT': document.getElementById('alamatPemilik').value
+                    },
+                    'NOMOR INDUK BERUSAHA': {
+                        'NB': document.getElementById('statusNIB').value,
+                        'NO NB': document.getElementById('nomorNIB').value
+                    },
+                    'STATUS': document.getElementById('status').value
+                };
+        
+                try {
+                    const refPath = ref(db, 'Bidang Perdagangan/Data Toko Modern');
+                    await push(refPath, newData);
+                    alert('Data berhasil ditambahkan!');
+                    closeAddDataPopup();
+                    loadBidangPerdagangan();
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menambahkan data!');
+                }
+            } else if (currentTable === 'tokoModernOSS') {
+                const newData = {
+                    'Nama dan Alamat Lokasi Tempat Usaha': {
+                        'Nama': document.getElementById('namaUsaha').value,
+                        'Alamat': document.getElementById('alamatUsaha').value
+                    },
+                    'Nama dan Alamat Pemilik': {
+                        'Nama': document.getElementById('namaPemilik').value,
+                        'Alamat': document.getElementById('alamatPemilik').value
+                    },
+                    'NOMOR_INDUK_BERUSAHA_(NIB)': {
+                        'NIB': document.getElementById('statusNIB').value,
+                        'Nomor': document.getElementById('nomorNIB').value,
+                        'Status': document.getElementById('statusNIBActive').value
+                    },
+                    'No Telp': document.getElementById('noTelp').value,
+                    'Komoditi atau KBLI': document.getElementById('komoditi').value,
+                    'Jenis Toko': document.getElementById('jenisToko').value
+                };
+        
+                try {
+                    const refPath = ref(db, 'Bidang Perdagangan/Data Toko Modern OSS');
+                    await push(refPath, newData);
+                    alert('Data berhasil ditambahkan!');
+                    closeAddDataPopup();
+                    loadBidangPerdagangan();
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menambahkan data!');
+                }
+        
+            } else if (currentTable === 'tokoUMKM') {
+                const newData = {
+                    'Toko Modern': document.getElementById('tokoModern').value,
+                    'Alamat': document.getElementById('alamat').value,
+                    'Produk UMKM yang Dipasarkan': document.getElementById('produkUMKM').value
+                };
+        
+                try {
+                    const refPath = ref(db, 'Bidang Perdagangan/Data Toko Modern Memasarkan UMKM');
+                    await push(refPath, newData);
+                    alert('Data berhasil ditambahkan!');
+                    closeAddDataPopup();
+                    loadBidangPerdagangan();
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menambahkan data!');
+                }
+        
+            } else if (currentTable === 'komoditasEkspor') {
+                const newData = {
+                    'Komoditas': document.getElementById('komoditas').value,
+                    'Perusahaan': document.getElementById('perusahaan').value,
+                    'Alamat': document.getElementById('alamat').value,
+                    'Negara Tujuan': document.getElementById('negaraTujuan').value,
+                    'Keterangan': document.getElementById('keterangan').value
+                };
+        
+                try {
+                    const refPath = ref(db, 'Bidang Perdagangan/Komoditas Ekspor');
+                    await push(refPath, newData);
+                    alert('Data berhasil ditambahkan!');
+                    closeAddDataPopup();
+                    loadBidangPerdagangan();
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menambahkan data!');
+                }
+        
+            } else if (currentTable === 'matrikaEkspor') {
+                const newData = {
+                    'Perusahaan': document.getElementById('perusahaan').value,
+                    'Produksi': {
+                        'Kapasitas': document.getElementById('produksiKapasitas').value,
+                        'Satuan': document.getElementById('produksiSatuan').value
+                    },
+                    'Ekspor': {
+                        'Kapasitas': document.getElementById('eksporKapasitas').value,
+                        'Satuan': document.getElementById('eksporSatuan').value
+                    },
+                    'Nilai (USD)': document.getElementById('nilaiUSD').value,
+                    'Negara Tujuan': document.getElementById('negaraTujuan').value,
+                    'Komoditas': document.getElementById('komoditas').value,
+                    'Keterangan': document.getElementById('keterangan').value
+                };
+        
+                try {
+                    const refPath = ref(db, 'Bidang Perdagangan/Matrika Ekspor/Tembakau');
+                    await push(refPath, newData);
+                    alert('Data berhasil ditambahkan!');
+                    closeAddDataPopup();
+                    loadBidangPerdagangan();
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menambahkan data!');
+                }
+        
+            } else if (currentTable === 'disparitasHarga') {
+                // Fungsi untuk mengubah string harga ke number
+                const parseHarga = (hargaStr) => {
+                    return parseInt(hargaStr.replace(/\D/g, ''));
+                };
+            
+                // Fungsi untuk memformat harga ke format Rupiah
+                const formatHarga = (number) => {
+                    return `RP. ${Math.abs(number)}`;
+                };
+            
+                // Ambil nilai harga dari input
+                const hargaWonosobo = document.getElementById('hargaWonosobo').value;
+                const hargaTemanggung = document.getElementById('hargaTemanggung').value;
+            
+                // Konversi ke number untuk perhitungan
+                const hargaWsb = parseHarga(hargaWonosobo);
+                const hargaTmg = parseHarga(hargaTemanggung);
+            
+                // Hitung selisih (Temanggung - Wonosobo)
+                const selisih = hargaTmg - hargaWsb;
+            
+                // Hitung persentase
+                const persen = ((selisih / hargaTmg) * 100).toFixed(0); // Bulatkan ke bilangan bulat
+            
+                const newData = {
+                    'Nama Sampel Komoditi': document.getElementById('namaKomoditi').value,
+                    'Satuan': document.getElementById('satuan').value,
+                    'Bulan n': {
+                        'Kabupaten Wonosobo': hargaWonosobo,
+                        'Kabupaten Temanggung': hargaTemanggung
+                    },
+                    'Selisih': selisih >= 0 ? formatHarga(selisih) : `-${formatHarga(selisih)}`,
+                    'Persen': `${persen}%`
+                };
+            
+                try {
+                    const refPath = ref(db, 'Bidang Perdagangan/Disparitas Harga');
+                    await push(refPath, newData);
+                    alert('Data berhasil ditambahkan!');
+                    closeAddDataPopup();
+                    loadBidangPerdagangan();
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menambahkan data!');
+                }
+            } else if (currentTable === 'hasilPengawasan') {
+                const newData = {
+                    'Kios Pupuk Lengkap': document.getElementById('kiosPupuk').value,
+                    'Wilayah': document.getElementById('wilayah').value,
+                    'NOMOR_INDUK_BERUSAHA_(NIB)': document.getElementById('nib').value,
+                    'Harga HET': document.getElementById('hargaHET').value,
+                    'Papan Nama': document.getElementById('papanNama').value,
+                    'SPJB': document.getElementById('spjb').value,
+                    'Penyerapan Kartu Tani (%)': document.getElementById('penyerapanKartuTani').value,
+                    'RDKK': document.getElementById('rdkk').value,
+                    'Hasil': document.getElementById('hasil').value
+                };
+        
+                try {
+                    const refPath = ref(db, 'Bidang Perdagangan/Hasil Pengawasan');
+                    await push(refPath, newData);
+                    alert('Data berhasil ditambahkan!');
+                    closeAddDataPopup();
+                    loadBidangPerdagangan();
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menambahkan data!');
+                }
+            }
+        });
+
+        //Bidang Pasar
         document.getElementById('addDataForm').addEventListener('submit', async function(event) {
             event.preventDefault();
         
@@ -202,6 +611,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
+        //Bidang Koperasi
         document.getElementById('addDataForm').addEventListener('submit', async function(event) {
             event.preventDefault();
         
@@ -828,30 +1238,32 @@ function renderTeraKabWSBTable(data) {
                 <td>${item.LOKASI || ''}</td>
                 <td>${pasarData.UP?.['1 m ≤ up ≤ 2 m'] || '-'}</td>
                 <td>${pasarData.UP?.['up ≤ 1 m'] || '-'}</td>
-                <td>${pasarData.UP?.['5 ≤ ts ≤ 25 l'] || '-'}</td>
-                <td>${pasarData.UP?.['ts ≥ 2 l'] || '-'}</td>
-                <td>${pasarData['ANAK TIMBANGAN']?.['ats ≤ 1 kg'] || '-'}</td>
-                <td>${pasarData['ANAK TIMBANGAN']?.['1 < ats ≤ 5 kg'] || '-'}</td>
-                <td>${pasarData['ANAK TIMBANGAN']?.['5 < ats ≥ 20 kg'] || '-'}</td>
-                <td>${pasarData['ANAK TIMBANGAN']?.['ats ≤ 1 kg (H)'] || '-'}</td>
-                <td>${pasarData['ANAK TIMBANGAN']?.['1 < ats ≤ 5 kg (H)'] || '-'}</td>
-                <td>${pasarData['ANAK TIMBANGAN']?.['5 < ats ≥ 20 kg (H)'] || '-'}</td>
-                <td>${pasarData['DACIN LOGAM']?.['DL ≤ 25 kg'] || '-'}</td>
-                <td>${pasarData['DACIN LOGAM']?.['DL > 25 kg'] || '-'}</td>
-                <td>${pasarData['SENTISIMAL']?.['S ≤ 150 kg'] || '-'}</td>
-                <td>${pasarData['SENTISIMAL']?.['S > 150 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.['BOBOT INGSUT'] || '-'}</td>
+                <td>${pasarData.TAK?.['5 l ≤  tb ≤ 25 l'] || '-'}</td>
+                <td>${pasarData.TAK?.['tb > 2 l'] || '-'}</td>
+                <td>${pasarData['ANAK TIMBANGAN']?.Biasa?.['atb ≤ 1 kg'] || '-'}</td>
+                <td>${pasarData['ANAK TIMBANGAN']?.Biasa?.['1 < atb ≤ 5 kg'] || '-'}</td>
+                <td>${pasarData['ANAK TIMBANGAN']?.Biasa?.['5 < atb ≤ 20 kg'] || '-'}</td>
+                <td>${pasarData['ANAK TIMBANGAN']?.Halus?.['atb ≤ 1 kg'] || '-'}</td>
+                <td>${pasarData['ANAK TIMBANGAN']?.Halus?.['1 < atb ≤ 5 kg'] || '-'}</td>
+                <td>${pasarData['ANAK TIMBANGAN']?.Halus?.['5 < atb ≤ 20 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.['DACIN LOGAM']?.['DL ≤ 25 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.['DACIN LOGAM']?.['DL > 25 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.SENTISIMAL?.['S ≤ 150 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.SENTISIMAL?.['150 kg < S ≤ 500 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.['BOBOT INGSUT']?.['TBI ≤ 25 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.['BOBOT INGSUT']?.['25 kg < TBI ≤ 150 kg'] || '-'}</td>
                 <td>${pasarData['TIMBANGAN']?.PEGAS?.['TP ≤ 25 kg'] || '-'}</td>
                 <td>${pasarData['TIMBANGAN']?.PEGAS?.['TP > 25 kg'] || '-'}</td>
                 <td>${pasarData['TIMBANGAN']?.MEJA || '-'}</td>
                 <td>${pasarData['TIMBANGAN']?.NERACA || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.NERACA?.['TE ≤ 1 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.NERACA?.['TE > 1 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.NERACA?.['TE ≤ 25 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.NERACA?.['25 kg < TE ≤ 150 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.NERACA?.['150 kg < TE ≤ 500 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.['Alat Ukur Tinggi Orang'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.TOTAL || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.['TE (II)']?.['TE ≤ 1 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.['TE (II)']?.['TE > 1 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.['TE (III & IV)']?.['25 < kg TE ≤ 25 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.['TE (III & IV)']?.['25 < kg TE ≤ 150 kg'] || '-'}</td>
+                <td>${pasarData['TIMBANGAN']?.['TE (III & IV)']?.['25 < kg TE ≤ 500 kg'] || '-'}</td>
+                <td>${pasarData['Alat Ukur Tinggi Orang'] || '-'}</td>
+                <td>${pasarData['TEB 1000 KG'] || '-'}</td>
+                <td>${pasarData['Jumlah Total UTTP'] || '-'}</td>
                 <td>
                     <div class="action-buttons">
                         <button class="edit-btn" onclick="editTeraKabWSB('${index}', '${pasarName}')">
@@ -1346,9 +1758,548 @@ let currentTable = '';
 function openAddDataPopup(table) {
     currentTable = table;
     const form = document.getElementById('addDataForm');
-    form.innerHTML = ''; // Kosongkan form
+    form.innerHTML = '';
 
-    if (table === 'kondisiPasar') {
+    //form Perdagangan
+    if (table === 'pelayananTera') {
+        form.innerHTML = `
+            <div class="form-group">
+                <label for="UTTP">UTTP</label>
+                <input type="text" id="UTTP" required>
+            </div>
+            <div class="form-group">
+                <label for="triwulan1">Triwulan 1</label>
+                <input type="number" id="triwulan1" required>
+            </div>
+            <div class="form-group">
+                <label for="triwulan2">Triwulan 2</label>
+                <input type="number" id="triwulan2" required>
+            </div>
+            <div class="form-group">
+                <label for="triwulan3">Triwulan 3</label>
+                <input type="number" id="triwulan3" required>
+            </div>
+            <div class="form-group">
+                <label for="triwulan4">Triwulan 4</label>
+                <input type="number" id="triwulan4" required>
+            </div>
+            <button type="submit">Tambah Data</button>
+        `;
+    } else if (table === 'marketplace') {
+        form.innerHTML = `
+            <div class="form-group">
+                <label for="namaMarketplace">Nama Marketplace</label>
+                <input type="text" id="namaMarketplace" required>
+            </div>
+            <div class="form-group">
+                <label for="tahunN2">Tahun n-2</label>
+                <input type="text" id="tahunN2" placeholder="RP. " required>
+            </div>
+            <div class="form-group">
+                <label for="tahunN1">Tahun n-1</label>
+                <input type="text" id="tahunN1" placeholder="RP. " required>
+            </div>
+            <div class="form-group">
+                <label for="triwulan1">Triwulan 1</label>
+                <input type="text" id="triwulan1" placeholder="RP. " required>
+            </div>
+            <div class="form-group">
+                <label for="triwulan2">Triwulan 2</label>
+                <input type="text" id="triwulan2" placeholder="RP. " required>
+            </div>
+            <div class="form-group">
+                <label for="triwulan3">Triwulan 3</label>
+                <input type="text" id="triwulan3" placeholder="RP. " required>
+            </div>
+            <div class="form-group">
+                <label for="triwulan4">Triwulan 4</label>
+                <input type="text" id="triwulan4" placeholder="RP. " required>
+            </div>
+            <div class="form-group">
+                <label for="keterangan">Keterangan</label>
+                <textarea id="keterangan" required></textarea>
+            </div>
+            <button type="submit">Tambah Data</button>
+        `;
+    } if (table === 'teraKabWSB') {
+        form.innerHTML = `
+            <div class="form-group">
+                <label for="lokasi">Lokasi</label>
+                <input type="text" id="lokasi" required>
+            </div>
+            <div class="form-group">
+                <label for="namaPasar">Nama Pasar</label>
+                <input type="text" id="namaPasar" required>
+            </div>
+            
+            <div class="form-section">
+                <h3>UP (Ukuran Panjang)</h3>
+                <div class="form-group">
+                    <label for="up1">1 m ≤ up ≤ 2 m</label>
+                    <input type="text" id="up1" placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label for="up2">up ≤ 1 m</label>
+                    <input type="text" id="up2" placeholder="-">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>TAK (Takaran)</h3>
+                <div class="form-group">
+                    <label for="tak1">5 l ≤ tb ≤ 25 l</label>
+                    <input type="text" id="tak1" placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label for="tak2">tb > 2 l</label>
+                    <input type="text" id="tak2" placeholder="-">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Anak Timbangan Biasa</h3>
+                <div class="form-group">
+                    <label for="atb1">atb ≤ 1 kg</label>
+                    <input type="text" id="atb1" placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label for="atb2">1 < atb ≤ 5 kg</label>
+                    <input type="text" id="atb2" placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label for="atb3">5 < atb ≤ 20 kg</label>
+                    <input type="text" id="atb3" placeholder="-">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Anak Timbangan Halus</h3>
+                <div class="form-group">
+                    <label for="atbh1">atb ≤ 1 kg</label>
+                    <input type="text" id="atbh1" placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label for="atbh2">1 < atb ≤ 5 kg</label>
+                    <input type="text" id="atbh2" placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label for="atbh3">5 < atb ≤ 20 kg</label>
+                    <input type="text" id="atbh3" placeholder="-">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Dacin Logam</h3>
+                <div class="form-group">
+                    <label for="dl1">DL ≤ 25 kg</label>
+                    <input type="text" id="dl1" placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label for="dl2">DL > 25 kg</label>
+                    <input type="text" id="dl2" placeholder="-">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Sentisimal</h3>
+                <div class="form-group">
+                    <label for="s1">S ≤ 150 kg</label>
+                    <input type="text" id="s1" placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label for="s2">150 kg < S ≤ 500 kg</label>
+                    <input type="text" id="s2" placeholder="-">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Bobot Ingsut</h3>
+                <div class="form-group">
+                    <label for="tbi1">TBI ≤ 25 kg</label>
+                    <input type="text" id="tbi1" placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label for="tbi2">25 kg < TBI ≤ 150 kg</label>
+                    <input type="text" id="tbi2" placeholder="-">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Timbangan Pegas</h3>
+                <div class="form-group">
+                    <label for="tp1">TP ≤ 25 kg</label>
+                    <input type="text" id="tp1" placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label for="tp2">TP > 25 kg</label>
+                    <input type="text" id="tp2" placeholder="-">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Timbangan Lainnya</h3>
+                <div class="form-group">
+                    <label for="meja">Meja</label>
+                    <input type="text" id="meja" placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label for="neraca">Neraca</label>
+                    <input type="text" id="neraca" placeholder="-">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Timbangan Elektronik II</h3>
+                <div class="form-group">
+                    <label for="te2_1">TE ≤ 1 kg</label>
+                    <input type="text" id="te2_1" placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label for="te2_2">TE > 1 kg</label>
+                    <input type="text" id="te2_2" placeholder="-">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Timbangan Elektronik III & IV</h3>
+                <div class="form-group">
+                    <label for="te34_1">TE ≤ 25 kg</label>
+                    <input type="text" id="te34_1" placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label for="te34_2">25 kg < TE ≤ 150 kg</label>
+                    <input type="text" id="te34_2" placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label for="te34_3">150 kg < TE ≤ 500 kg</label>
+                    <input type="text" id="te34_3" placeholder="-">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Lainnya</h3>
+                <div class="form-group">
+                    <label for="alatUkur">Alat Ukur Tinggi Orang</label>
+                    <input type="text" id="alatUkur" placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label for="teb">TEB 1000 KG</label>
+                    <input type="text" id="teb" placeholder="-">
+                </div>
+            </div>
+
+            <button type="submit">Tambah Data</button>
+        `;
+    } else if (table === 'tokoModern') {
+        form.innerHTML = `
+            <div class="form-group">
+                <label for="tanggalSK">Tanggal SK</label>
+                <input type="date" id="tanggalSK" required>
+            </div>
+            <div class="form-section">
+                <h3>Nama dan Alamat Lokasi Tempat Usaha</h3>
+                <div class="form-group">
+                    <label for="namaUsaha">Nama</label>
+                    <input type="text" id="namaUsaha" required>
+                </div>
+                <div class="form-group">
+                    <label for="alamatUsaha">Alamat</label>
+                    <textarea id="alamatUsaha" required></textarea>
+                </div>
+            </div>
+            <div class="form-section">
+                <h3>Nama dan Alamat Pemilik</h3>
+                <div class="form-group">
+                    <label for="namaPemilik">Nama</label>
+                    <input type="text" id="namaPemilik" required>
+                </div>
+                <div class="form-group">
+                    <label for="alamatPemilik">Alamat</label>
+                    <textarea id="alamatPemilik" required></textarea>
+                </div>
+            </div>
+            <div class="form-section">
+                <h3>NIB</h3>
+                <div class="form-group">
+                    <label>Status NIB</label>
+                    <select id="statusNIB" required>
+                        <option value="ADA">ADA</option>
+                        <option value="TIDAK ADA">TIDAK ADA</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="nomorNIB">Nomor NIB</label>
+                    <input type="text" id="nomorNIB">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" required>
+                    <option value="Aktif">Aktif</option>
+                    <option value="Tidak Aktif">Tidak Aktif</option>
+                </select>
+            </div>
+            <button type="submit">Tambah Data</button>
+        `;
+    } else if (table === 'tokoModernOSS') {
+        form.innerHTML = `
+            <div class="form-section">
+                <h3>Nama dan Alamat Lokasi Tempat Usaha</h3>
+                <div class="form-group">
+                    <label for="namaUsaha">Nama</label>
+                    <input type="text" id="namaUsaha" required>
+                </div>
+                <div class="form-group">
+                    <label for="alamatUsaha">Alamat</label>
+                    <textarea id="alamatUsaha" required></textarea>
+                </div>
+            </div>
+            <div class="form-section">
+                <h3>Nama dan Alamat Pemilik</h3>
+                <div class="form-group">
+                    <label for="namaPemilik">Nama</label>
+                    <input type="text" id="namaPemilik" required>
+                </div>
+                <div class="form-group">
+                    <label for="alamatPemilik">Alamat</label>
+                    <textarea id="alamatPemilik" required></textarea>
+                </div>
+            </div>
+            <div class="form-section">
+                <h3>NIB</h3>
+                <div class="form-group">
+                    <label>Status NIB</label>
+                    <select id="statusNIB" required>
+                        <option value="Ada">Ada</option>
+                        <option value="Tidak Ada">Tidak Ada</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="nomorNIB">Nomor NIB</label>
+                    <input type="text" id="nomorNIB">
+                </div>
+                <div class="form-group">
+                    <label for="statusNIBActive">Status</label>
+                    <select id="statusNIBActive" required>
+                        <option value="Aktif">Aktif</option>
+                        <option value="Tidak Aktif">Tidak Aktif</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="noTelp">No Telp</label>
+                <input type="text" id="noTelp" required>
+            </div>
+            <div class="form-group">
+                <label for="komoditi">Komoditi/KBLI</label>
+                <input type="text" id="komoditi" required>
+            </div>
+            <div class="form-group">
+                <label for="jenisToko">Jenis Toko</label>
+                <input type="text" id="jenisToko" required>
+            </div>
+            <button type="submit">Tambah Data</button>
+        `;
+    } else if (table === 'tokoUMKM') {
+        form.innerHTML = `
+            <div class="form-group">
+                <label for="tokoModern">Toko Modern</label>
+                <input type="text" id="tokoModern" required>
+            </div>
+            <div class="form-group">
+                <label for="alamat">Alamat</label>
+                <textarea id="alamat" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="produkUMKM">Produk UMKM yang Dipasarkan</label>
+                <input type="text" id="produkUMKM" required>
+            </div>
+            <button type="submit">Tambah Data</button>
+        `;
+    } else if (table === 'komoditasEkspor') {
+        form.innerHTML = `
+            <div class="form-group">
+                <label for="komoditas">Komoditas</label>
+                <input type="text" id="komoditas" required>
+            </div>
+            <div class="form-group">
+                <label for="perusahaan">Perusahaan</label>
+                <input type="text" id="perusahaan" required>
+            </div>
+            <div class="form-group">
+                <label for="alamat">Alamat</label>
+                <textarea id="alamat" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="negaraTujuan">Negara Tujuan</label>
+                <input type="text" id="negaraTujuan" required>
+            </div>
+            <div class="form-group">
+                <label for="keterangan">Keterangan</label>
+                <textarea id="keterangan" required></textarea>
+            </div>
+            <button type="submit">Tambah Data</button>
+        `;
+    } else if (table === 'matrikaEkspor') {
+        form.innerHTML = `
+            <div class="form-group">
+                <label for="perusahaan">Perusahaan</label>
+                <input type="text" id="perusahaan" required>
+            </div>
+            <div class="form-section">
+                <h3>Produksi</h3>
+                <div class="form-group">
+                    <label for="produksiKapasitas">Kapasitas</label>
+                    <input type="number" id="produksiKapasitas" required>
+                </div>
+                <div class="form-group">
+                    <label for="produksiSatuan">Satuan</label>
+                    <input type="text" id="produksiSatuan" required>
+                </div>
+            </div>
+            <div class="form-section">
+                <h3>Ekspor</h3>
+                <div class="form-group">
+                    <label for="eksporKapasitas">Kapasitas</label>
+                    <input type="number" id="eksporKapasitas" required>
+                </div>
+                <div class="form-group">
+                    <label for="eksporSatuan">Satuan</label>
+                    <input type="text" id="eksporSatuan" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="nilaiUSD">Nilai (USD)</label>
+                <input type="text" id="nilaiUSD" placeholder="$ " required>
+            </div>
+            <div class="form-group">
+                <label for="negaraTujuan">Negara Tujuan</label>
+                <input type="text" id="negaraTujuan" required>
+            </div>
+            <div class="form-group">
+                <label for="komoditas">Komoditas</label>
+                <input type="text" id="komoditas" required>
+            </div>
+            <div class="form-group">
+                <label for="keterangan">Keterangan</label>
+                <textarea id="keterangan" required></textarea>
+            </div>
+            <button type="submit">Tambah Data</button>
+        `;
+    } else if (table === 'disparitasHarga') {
+        form.innerHTML = `
+            <div class="form-group">
+                <label for="namaKomoditi">Nama Sampel Komoditi</label>
+                <input type="text" id="namaKomoditi" required>
+            </div>
+            <div class="form-group">
+                <label for="satuan">Satuan</label>
+                <input type="text" id="satuan" required>
+            </div>
+            <div class="form-group">
+                <label for="hargaWonosobo">Harga Kabupaten Wonosobo</label>
+                <div class="input-group">
+                    <input type="text" 
+                           id="hargaWonosobo" 
+                           required 
+                           class="currency-input"
+                           placeholder="Masukkan harga">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="hargaTemanggung">Harga Kabupaten Temanggung</label>
+                <div class="input-group">
+                    <input type="text" 
+                           id="hargaTemanggung" 
+                           required 
+                           class="currency-input"
+                           placeholder="Masukkan harga">
+                </div>
+            </div>
+            <button type="submit">Tambah Data</button>
+        `;
+
+        const formatCurrency = (input) => {
+            let value = input.value.replace(/\D/g, '');
+            if (value) {
+                value = `RP. ${value}`;
+            }
+            input.value = value;
+        };
+        const currencyInputs = document.querySelectorAll('.currency-input');
+        currencyInputs.forEach(input => {
+            input.addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/[^\d]/g, '');
+            });
+            input.addEventListener('blur', (e) => {
+                formatCurrency(e.target);
+            });
+            input.addEventListener('focus', (e) => {
+                e.target.value = e.target.value.replace(/\D/g, '');
+            });
+        });
+    } else if (table === 'hasilPengawasan') {
+        form.innerHTML = `
+            <div class="form-group">
+                <label for="kiosPupuk">Kios Pupuk Lengkap</label>
+                <input type="text" id="kiosPupuk" required>
+            </div>
+            <div class="form-group">
+                <label for="wilayah">Wilayah</label>
+                <input type="text" id="wilayah" required>
+            </div>
+            <div class="form-group">
+                <label for="nib">NIB</label>
+                <select id="nib" required>
+                    <option value="Ada">Ada</option>
+                    <option value="Tidak Ada">Tidak Ada</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="hargaHET">Harga HET</label>
+                <select id="hargaHET" required>
+                    <option value="Ada">Ada</option>
+                    <option value="Tidak Ada">Tidak Ada</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="papanNama">Papan Nama</label>
+                <select id="papanNama" required>
+                    <option value="Ada">Ada</option>
+                    <option value="Tidak Ada">Tidak Ada</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="spjb">SPJB</label>
+                <select id="spjb" required>
+                    <option value="Ada">Ada</option>
+                    <option value="Tidak Ada">Tidak Ada</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="penyerapanKartuTani">Penyerapan Kartu Tani (%)</label>
+                <input type="number" id="penyerapanKartuTani" min="0" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="rdkk">RDKK</label>
+                <select id="rdkk" required>
+                    <option value="Ada">Ada</option>
+                    <option value="Tidak Ada">Tidak Ada</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="hasil">Hasil</label>
+                <select id="hasil" required>
+                    <option value="Memenuhi Syarat">Memenuhi Syarat</option>
+                    <option value="Tidak Memenuhi Syarat">Tidak Memenuhi Syarat</option>
+                </select>
+            </div>
+            <button type="submit">Tambah Data</button>
+        `;
+    }
+    
+    //form Pasar
+    else if (table === 'kondisiPasar') {
         form.innerHTML = `
             <div class="form-group">
                 <input type="text" id="namaPasar" placeholder="Nama Pasar" required>
@@ -1581,7 +2532,10 @@ function openAddDataPopup(table) {
 
             <button type="submit" class="submit-btn">Tambah Data</button>
         `;
-    } else if (table === 'pelakuUKM') {
+    } 
+    
+    //form Koperasi
+    else if (table === 'pelakuUKM') {
         form.innerHTML = `
             <div class="form-group">
                 <label for="nama">Nama</label>
@@ -1686,7 +2640,7 @@ function openAddDataPopup(table) {
             </div>
             <button type="submit">Tambah Data</button>
         `;
-    } // Lanjutan fungsi openAddDataPopup untuk form-form lainnya
+    }
     else if (table === 'wirausahaBermitraUKM') {
         form.innerHTML = `
             <div class="form-group">

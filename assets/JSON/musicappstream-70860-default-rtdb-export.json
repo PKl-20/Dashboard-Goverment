@@ -1,4 +1,151 @@
 {
+  "Bidang Koperasi": {
+    "Data Pelaku UKM": {
+      "Triwulan 3": {
+        "po1": {
+          "ALAMAT": "Jalan Dieng km 3.5 Krasak Mojotengah Wonosobo",
+          "ALAMAT_EMAIL": "miftahudin.yusufdoa@gmail.com",
+          "GENDER": "L",
+          "NAMA": "MIFTAHUDIN",
+          "NIK": "3307113007320001",
+          "NO_TELP": "085227588572",
+          "SEKTOR_USAHA": "Industri Makanan"
+        }
+      }
+    },
+    "Jumlah Koperasi Produksi": {
+      "Desember": {
+        "sfbsr76": {
+          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+          "Nama Koperasi": "Koperasi S",
+          "Produk": "Kuliner"
+        }
+      }
+    },
+    "Jumlah Koperasi Sehat": {
+      "Triwulan 3": {
+        "qhfohqoqo1074": {
+          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+          "Hasil": "Koperasi Sehat",
+          "Nama Koperasi": "Koperasi S",
+          "Tahun Penilaian": "2024"
+        }
+      }
+    },
+    "Jumlah Koperasi Seluruh Koperasi Aktif": {
+      "sbebrgerg7657": {
+        "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+        "Desa": "Wonosobo",
+        "Kecamatan": "Wonosobo",
+        "Kelurahan": "Wonosobo",
+        "NIK": "3307094704890001",
+        "Nama Koperasi": "Koperasi S",
+        "No Badan Hukum": "1234567890"
+      }
+    },
+    "Koperasi Akses Kredit Bank": {
+      "acoaucoq7892": {
+        "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+        "Bank Pemberi Fasilitas": "BSI",
+        "Nama Koperasi": "Koperasi S"
+      }
+    },
+    "Koperasi Produksi Akses Pasar Online": {
+      "ovnbwebvow812": {
+        "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+        "Media Pemasaran": "Instagram",
+        "Nama Koperasi": "Koperasi S"
+      }
+    },
+    "Masyarakat Akses Modal Usaha": {
+      "Triwulan 3": {
+        "sgbwgwe23": {
+          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+          "Bidang Usaha": "Kuliner",
+          "Gender": "P",
+          "NAMA": "Numa Liza Kumala Sari",
+          "No Hp": "083238780009"
+        }
+      }
+    },
+    "Masyarakat Miskin Peserta Pelatihan": {
+      "Triwulan 3": {
+        "bebebr221": {
+          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+          "Bidang Usaha": "Kuliner",
+          "Gender": "P",
+          "NAMA": "Numa Liza Kumala Sari",
+          "No Hp": "083238780009"
+        }
+      }
+    },
+    "Masyarakat Wirausaha Bermitra UKM": {
+      "Triwulan 3": {
+        "pdfdfrgsf342": {
+          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+          "Bidang Usaha": "Kuliner",
+          "Gender": "P",
+          "NAMA": "Numa Liza Kumala Sari",
+          "No Hp": "083238780009"
+        }
+      }
+    },
+    "Rekap Omzet Koperasi": {
+      "vgweiwih187412": {
+        "Anggota": {
+          "Aktif": 10,
+          "Jumlah Anggota": 10,
+          "Tidak Aktif": 0
+        },
+        "Karyawan": {
+          "Aktif": 4,
+          "Jumlah": 4,
+          "Tidak Aktif": 0
+        },
+        "Kecamatan": "Wonosobo",
+        "Koperasi": {
+          "Aktif": 10,
+          "Jumlah Koperasi": 10,
+          "Tidak Aktif": 0
+        },
+        "Manajer": {
+          "Aktif": 4,
+          "Jumlah": 4,
+          "Tidak Aktif": 0
+        },
+        "Modal Luar": "Rp. 10000000",
+        "Modal Sendiri": "Rp. 10000000",
+        "RAT Unit": 4,
+        "SHU": "Rp. 10000000",
+        "Volume Usaha": "Rp. 10000000"
+      }
+    },
+    "UKM Akses Perbankan": {
+      "Triwulan 3": {
+        "onfsnfsdofn123": {
+          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+          "Bank": "BSI",
+          "Bidang Usaha": "Kuliner",
+          "Gender": "P",
+          "NAMA": "Numa Liza Kumala Sari",
+          "NIK": "3307094704890001"
+        }
+      }
+    },
+    "UKM Berijin": {
+      "Triwulan 3": {
+        "poppj123": {
+          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+          "Gender": "P",
+          "Jenis Usaha": "Kuliner",
+          "NAMA": "Numa Liza Kumala Sari",
+          "NIK": "3307094704890001",
+          "Nama Usaha": "Albaikitchen",
+          "No Hp": "083238780009"
+        }
+      }
+    }
+  },
   "Bidang Pasar": {
     "dataKondisiPasar": [
       {
@@ -77,229 +224,232 @@
     }
   },
   "Bidang Perdagangan": {
-    "Jumlah Pelayanan Tera":{
-      "Jumlah Pelayanan Tera":{
-        "ceuinvuiwe08":{
-          "UTTP": "Meteran",
-          "Triwulan 1": "32",
-          "Triwulan 2": "25",
-          "Triwulan 3": "234",
-          "Triwulan 4": "122"
-        },
-        "Total":{
-          "Triwulan 1": "32",
-          "Triwulan 2": "25",
-          "Triwulan 3": "234",
-          "Triwulan 4": "122"
-        },
-        "Total Semua Layanan": "503"
-      }
-    },
-    "Data Semua Tera Kab WSB":{
-      "vbiebviw08":{
-        "LOKASI": "Kecamatan Wonosobo",
-        "DETAIL": [
-          {
-            "Pasar Induk": {
-              "UP": { "1 m ≤ up ≤ 2 m": "-", "up ≤ 1 m": "-", "5 ≤ ts ≤ 25 l": "-", "ts ≥ 2 l": "3" },
-              "ANAK TIMBANGAN": { "ats ≤ 1 kg": "919", "1 < ats ≤ 5 kg": "329", "5 < ats ≥ 20 kg": "23", "ats ≤ 1 kg (H)": "547", "1 < ats ≤ 5 kg (H)": "189", "5 < ats ≥ 20 kg (H)": "32" },
-              "DACIN LOGAM": { "DL ≤ 25 kg": "-", "DL > 25 kg": "2" },
-              "SENTISIMAL": { "S ≥ 150 kg": "1" },
-              "TIMBANGAN": {
-                "BOBOT INGSUT": "5",
-                "PEGAS": { "TP ≤ 25 kg": "2", "TP > 25 kg": "24" },
-                "MEJA": "345",
-                "NERACA": { "TE ≤ 1 kg": "5", "TE > 1 kg": "22", "TE ≤ 25 kg": "10", "TE > 25 kg": "9" },
-                "TOTAL": 2475
-              }
-            }
-          },
-          {
-            "Pasar Sumberan": {
-              "UP": { "1 m ≤ up ≤ 2 m": "-", "up ≤ 1 m": "-", "5 ≤ ts ≤ 25 l": "-", "ts ≥ 2 l": "-" },
-              "ANAK TIMBANGAN": { "ats ≤ 1 kg": "44", "1 < ats ≤ 5 kg": "-", "5 < ats ≥ 20 kg": "-", "ats ≤ 1 kg (H)": "-", "1 < ats ≤ 5 kg (H)": "-", "5 < ats ≥ 20 kg (H)": "-" },
-              "DACIN LOGAM": { "DL ≤ 25 kg": "-", "DL > 25 kg": "-" },
-              "SENTISIMAL": { "S ≥ 150 kg": "1" },
-              "TIMBANGAN": {
-              "BOBOT INGSUT": "-",
-              "PEGAS": { "TP ≤ 25 kg": "-", "TP > 25 kg": "-" },
-              "MEJA": "-",
-                "NERACA": { "TE ≤ 1 kg": "-", "TE > 1 kg": "-", "TE ≤ 25 kg": "-", "TE > 25 kg": "-" },
-                "TOTAL": 72
-              }
-            }
-          },
-          {
-            "Pasar Tosari": {
-              "UP": { "1 m ≤ up ≤ 2 m": "-", "up ≤ 1 m": "-", "5 ≤ ts ≤ 25 l": "-", "ts ≥ 2 l": "-" },
-              "ANAK TIMBANGAN": { "ats ≤ 1 kg": "80", "1 < ats ≤ 5 kg": "5", "5 < ats ≥ 20 kg": "-", "ats ≤ 1 kg (H)": "-", "1 < ats ≤ 5 kg (H)": "-", "5 < ats ≥ 20 kg (H)": "-" },
-              "DACIN LOGAM": { "DL ≤ 25 kg": "-", "DL > 25 kg": "-" },
-              "SENTISIMAL": { "S ≥ 150 kg": "-" },
-              "TIMBANGAN": {
-                "BOBOT INGSUT": "-",
-                "PEGAS": { "TP ≤ 25 kg": "-", "TP > 25 kg": "-" },
-                "MEJA": "17",
-                "NERACA": { "TE ≤ 1 kg": "-", "TE > 1 kg": "-", "TE ≤ 25 kg": "-", "TE > 25 kg": "-" },
-                "TOTAL": 111
-              }
-            }
-          }
-        ]
-      },
-      "ofq8338hr":{
-        "LOKASI": "Kecamatan Garung",
-        "DETAIL": [
-          {
-            "Pasar Garung I": {
-              "UP": { "1 m ≤ up ≤ 2 m": "2", "up ≤ 1 m": "1", "5 ≤ ts ≤ 25 l": "2", "ts ≥ 2 l": "-" },
-              "ANAK TIMBANGAN": { "ats ≤ 1 kg": "653", "1 < ats ≤ 5 kg": "80", "5 < ats ≥ 20 kg": "2", "ats ≤ 1 kg (H)": "63", "1 < ats ≤ 5 kg (H)": "48", "5 < ats ≥ 20 kg (H)": "3" },
-              "DACIN LOGAM": { "DL ≤ 25 kg": "-", "DL > 25 kg": "1" },
-              "SENTISIMAL": { "S ≥ 150 kg": "1" },
-              "TIMBANGAN": {
-                "BOBOT INGSUT": "7",
-                "PEGAS": { "TP ≤ 25 kg": "3", "TP > 25 kg": "-" },
-                "MEJA": "161",
-                "NERACA": { "TE ≤ 1 kg": "3", "TE > 1 kg": "-", "TE ≤ 25 kg": "-", "TE > 25 kg": "1" },
-                "TOTAL": 1029
-              }
-            }
-          },
-          {
-            "Pasar Garung II": {
-              "UP": { "1 m ≤ up ≤ 2 m": "-", "up ≤ 1 m": "-", "5 ≤ ts ≤ 25 l": "-", "ts ≥ 2 l": "-" },
-              "ANAK TIMBANGAN": { "ats ≤ 1 kg": "5", "1 < ats ≤ 5 kg": "1", "5 < ats ≥ 20 kg": "-", "ats ≤ 1 kg (H)": "-", "1 < ats ≤ 5 kg (H)": "-", "5 < ats ≥ 20 kg (H)": "-" },
-              "DACIN LOGAM": { "DL ≤ 25 kg": "-", "DL > 25 kg": "-" },
-              "SENTISIMAL": { "S ≥ 150 kg": "-" },
-              "TIMBANGAN": {
-                "BOBOT INGSUT": "-",
-                "PEGAS": { "TP ≤ 25 kg": "-", "TP > 25 kg": "-" },
-                "MEJA": "6",
-                "NERACA": { "TE ≤ 1 kg": "3", "TE > 1 kg": "-", "TE ≤ 25 kg": "-", "TE > 25 kg": "-" },
-                "TOTAL": 24
-              }
-            }
-          }
-        ]
-      }    
-    },
-    "Data Marketplace Lokal":{
-      "anwovn342we":{
+    "Data Marketplace Lokal": {
+      "anwovn342we": {
+        "Keterangan": "Marketplace tahun 2018",
         "Nama Marketplace": "Ritra",
-        "Tahun n-2": "RP. 100000000",
-        "Tahun n-1": "RP. 13904130",
-        "Tahun n":{
+        "Tahun n": {
           "Triwuan 1": "RP. 1000000",
           "Triwuan 2": "RP. 39403421",
           "Triwuan 3": "RP. 23874234",
           "Triwuan 4": "RP. 149809404"
         },
-        "Keterangan": "Marketplace tahun 2018"
+        "Tahun n-1": "RP. 13904130",
+        "Tahun n-2": "RP. 100000000"
       }
     },
-    "Data Toko Modern":{
-      "qofh38913":{
-        "TANGGAL SK": "30-12-2019",
+    "Data Semua Tera Kab WSB": {
+      "-OEHX4JTbJp49xaLFEvB": {
+        "DETAIL": [
+          {
+            "pasar kertek": {
+              "ANAK TIMBANGAN": {
+                "Biasa":{
+                  "1 < atb ≤ 5 kg": "-",
+                  "5 < atb ≤ 20 kg": "-",
+                  "atb ≤ 1 kg": "-"
+                },
+                "Halus":{
+                  "1 < atb ≤ 5 kg": "-",
+                  "5 < atb ≤ 20 kg": "-",
+                  "atb ≤ 1 kg": "-"
+                }
+              },
+              "TIMBANGAN": {
+                "DACIN LOGAM": {
+                  "DL > 25 kg": "-",
+                  "DL ≤ 25 kg": "-"
+                },
+                "SENTISIMAL": {
+                  "S ≤ 150 kg": "-",
+                  "150 kg < S ≤ 500 kg": "-"
+                },
+                "BOBOT INGSUT":{
+                  "TBI ≤ 25 kg": "-",
+                  "25 kg < TBI ≤ 150 kg": "-"
+                },
+                "MEJA": "-",
+                "NERACA": "-",
+                "TE (II)":{
+                  "TE > 1 kg": "-",
+                  "TE ≤ 1 kg": "-"
+                },
+                "TE (III & IV)":{
+                  "25 < kg TE ≤ 25 kg": "-",
+                  "25 < kg TE ≤ 150 kg": "-",
+                  "25 < kg TE ≤ 500 kg": "-"
+                },
+                "PEGAS": {
+                  "TP > 25 kg": "-",
+                  "TP ≤ 25 kg": "-"
+                }
+              },
+              "UP": {
+                "1 m ≤ up ≤ 2 m": "-",
+                "up ≤ 1 m": "-"
+              },
+              "TAK":{
+                "5 l ≤  tb ≤ 25 l": "-",
+                "tb > 2 l": "-"
+              },
+              "Alat Ukur Tinggi Orang": "-",
+              "TEB 1000 KG": "-",
+              "Jumlah Total UTTP": "-"
+            }
+          }
+        ],
+        "LOKASI": "kec kertek"
+      }
+    },
+    "Data Toko Modern": {
+      "qofh38913": {
+        "CATATAN PERUBAHAN": "Daftar Ulang",
+        "IUTM": "503/01-12/IUTM/XII/2015, 11/29/2018",
+        "JENIS TOKO MODERN": "Indomaret",
+        "KETERANGAN": "Ganti Direktur",
+        "KOMODITI atau KBLI": "47 111",
         "NAMA DAN ALAMAT LOKASI TEMPAT USAHA": {
-          "NAMA": "CV SUMBER MAKMUR",
-          "ALAMAT": "Jawar Rt. 04/03 Bumirejo, Kec. Mojotengah Wonosobo"
+          "ALAMAT": "Jawar Rt. 04/03 Bumirejo, Kec. Mojotengah Wonosobo",
+          "NAMA": "CV SUMBER MAKMUR"
         },
         "NAMA DAN ALAMAT PEMILIK": {
-          "NAMA": "JULIANI, SE",
-          "ALAMAT": "Jl. Ahmad Yani Rt 02/06 Payaman, Kec/Kab. Nganjuk"
+          "ALAMAT": "Jl. Ahmad Yani Rt 02/06 Payaman, Kec/Kab. Nganjuk",
+          "NAMA": "JULIANI, SE"
         },
         "NOMOR INDUK BERUSAHA": {
           "NB": "ADA",
           "NO NB": "9120110281781"
         },
-        "STATUS": "Aktif",
         "PERIZINAN": {
+          "HO": "ADA",
           "SIUP": "ADA",
-          "TDP": "ADA",
-          "HO": "ADA"
+          "TDP": "ADA"
         },
-        "IUTM": "503/01-12/IUTM/XII/2015, 11/29/2018",
-        "JENIS TOKO MODERN": "Indomaret",
-        "KOMODITI atau KBLI": "47 111",
-        "CATATAN PERUBAHAN": "Daftar Ulang",
-        "KETERANGAN": "Ganti Direktur"
+        "STATUS": "Aktif",
+        "TANGGAL SK": "30-12-2019"
       }
     },
-    "Data Toko Modern OSS":{
-      "gweg3312":{
-        "Nama dan Alamat Lokasi Tempat Usaha":{
-          "Nama": "Lupin",
-          "Alamat": "Jln. SAMBEK"
-        },
-        "Nama dan Alamat Pemilik":{
-          "Nama": "Fuan",
-          "Alamat": "Jln. SAMBEK"
-        },
-        "NOMOR_INDUK_BERUSAHA_(NIB)":{
+    "Data Toko Modern Memasarkan UMKM": {
+      "G0FI28G3qfcs": {
+        "Alamat": "Jln. Jaraksari",
+        "Produk UMKM yang Dipasarkan": "Mie Ongklok",
+        "Toko Modern": "Toko Tuyul"
+      }
+    },
+    "Data Toko Modern OSS": {
+      "gweg3312": {
+        "Jenis Toko": "WarKom",
+        "Komoditi atau KBLI": "47111",
+        "NOMOR_INDUK_BERUSAHA_(NIB)": {
           "NIB": "Ada",
           "Nomor": "10384",
           "Status": "Aktif"
         },
-        "No Telp": "08193463413",
-        "Komoditi atau KBLI": "47111",
-        "Jenis Toko": "WarKom"
+        "Nama dan Alamat Lokasi Tempat Usaha": {
+          "Alamat": "Jln. SAMBEK",
+          "Nama": "Lupin"
+        },
+        "Nama dan Alamat Pemilik": {
+          "Alamat": "Jln. SAMBEK",
+          "Nama": "Fuan"
+        },
+        "No Telp": "08193463413"
       }
     },
-    "Data Toko Modern Memasarkan UMKM":{
-      "G0FI28G3qfcs":{
-        "Toko Modern": "Toko Tuyul",
-        "Alamat": "Jln. Jaraksari",
-        "Produk UMKM yang Dipasarkan": "Mie Ongklok"
+    "Disparitas Harga": {
+      "-OEH_kwUj5334PM3F-iz": {
+        "Bulan n": {
+          "Kabupaten Temanggung": "RP. 10400",
+          "Kabupaten Wonosobo": "RP. 10500"
+        },
+        "Nama Sampel Komoditi": "Udud Soempoerna",
+        "Persen": "-1%",
+        "Satuan": "gram",
+        "Selisih": "-RP. 100"
+      },
+      "-OEH_vhl983B0aZ2w_GM": {
+        "Bulan n": {
+          "Kabupaten Temanggung": "RP. 4000",
+          "Kabupaten Wonosobo": "RP. 3400"
+        },
+        "Nama Sampel Komoditi": "Permen Milkita",
+        "Persen": "15%",
+        "Satuan": "gram",
+        "Selisih": "RP. 600"
+      },
+      "fnh928h3f2": {
+        "Bulan n": {
+          "Kabupaten Temanggung": "RP. 12000",
+          "Kabupaten Wonosobo": "RP. 15000"
+        },
+        "Nama Sampel Komoditi": "Beras Premium",
+        "Persen": "-20%",
+        "Satuan": "kg",
+        "Selisih": "-RP. 3000"
       }
     },
-    "Komoditas Ekspor":{
-      "Komoditas": "Arang",
-      "Perusahaan": "PT. PASAR LOAK",
-      "Alamat": "Jln. Madura",
-      "Negara Tujuan": "Italia",
-      "Keterangan": "Mamalia"
+    "Hasil Pengawasan": {
+      "hf82hf81h2f": {
+        "Harga HET": "Ada",
+        "Hasil": "Memenuhi Syarat",
+        "Kios Pupuk Lengkap": "Berkah Rejeki",
+        "NOMOR_INDUK_BERUSAHA_(NIB)": "Ada",
+        "Papan Nama": "Ada",
+        "Penyerapan Kartu Tani (%)": "100",
+        "RDKK": "Ada",
+        "SPJB": "Ada",
+        "Wilayah": "Kaliwiro"
+      }
     },
-    "Matrika Ekspor":{
-      "Tembakau":{
-        "nh923fnh98":{
-          "Perusahaan": "PT Mekar Abdi",
-          "Produksi":{
-            "Kapasitas": "242342342",
-            "Satuan": "gram"
-          },
-          "Ekspor":{
-            "Kapasitas": "41343",
-            "Satuan": "gram"
-          },
-          "Nilai (usd)": "$ 231231",
-          "Negara Tujuan": "India, China",
-          "Komoditas": "Barecore",
-          "Keterangan": "Triwulan 1 dan 2 tidak ekspor"
+    "Jumlah Pelayanan Tera": {
+      "Jumlah Pelayanan Tera": {
+        "-OEHXxjEXGmFiVe0Mglx": {
+          "Triwulan 1": "32",
+          "Triwulan 2": "52",
+          "Triwulan 3": "213",
+          "Triwulan 4": "312",
+          "UTTP": "Neraca"
+        },
+        "Total": {
+          "Triwulan 1": "64",
+          "Triwulan 2": "77",
+          "Triwulan 3": "447",
+          "Triwulan 4": "434"
+        },
+        "Total Semua Layanan": "1022",
+        "ceuinvuiwe08": {
+          "Triwulan 1": "32",
+          "Triwulan 2": "25",
+          "Triwulan 3": "234",
+          "Triwulan 4": "122",
+          "UTTP": "Meteran"
         }
       }
     },
-    "Disparitas Harga":{
-      "fnh928h3f2":{
-        "Nama Sampel Komoditi": "Beras Premium",
-        "Satuan": "kg",
-        "Bulan n":{
-          "Kabupaten Wonosobo": "RP. 15000",
-          "Kabupaten Temanggung": "RP. 12000"
-        },
-        "Selisih": "-RP. 3000",
-        "Persen": "-20%"
-      }
+    "Komoditas Ekspor": {
+      "Alamat": "Jln. Madura",
+      "Keterangan": "Mamalia",
+      "Komoditas": "Arang",
+      "Negara Tujuan": "Italia",
+      "Perusahaan": "PT. PASAR LOAK"
     },
-    "Hasil Pengawasan":{
-      "hf82hf81h2f":{
-        "Kios Pupuk Lengkap": "Berkah Rejeki",
-        "Wilayah": "Kaliwiro",
-        "NOMOR_INDUK_BERUSAHA_(NIB)": "Ada",
-        "Harga HET": "Ada",
-        "Papan Nama": "Ada",
-        "SPJB": "Ada",
-        "Penyerapan Kartu Tani (%)": "100",
-        "RDKK": "Ada",
-        "Hasil": "Memenuhi Syarat"
+    "Matrika Ekspor": {
+      "Tembakau": {
+        "nh923fnh98": {
+          "Ekspor": {
+            "Kapasitas": "41343",
+            "Satuan": "gram"
+          },
+          "Keterangan": "Triwulan 1 dan 2 tidak ekspor",
+          "Komoditas": "Barecore",
+          "Negara Tujuan": "India, China",
+          "Nilai (usd)": "$ 231231",
+          "Perusahaan": "PT Mekar Abdi",
+          "Produksi": {
+            "Kapasitas": "242342342",
+            "Satuan": "gram"
+          }
+        }
       }
     }
   },
@@ -307,154 +457,6 @@
     "ADMP0001": {
       "password": "pkl-perdagangan",
       "username": "PKL-01"
-    }
-  },
-  "Bidang Koperasi":{
-    "Data Pelaku UKM":{
-      "Triwulan 3":{
-        "po1":{
-          "NAMA": "MIFTAHUDIN",
-          "GENDER": "L",
-          "NIK": "3307113007320001",
-          "NO_TELP": "085227588572",
-          "ALAMAT_EMAIL": "miftahudin.yusufdoa@gmail.com",
-          "SEKTOR_USAHA": "Industri Makanan",
-          "ALAMAT": "Jalan Dieng km 3.5 Krasak Mojotengah Wonosobo",
-          "NOMOR_INDUK_BERUSAHA_(NIB)": null
-        }
-      } 
-    },
-    "UKM Berijin":{
-      "Triwulan 3":{
-        "poppj123":{
-          "NAMA": "Numa Liza Kumala Sari",
-          "Gender": "P",
-          "NIK": "3307094704890001",
-          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
-          "No Hp": "083238780009",
-          "Nama Usaha": "Albaikitchen",
-          "Jenis Usaha": "Kuliner"
-        }
-      }
-    },
-    "UKM Akses Perbankan":{
-      "Triwulan 3":{
-        "onfsnfsdofn123":{
-          "NIK": "3307094704890001",
-          "NAMA": "Numa Liza Kumala Sari",
-          "Gender": "P",
-          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
-          "Bidang Usaha": "Kuliner",
-          "Bank": "BSI"
-        }
-      }
-    },
-    "Masyarakat Wirausaha Bermitra UKM":{
-      "Triwulan 3":{
-        "pdfdfrgsf342":{
-          "NAMA": "Numa Liza Kumala Sari",
-          "Gender": "P",
-          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
-          "Bidang Usaha": "Kuliner",
-          "No Hp": "083238780009"
-        } 
-      }
-    },
-    "Masyarakat Akses Modal Usaha":{
-      "Triwulan 3":{
-        "sgbwgwe23":{
-          "NAMA": "Numa Liza Kumala Sari",
-          "Gender": "P",
-          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
-          "Bidang Usaha": "Kuliner",
-          "No Hp": "083238780009"
-        }
-      }
-    },
-    "Masyarakat Miskin Peserta Pelatihan":{
-      "Triwulan 3":{
-        "bebebr221":{
-          "NAMA": "Numa Liza Kumala Sari",
-          "Gender": "P",
-          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
-          "Bidang Usaha": "Kuliner",
-          "No Hp": "083238780009"
-        } 
-      }
-    },
-    "Jumlah Koperasi Produksi":{
-      "Desember":{
-        "sfbsr76":{
-          "Nama Koperasi": "Koperasi S",
-          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
-          "Produk": "Kuliner"
-        }
-      }
-    },
-    "Jumlah Koperasi Seluruh Koperasi Aktif":{
-      "sbebrgerg7657":{
-        "NIK": "3307094704890001",
-        "Nama Koperasi": "Koperasi S",
-        "No Badan Hukum": "1234567890",
-        "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
-        "Desa": "Wonosobo",
-        "Kelurahan": "Wonosobo",
-        "Kecamatan": "Wonosobo"
-      }
-    },
-    "Koperasi Produksi Akses Pasar Online":{
-      "ovnbwebvow812":{
-        "Nama Koperasi": "Koperasi S",
-        "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
-        "Media Pemasaran": "Instagram"
-      }
-    },
-    "Koperasi Akses Kredit Bank":{
-      "acoaucoq7892":{
-        "Nama Koperasi": "Koperasi S",
-        "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
-        "Bank Pemberi Fasilitas": "BSI"
-      }
-    },
-    "Jumlah Koperasi Sehat":{
-      "Triwulan 3":{
-        "qhfohqoqo1074":{
-          "Nama Koperasi": "Koperasi S",
-          "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
-          "Hasil": "Koperasi Sehat",
-          "Tahun Penilaian": "2024"
-        }
-      }
-    },
-    "Rekap Omzet Koperasi":{
-      "vgweiwih187412":{
-        "Kecamatan": "Wonosobo",
-        "Koperasi":{
-          "Jumlah Koperasi": 10,
-          "Aktif": 10,
-          "Tidak Aktif": 0
-        },
-        "Anggota":{
-          "Jumlah Anggota": 10,
-          "Aktif": 10,
-          "Tidak Aktif": 0
-        },
-        "RAT Unit": 4,
-        "Manajer":{
-          "Jumlah": 4,
-          "Aktif": 4,
-          "Tidak Aktif": 0
-        },
-        "Karyawan":{
-          "Jumlah": 4,
-          "Aktif": 4,
-          "Tidak Aktif": 0
-        },
-        "Modal Sendiri": "Rp. 10000000",
-        "Modal Luar": "Rp. 10000000",
-        "Volume Usaha": "Rp. 10000000",
-        "SHU": "Rp. 10000000"
-      }
     }
   }
 }

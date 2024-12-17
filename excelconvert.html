@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export dengan Template Excel</title>
+    <!-- Tambahkan ExcelJS dari CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+</head>
+<body>
+    <h1>Export ke Excel dengan Template dan Data JSON</h1>
+    <button onclick="exportWithTemplate()">Export ke Excel</button>
+
+    <script>
+        async function exportWithTemplate() {
+    try {
+        // 1. Ambil file template Excel dari folder assets/files
+        const response = await fetch("assets/files/template.xlsx");
+        const arrayBuffer = await response.arrayBuffer();
+
+        // 2. Load file template menggunakan ExcelJS
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.load(arrayBuffer);
+        const worksheet = workbook.getWorksheet(1); // Ambil sheet pertama
+
+        // 3. Pastikan tidak ada merge di A6:D1
+        worksheet.unMergeCells("A7:D7");  // Unmerge sebelumnya jika ada
+
+        // 4. Merge kembali A6:D1 dan tambahkan judul baru
+        worksheet.mergeCells("A7:N8");
+        worksheet.getCell("A7").value = "Laporan Penjualan - Februari 2024";
+        worksheet.getCell("A7").font = { size: 16, bold: true, color: { argb: "FFFFFF" } };  // Putih untuk kontras
+        worksheet.getCell("A7").alignment = { horizontal: "center" };
+        worksheet.getCell("A7").fill = { type: "pattern", pattern: "solid", fgColor: { argb: "4472C4" } };  // Background biru
+
+        // 5. Data JSON untuk ditambahkan ke tabel
+        const data = [
+            { "Nama": "Ali", "Umur": 25, "Kota": "Jakarta", "Total": 150000 },
+            { "Nama": "Budi", "Umur": 30, "Kota": "Surabaya", "Total": 200000 },
+            { "Nama": "Citra", "Umur": 28, "Kota": "Bandung", "Total": 180000 },
+            { "Nama": "Dewi", "Umur": 35, "Kota": "Yogyakarta", "Total": 210000 }
+        ];
+
+        // 6. Header tabel mulai baris 3
+        const headerRow = worksheet.getRow(10);
+        headerRow.values = ["No", "Nama", "Umur", "Kota", "Total"];
+        headerRow.font = { bold: true, color: { argb: "FFFFFF" } };
+        headerRow.alignment = { horizontal: "center" };
+        headerRow.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "4F81BD" } };  // Background biru muda
+
+        // Tambahkan border ke header
+        headerRow.eachCell(cell => {
+            cell.border = {
+                top: { style: "thin" },
+                bottom: { style: "thin" },
+                left: { style: "thin" },
+                right: { style: "thin" }
+            };
+        });
+
+        // 7. Tambahkan data mulai baris 4
+        let startRow = 11;
+        data.forEach((item, index) => {
+            const row = worksheet.getRow(startRow);
+            row.values = [index + 1, item.Nama, item.Umur, item.Kota, item.Total]; // Menambahkan No Urut
+
+            // Styling untuk setiap cell
+            row.eachCell(cell => {
+                cell.border = {
+                    top: { style: "thin" },
+                    bottom: { style: "thin" },
+                    left: { style: "thin" },
+                    right: { style: "thin" }
+                };
+
+                // Background berganti untuk setiap baris (zebra striping)
+                if (startRow % 2 === 0) {
+                    cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "E6F1F5" } };  // Warna latar belakang terang
+                } else {
+                    cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFFF" } };  // Warna latar belakang putih
+                }
+
+                // Alignment dan font pada data
+                cell.alignment = { horizontal: "center", vertical: "middle" };
+                cell.font = { size: 12 };
+            });
+            startRow++;
+        });
+
+        // 8. Simpan file baru
+        const buffer = await workbook.xlsx.writeBuffer();
+        const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "Laporan_Penjualan_Februari.xlsx";
+        link.click();
+    } catch (error) {
+        console.error("Error saat memproses template:", error);
+    }
+}
+
+    </script>
+</body>
+</html>
