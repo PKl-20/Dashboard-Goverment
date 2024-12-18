@@ -1188,10 +1188,10 @@ function renderPelayananTeraTable(data) {
             <td>${item['Triwulan 4'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editPelayananTera('${key}')">
+                    <button class="edit-btn" onclick="editData('${key}', 'pelayananTera')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deletePelayananTera('${key}')">
+                    <button class="delete-btn" onclick="deleteData('${key}, 'pelayananTera'')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1266,10 +1266,10 @@ function renderTeraKabWSBTable(data) {
                 <td>${pasarData['Jumlah Total UTTP'] || '-'}</td>
                 <td>
                     <div class="action-buttons">
-                        <button class="edit-btn" onclick="editTeraKabWSB('${index}', '${pasarName}')">
+                        <button class="edit-btn" onclick="editData('${key}', '${pasarName}', 'teraKabWSB')">
                             <span class="material-icons-sharp">edit</span>
                         </button>
-                        <button class="delete-btn" onclick="deleteTeraKabWSB('${index}', '${pasarName}')">
+                        <button class="delete-btn" onclick="deleteData('${key}', '${pasarName}', 'teraKabWSB')">
                             <span class="material-icons-sharp">delete</span>
                         </button>
                     </div>
@@ -1303,10 +1303,10 @@ function renderMarketplaceTable(data) {
             <td>${item['Keterangan'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editMarketplace(${index})">
+                    <button class="edit-btn" onclick="editData('${key}', 'marketplace')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteMarketplace(${index})">
+                    <button class="delete-btn" onclick="deleteData('${key}', 'marketplace')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1343,10 +1343,10 @@ function renderTokoModernTable(data) {
             <td>${item['KETERANGAN'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editTokoModern(${index})">
+                    <button class="edit-btn" onclick="editTokoModern('${key}', 'tokoModern')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteTokoModern(${index})">
+                    <button class="delete-btn" onclick="deleteTokoModern('${key}', 'tokoModern')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1381,10 +1381,10 @@ function renderTokoModernOSSTable(data) {
             <td>${item['Jenis Toko'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editTokoModernOSS(${index})">
+                    <button class="edit-btn" onclick="editTokoModernOSS('${key}', 'tokoModernOSS')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteTokoModernOSS(${index})">
+                    <button class="delete-btn" onclick="deleteTokoModernOSS('${key}', 'tokoModernOSS')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1412,10 +1412,10 @@ function renderTokoUMKMTable(data) {
             <td>${item['Produk UMKM yang Dipasarkan'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editTokoUMKM(${index})">
+                    <button class="edit-btn" onclick="editTokoUMKM('${key}', 'tokoUMKM'))">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteTokoUMKM(${index})">
+                    <button class="delete-btn" onclick="deleteTokoUMKM('${key}', 'tokoUMKM'))">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1445,10 +1445,10 @@ function renderKomoditasEksporTable(data) {
             <td>${item['Keterangan'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editKomoditasEkspor(${index})">
+                    <button class="edit-btn" onclick="editKomoditasEkspor('${key}', 'KomoditasEkspor')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteKomoditasEkspor(${index})">
+                    <button class="delete-btn" onclick="deleteKomoditasEkspor('${key}', 'KomoditasEkspor')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1482,10 +1482,10 @@ function renderMatrikaEksporTable(data) {
             <td>${item['Keterangan'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editMatrikaEkspor(${index})">
+                    <button class="edit-btn" onclick="editMatrikaEkspor('${key}', 'matrikaEkspor')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteMatrikaEkspor(${index})">
+                    <button class="delete-btn" onclick="deleteMatrikaEkspor('${key}', 'matrikaEkspor')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1516,10 +1516,10 @@ function renderDisparitasHargaTable(data) {
             <td>${item['Persen'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editDisparitasHarga(${index})">
+                    <button class="edit-btn" onclick="editDisparitasHarga('${key}', 'disparitasHarga')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteDisparitasHarga(${index})">
+                    <button class="delete-btn" onclick="deleteDisparitasHarga('${key}', 'disparitasHarga')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1553,10 +1553,10 @@ function renderHasilPengawasanTable(data) {
             <td>${item['Hasil'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editHasilPengawasan(${index})">
+                        <button class="edit-btn" onclick="editHasilPengawasan('${key}', 'hasilPengawasan')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteHasilPengawasan(${index})">
+                    <button class="delete-btn" onclick="deleteHasilPengawasan('${key}', 'hasilPengawasan')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1564,6 +1564,146 @@ function renderHasilPengawasanTable(data) {
         `;
         tbody.appendChild(row);
     });
+}
+
+// Fungsi Edit Data Perdagangan
+window.editData = function(key, table) {
+    const editPopup = document.getElementById('editDataPopup');
+    const form = document.getElementById('editDataForm');
+    
+    const dataRef = ref(db, `Bidang Perdagangan/${getPathByTable(table)}/${key}`);
+    get(dataRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            currentTable = table;
+            
+            // Form untuk setiap tabel
+            if (table === 'marketplace') {
+                form.innerHTML = `
+                    <div class="form-group">
+                        <label for="edit_nama">Nama Marketplace</label>
+                        <input type="text" id="edit_nama" value="${data.namaMarketplace || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_tahun_n2">Tahun n-2</label>
+                        <input type="text" id="edit_tahun_n2" value="${data.tahunN2 || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_tahun_n1">Tahun n-1</label>
+                        <input type="text" id="edit_tahun_n1" value="${data.tahunN1 || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_tw1">Triwulan 1</label>
+                        <input type="text" id="edit_tw1" value="${data.triwulan1 || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_tw2">Triwulan 2</label>
+                        <input type="text" id="edit_tw2" value="${data.triwulan2 || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_tw3">Triwulan 3</label>
+                        <input type="text" id="edit_tw3" value="${data.triwulan3 || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_tw4">Triwulan 4</label>
+                        <input type="text" id="edit_tw4" value="${data.triwulan4 || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_keterangan">Keterangan</label>
+                        <textarea id="edit_keterangan">${data.keterangan || ''}</textarea>
+                    </div>
+                `;
+            } else if (table === 'tokoModern') {
+                form.innerHTML = `
+                    <div class="form-group">
+                        <label for="edit_tgl_sk">Tanggal SK</label>
+                        <input type="date" id="edit_tgl_sk" value="${data.tanggalSK || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_nama_usaha">Nama Usaha</label>
+                        <input type="text" id="edit_nama_usaha" value="${data.namaUsaha || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_alamat_usaha">Alamat Usaha</label>
+                        <textarea id="edit_alamat_usaha">${data.alamatUsaha || ''}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_nama_pemilik">Nama Pemilik</label>
+                        <input type="text" id="edit_nama_pemilik" value="${data.namaPemilik || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_alamat_pemilik">Alamat Pemilik</label>
+                        <textarea id="edit_alamat_pemilik">${data.alamatPemilik || ''}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_nib">NIB</label>
+                        <input type="text" id="edit_nib" value="${data.nib || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_status">Status</label>
+                        <select id="edit_status" required>
+                            <option value="Aktif" ${data.status === 'Aktif' ? 'selected' : ''}>Aktif</option>
+                            <option value="Tidak Aktif" ${data.status === 'Tidak Aktif' ? 'selected' : ''}>Tidak Aktif</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_iutm">IUTM</label>
+                        <input type="text" id="edit_iutm" value="${data.iutm || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_jenis_toko">Jenis Toko</label>
+                        <input type="text" id="edit_jenis_toko" value="${data.jenisToko || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_kbli">KBLI</label>
+                        <input type="text" id="edit_kbli" value="${data.kbli || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_catatan">Catatan</label>
+                        <textarea id="edit_catatan">${data.catatan || ''}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_keterangan">Keterangan</label>
+                        <textarea id="edit_keterangan">${data.keterangan || ''}</textarea>
+                    </div>
+                `;
+            }
+            // Tambahkan form untuk tabel lainnya sesuai kebutuhan
+            
+            editPopup.style.display = 'block';
+        }
+    });
+}
+
+// Fungsi Delete Data Perdagangan
+window.deleteData = function(key, table) {
+    if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+        const dataRef = ref(db, `Bidang Perdagangan/${getPathByTable(table)}/${key}`);
+        remove(dataRef)
+            .then(() => {
+                alert('Data berhasil dihapus!');
+                loadTableData(table);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat menghapus data');
+            });
+    }
+}
+
+// Fungsi helper untuk mendapatkan path database berdasarkan tabel
+function getPathByTable(table) {
+    const pathMap = {
+        'marketplace': 'Data Marketplace',
+        'tokoModern': 'Data Toko Modern',
+        'tokoModernOSS': 'Data Toko Modern OSS',
+        'tokoUMKM': 'Data Toko UMKM',
+        'komoditasEkspor': 'Komoditas Ekspor',
+        'matrikaEkspor': 'Matrika Ekspor',
+        'disparitasHarga': 'Disparitas Harga',
+        'hasilPengawasan': 'Hasil Pengawasan'
+    };
+    return pathMap[table] || table;
 }
 
 function loadBidangPasar() {
@@ -3597,7 +3737,7 @@ function renderAksesModalUsahaTable(data) {
 function renderMiskinPesertaPelatihanTable(data) {
     const tbody = document.getElementById('miskinPesertaPelatihanBody');
     tbody.innerHTML = '';
-    let no = 1;
+    let no =1;
 
     Object.entries(data).forEach(([key, value]) => {
         const row = document.createElement('tr');
@@ -3626,7 +3766,7 @@ function renderMiskinPesertaPelatihanTable(data) {
 function renderKoperasiProduksiTable(data) {
     const tbody = document.getElementById('jmlKoperasiProduksiBody');
     tbody.innerHTML = '';
-    let no = 1;
+    let no =1;
 
     Object.entries(data).forEach(([key, value]) => {
         const row = document.createElement('tr');
