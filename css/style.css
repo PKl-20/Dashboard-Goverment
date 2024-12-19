@@ -1244,7 +1244,7 @@ aside .sidebar .dropdown-btn {
 }
 
 /* Style untuk button */
-#addDataForm button[type="submit"] {
+#addDataForm button[type="submit"], #editDataForm button[type="submit"] {
     width: 100%;
     padding: 0.8rem;
     background: var(--color-primary);
@@ -1257,13 +1257,13 @@ aside .sidebar .dropdown-btn {
     transition: all 0.3s ease;
 }
 
-#addDataForm button[type="submit"]:hover {
+#addDataForm button[type="submit"]:hover, #editDataForm button[type="submit"]:hover {
     background: var(--color-primary);
     opacity: 0.9;
     transform: translateY(-2px);
 }
 
-#addDataForm button[type="submit"]:active {
+#addDataForm button[type="submit"]:active, #editDataForm button[type="submit"]:active {
     transform: translateY(0);
 }
 
@@ -1375,6 +1375,10 @@ aside .sidebar .dropdown-btn {
     color: var(--color-dark);
 }
 
+.edit-data-popup btn{
+    padding: 0.8rem;
+}
+
 /* Dark mode adjustments */
 .dark-mode-variables .edit-data-popup .popup-content {
     background: var(--color-background);
@@ -1430,3 +1434,4 @@ aside .sidebar .dropdown-btn {
     border: 1px solid #ddd;
     border-radius: 4px;
 }
+

@@ -244,61 +244,122 @@
           {
             "pasar kertek": {
               "ANAK TIMBANGAN": {
-                "Biasa":{
+                "Biasa": {
                   "1 < atb ≤ 5 kg": "-",
                   "5 < atb ≤ 20 kg": "-",
                   "atb ≤ 1 kg": "-"
                 },
-                "Halus":{
+                "Halus": {
                   "1 < atb ≤ 5 kg": "-",
                   "5 < atb ≤ 20 kg": "-",
                   "atb ≤ 1 kg": "-"
                 }
               },
+              "Alat Ukur Tinggi Orang": "-",
+              "Jumlah Total UTTP": "-",
+              "TAK": {
+                "5 l ≤  tb ≤ 25 l": "-",
+                "tb > 2 l": "-"
+              },
+              "TEB 1000 KG": "-",
               "TIMBANGAN": {
+                "BOBOT INGSUT": {
+                  "25 kg < TBI ≤ 150 kg": "-",
+                  "TBI ≤ 25 kg": "-"
+                },
                 "DACIN LOGAM": {
                   "DL > 25 kg": "-",
                   "DL ≤ 25 kg": "-"
                 },
-                "SENTISIMAL": {
-                  "S ≤ 150 kg": "-",
-                  "150 kg < S ≤ 500 kg": "-"
-                },
-                "BOBOT INGSUT":{
-                  "TBI ≤ 25 kg": "-",
-                  "25 kg < TBI ≤ 150 kg": "-"
-                },
                 "MEJA": "-",
                 "NERACA": "-",
-                "TE (II)":{
-                  "TE > 1 kg": "-",
-                  "TE ≤ 1 kg": "-"
-                },
-                "TE (III & IV)":{
-                  "25 < kg TE ≤ 25 kg": "-",
-                  "25 < kg TE ≤ 150 kg": "-",
-                  "25 < kg TE ≤ 500 kg": "-"
-                },
                 "PEGAS": {
                   "TP > 25 kg": "-",
                   "TP ≤ 25 kg": "-"
+                },
+                "SENTISIMAL": {
+                  "150 kg < S ≤ 500 kg": "-",
+                  "S ≤ 150 kg": "-"
+                },
+                "TE (II)": {
+                  "TE > 1 kg": "-",
+                  "TE ≤ 1 kg": "-"
+                },
+                "TE (III & IV)": {
+                  "25 < kg TE ≤ 150 kg": "-",
+                  "25 < kg TE ≤ 25 kg": "-",
+                  "25 < kg TE ≤ 500 kg": "-"
                 }
               },
               "UP": {
                 "1 m ≤ up ≤ 2 m": "-",
                 "up ≤ 1 m": "-"
-              },
-              "TAK":{
-                "5 l ≤  tb ≤ 25 l": "-",
-                "tb > 2 l": "-"
-              },
-              "Alat Ukur Tinggi Orang": "-",
-              "TEB 1000 KG": "-",
-              "Jumlah Total UTTP": "-"
+              }
             }
           }
         ],
         "LOKASI": "kec kertek"
+      },
+      "-OEHnUYtV7-dX_ZjO7MS": {
+        "DETAIL": [
+          {
+            "Pasar Senen": {
+              "ANAK TIMBANGAN": {
+                "Biasa": {
+                  "1 < atb ≤ 5 kg": "-",
+                  "5 < atb ≤ 20 kg": "-",
+                  "atb ≤ 1 kg": "-"
+                },
+                "Halus": {
+                  "1 < atb ≤ 5 kg": "-",
+                  "5 < atb ≤ 20 kg": "21",
+                  "atb ≤ 1 kg": "-"
+                }
+              },
+              "Alat Ukur Tinggi Orang": "2",
+              "Jumlah Total UTTP": "88",
+              "TAK": {
+                "5 l ≤  tb ≤ 25 l": "-",
+                "tb > 2 l": "21"
+              },
+              "TEB 1000 KG": "1",
+              "TIMBANGAN": {
+                "BOBOT INGSUT": {
+                  "25 kg < TBI ≤ 150 kg": "-",
+                  "TBI ≤ 25 kg": "23"
+                },
+                "DACIN LOGAM": {
+                  "DL > 25 kg": "-",
+                  "DL ≤ 25 kg": "-"
+                },
+                "MEJA": "-",
+                "NERACA": "-",
+                "PEGAS": {
+                  "TP > 25 kg": "-",
+                  "TP ≤ 25 kg": "-"
+                },
+                "SENTISIMAL": {
+                  "150 kg < S ≤ 500 kg": "-",
+                  "S ≤ 150 kg": "-"
+                },
+                "TE (II)": {
+                  "TE > 1 kg": "-",
+                  "TE ≤ 1 kg": "-"
+                },
+                "TE (III & IV)": {
+                  "25 < kg TE ≤ 150 kg": "-",
+                  "25 < kg TE ≤ 25 kg": "12",
+                  "25 < kg TE ≤ 500 kg": "1"
+                }
+              },
+              "UP": {
+                "1 m ≤ up ≤ 2 m": "3",
+                "up ≤ 1 m": "4"
+              }
+            }
+          }
+        ],
+        "LOKASI": "Kecamatan Wonosobo"
       }
     },
     "Data Toko Modern": {

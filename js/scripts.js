@@ -1112,36 +1112,110 @@ function loadBidangPerdagangan() {
         if (snapshot.exists()) {
             const data = snapshot.val();
             
-            const pelayananTeraData = data['Jumlah Pelayanan Tera']?.['Jumlah Pelayanan Tera'] || {};
+            const pelayananTeraRawData = data['Jumlah Pelayanan Tera']?.['Jumlah Pelayanan Tera'];
+            console.log('Raw Data:', pelayananTeraRawData); // Debug raw data
+                // Hitung total semua layanan
+            let totalSemuaLayanan = 0;
             
-            const teraKabWSBData = data['Data Semua Tera Kab WSB'] ?
-                Object.values(data['Data Semua Tera Kab WSB']) : [];
+            const pelayananTeraData = pelayananTeraRawData ? 
+                Object.entries(pelayananTeraRawData)
+                    .map(([key, value]) => {
+                        if (key !== 'Total' && key !== 'Total Semua Layanan') {
+                            // Jumlahkan semua nilai triwulan untuk setiap item
+                            const tw1 = parseInt(value['Triwulan 1'] || 0);
+                            const tw2 = parseInt(value['Triwulan 2'] || 0);
+                            const tw3 = parseInt(value['Triwulan 3'] || 0);
+                            const tw4 = parseInt(value['Triwulan 4'] || 0);
+                            totalSemuaLayanan += tw1 + tw2 + tw3 + tw4;
+                        }
+                            if (key === 'Total Semua Layanan') {
+                            return {
+                                id: key,
+                                value: totalSemuaLayanan.toString() // Gunakan total yang baru dihitung
+                            };
+                        } else if (key === 'Total') {
+                            return {
+                                id: key,
+                                ...value
+                            };
+                        } else {
+                            return {
+                                id: key,
+                                ...value
+                            };
+                        }
+                    }) : [];
             
-            // Data Marketplace
-            const marketplaceData = data['Data Marketplace Lokal'] ?
-                Object.values(data['Data Marketplace Lokal']) : [];
+            const teraKabWSBData = data['Data Semua Tera Kab WSB'] ? 
+                Object.entries(data['Data Semua Tera Kab WSB']).map(([key, value]) => ({
+                    id: key,
+                    ...value
+                })) : [];
+
+                const totalIndex = pelayananTeraData.findIndex(item => item.id === 'Total Semua Layanan');
+                if (totalIndex === -1) {
+                    pelayananTeraData.push({
+                        id: 'Total Semua Layanan',
+                        value: totalSemuaLayanan.toString()
+                    });
+                } else {
+                    pelayananTeraData[totalIndex].value = totalSemuaLayanan.toString();
+                }
             
-            const tokoModernData = data['Data Toko Modern'] ?
-                Object.values(data['Data Toko Modern']) : [];
+            const marketplaceData = data['Data Marketplace Lokal'] ? 
+                Object.entries(data['Data Marketplace Lokal']).map(([key, value]) => ({
+                    id: key,
+                    ...value
+                })) : [];
             
-            // Data Toko Modern OSS
-            const tokoModernOSSData = data['Data Toko Modern OSS'] ?
-                Object.values(data['Data Toko Modern OSS']) : [];
+            const tokoModernData = data['Data Toko Modern'] ? 
+                Object.entries(data['Data Toko Modern']).map(([key, value]) => ({
+                    id: key,
+                    ...value
+                })) : [];
             
-            const tokoUMKMData = data['Data Toko Modern Memasarkan UMKM'] ?
-                Object.values(data['Data Toko Modern Memasarkan UMKM']) : [];
+            const tokoModernOSSData = data['Data Toko Modern OSS'] ? 
+                Object.entries(data['Data Toko Modern OSS']).map(([key, value]) => ({
+                    id: key,
+                    ...value
+                })) : [];
             
-            const komoditasEksporData = data['Komoditas Ekspor'] ?
-                [data['Komoditas Ekspor']] : [];
+            const tokoUMKMData = data['Data Toko Modern Memasarkan UMKM'] ? 
+                Object.entries(data['Data Toko Modern Memasarkan UMKM']).map(([key, value]) => ({
+                    id: key,
+                    ...value
+                })) : [];
             
-            const matrikaEksporData = data['Matrika Ekspor'] ?
-                Object.values(data['Matrika Ekspor']).flatMap(item => Object.values(item)) : [];
+                const komoditasEksporData = data['Komoditas Ekspor'] ? 
+                // Jika data langsung (bukan nested)
+                !Array.isArray(data['Komoditas Ekspor']) ? [{
+                    id: 'single_entry',
+                    ...data['Komoditas Ekspor']
+                }] : 
+                // Jika data dalam bentuk array/object entries
+                Object.entries(data['Komoditas Ekspor']).map(([key, value]) => ({
+                    id: key,
+                    ...value
+                })) : [];
             
-            const disparitasHargaData = data['Disparitas Harga'] ?
-                Object.values(data['Disparitas Harga']) : [];
+            // Perbaikan untuk Matrika Ekspor
+            const matrikaEksporData = data['Matrika Ekspor']?.['Tembakau'] ? 
+                Object.entries(data['Matrika Ekspor']['Tembakau']).map(([key, value]) => ({
+                    id: key,
+                    ...value
+                })) : [];
             
-            const hasilPengawasanData = data['Hasil Pengawasan'] ?
-                Object.values(data['Hasil Pengawasan']) : [];
+            const disparitasHargaData = data['Disparitas Harga'] ? 
+                Object.entries(data['Disparitas Harga']).map(([key, value]) => ({
+                    id: key,
+                    ...value
+                })) : [];
+            
+            const hasilPengawasanData = data['Hasil Pengawasan'] ? 
+                Object.entries(data['Hasil Pengawasan']).map(([key, value]) => ({
+                    id: key,
+                    ...value
+                })) : [];
 
             renderPelayananTeraTable(pelayananTeraData);
             renderTeraKabWSBTable(teraKabWSBData);
@@ -1155,7 +1229,7 @@ function loadBidangPerdagangan() {
             renderHasilPengawasanTable(hasilPengawasanData);
         }
     });
-}
+} 
 
 function renderPelayananTeraTable(data) {
     const tbody = document.getElementById('pelayananTeraBody');
@@ -1165,19 +1239,18 @@ function renderPelayananTeraTable(data) {
     tbody.innerHTML = '';
     let no = 1;
     let totalLayanan = '';
-    let totalPerTriwulan = data['Total'] || {
+    let totalPerTriwulan = data.find(item => item.id === 'Total') || {
         'Triwulan 1': '0',
         'Triwulan 2': '0',
         'Triwulan 3': '0',
         'Triwulan 4': '0'
     };
 
-    const validData = Object.entries(data).filter(([key, value]) => {
-        return typeof value === 'object' && value !== null && 
-               key !== 'Total Semua Layanan' && key !== 'Total';
-    });
+    const validData = data.filter(item => 
+        item.id !== 'Total' && item.id !== 'Total Semua Layanan'
+    );
 
-    validData.forEach(([key, item]) => {
+    validData.forEach(item => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${no++}</td>
@@ -1188,10 +1261,10 @@ function renderPelayananTeraTable(data) {
             <td>${item['Triwulan 4'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editData('${key}', 'pelayananTera')">
+                    <button onclick="editDataPerdagangan('${item.id}', 'pelayananTera')" class="edit-btn">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteData('${key}, 'pelayananTera'')">
+                    <button onclick="deleteDataPerdagangan('${item.id}', 'pelayananTera')" class="delete-btn">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1199,10 +1272,8 @@ function renderPelayananTeraTable(data) {
         `;
         tbody.appendChild(row);
     });
-
-    totalLayanan = data['Total Semua Layanan'] || '0';
-
-    tfoot.innerHTML = `
+    const totalSemuaLayanan = data.find(item => item.id === 'Total Semua Layanan')?.value;
+        tfoot.innerHTML = `
         <tr>
             <td colspan="2">Total per Triwulan</td>
             <td>${totalPerTriwulan['Triwulan 1']}</td>
@@ -1213,7 +1284,7 @@ function renderPelayananTeraTable(data) {
         </tr>
         <tr>
             <td colspan="2">Total Semua Layanan</td>
-            <td colspan="5">${totalLayanan}</td>
+            <td colspan="5">${totalSemuaLayanan || '0'}</td>
         </tr>
     `;
 }
@@ -1223,9 +1294,9 @@ function renderTeraKabWSBTable(data) {
     if (!tbody) return;
     
     tbody.innerHTML = '';
-    
     let no = 1;
-    data.forEach((item, index) => {
+    
+    data.forEach(item => {
         if (!item) return;
         
         item.DETAIL.forEach((detail) => {
@@ -1266,10 +1337,10 @@ function renderTeraKabWSBTable(data) {
                 <td>${pasarData['Jumlah Total UTTP'] || '-'}</td>
                 <td>
                     <div class="action-buttons">
-                        <button class="edit-btn" onclick="editData('${key}', '${pasarName}', 'teraKabWSB')">
+                        <button onclick="editDataPerdagangan('${item.id}', 'teraKabWSB')" class="edit-btn">
                             <span class="material-icons-sharp">edit</span>
                         </button>
-                        <button class="delete-btn" onclick="deleteData('${key}', '${pasarName}', 'teraKabWSB')">
+                        <button onclick="deleteDataPerdagangan('${item.id}', 'teraKabWSB')" class="delete-btn">
                             <span class="material-icons-sharp">delete</span>
                         </button>
                     </div>
@@ -1278,16 +1349,16 @@ function renderTeraKabWSBTable(data) {
             tbody.appendChild(row);
         });
     });
-}
+} 
 
 function renderMarketplaceTable(data) {
     const tbody = document.getElementById('marketplaceBody');
     if (!tbody) return;
     
     tbody.innerHTML = '';
-    
     let no = 1;
-    data.forEach((item, index) => {
+    
+    data.forEach(item => {
         if (!item) return;
         
         const row = document.createElement('tr');
@@ -1303,10 +1374,10 @@ function renderMarketplaceTable(data) {
             <td>${item['Keterangan'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editData('${key}', 'marketplace')">
+                    <button onclick="editDataPerdagangan('${item.id}', 'marketplace')" class="edit-btn">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteData('${key}', 'marketplace')">
+                    <button onclick="deleteDataPerdagangan('${item.id}', 'marketplace')" class="delete-btn">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1321,9 +1392,9 @@ function renderTokoModernTable(data) {
     if (!tbody) return;
     
     tbody.innerHTML = '';
-    
     let no = 1;
-    data.forEach((item, index) => {
+    
+    data.forEach(item => {
         if (!item) return;
         
         const row = document.createElement('tr');
@@ -1343,10 +1414,10 @@ function renderTokoModernTable(data) {
             <td>${item['KETERANGAN'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editTokoModern('${key}', 'tokoModern')">
+                    <button onclick="editDataPerdagangan('${item.id}', 'tokoModern')" class="edit-btn">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteTokoModern('${key}', 'tokoModern')">
+                    <button onclick="deleteDataPerdagangan('${item.id}', 'tokoModern')" class="delete-btn">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1361,9 +1432,9 @@ function renderTokoModernOSSTable(data) {
     if (!tbody) return;
     
     tbody.innerHTML = '';
-    
     let no = 1;
-    data.forEach((item, index) => {
+    
+    data.forEach(item => {
         if (!item) return;
         
         const row = document.createElement('tr');
@@ -1381,10 +1452,10 @@ function renderTokoModernOSSTable(data) {
             <td>${item['Jenis Toko'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editTokoModernOSS('${key}', 'tokoModernOSS')">
+                    <button onclick="editDataPerdagangan('${item.id}', 'tokoModernOSS')" class="edit-btn">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteTokoModernOSS('${key}', 'tokoModernOSS')">
+                    <button onclick="deleteDataPerdagangan('${item.id}', 'tokoModernOSS')" class="delete-btn">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1399,9 +1470,9 @@ function renderTokoUMKMTable(data) {
     if (!tbody) return;
     
     tbody.innerHTML = '';
-    
     let no = 1;
-    data.forEach((item, index) => {
+    
+    data.forEach(item => {
         if (!item) return;
         
         const row = document.createElement('tr');
@@ -1412,10 +1483,10 @@ function renderTokoUMKMTable(data) {
             <td>${item['Produk UMKM yang Dipasarkan'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editTokoUMKM('${key}', 'tokoUMKM'))">
+                    <button onclick="editDataPerdagangan('${item.id}', 'tokoUMKM')" class="edit-btn">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteTokoUMKM('${key}', 'tokoUMKM'))">
+                    <button onclick="deleteDataPerdagangan('${item.id}', 'tokoUMKM')" class="delete-btn">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1430,9 +1501,9 @@ function renderKomoditasEksporTable(data) {
     if (!tbody) return;
     
     tbody.innerHTML = '';
-    
     let no = 1;
-    data.forEach((item, index) => {
+    
+    data.forEach(item => {
         if (!item) return;
         
         const row = document.createElement('tr');
@@ -1445,10 +1516,10 @@ function renderKomoditasEksporTable(data) {
             <td>${item['Keterangan'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editKomoditasEkspor('${key}', 'KomoditasEkspor')">
+                    <button onclick="editDataPerdagangan('${item.id}', 'komoditasEkspor')" class="edit-btn">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteKomoditasEkspor('${key}', 'KomoditasEkspor')">
+                    <button onclick="deleteDataPerdagangan('${item.id}', 'komoditasEkspor')" class="delete-btn">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1463,9 +1534,9 @@ function renderMatrikaEksporTable(data) {
     if (!tbody) return;
     
     tbody.innerHTML = '';
-    
     let no = 1;
-    data.forEach((item, index) => {
+    
+    data.forEach(item => {
         if (!item) return;
         
         const row = document.createElement('tr');
@@ -1482,10 +1553,10 @@ function renderMatrikaEksporTable(data) {
             <td>${item['Keterangan'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editMatrikaEkspor('${key}', 'matrikaEkspor')">
+                    <button onclick="editDataPerdagangan('${item.id}', 'matrikaEkspor')" class="edit-btn">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteMatrikaEkspor('${key}', 'matrikaEkspor')">
+                    <button onclick="deleteDataPerdagangan('${item.id}', 'matrikaEkspor')" class="delete-btn">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1500,9 +1571,9 @@ function renderDisparitasHargaTable(data) {
     if (!tbody) return;
     
     tbody.innerHTML = '';
-    
     let no = 1;
-    data.forEach((item, index) => {
+    
+    data.forEach(item => {
         if (!item) return;
         
         const row = document.createElement('tr');
@@ -1516,10 +1587,10 @@ function renderDisparitasHargaTable(data) {
             <td>${item['Persen'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editDisparitasHarga('${key}', 'disparitasHarga')">
+                    <button onclick="editDataPerdagangan('${item.id}', 'disparitasHarga')" class="edit-btn">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteDisparitasHarga('${key}', 'disparitasHarga')">
+                    <button onclick="deleteDataPerdagangan('${item.id}', 'disparitasHarga')" class="delete-btn">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1534,9 +1605,9 @@ function renderHasilPengawasanTable(data) {
     if (!tbody) return;
     
     tbody.innerHTML = '';
-    
     let no = 1;
-    data.forEach((item, index) => {
+    
+    data.forEach(item => {
         if (!item) return;
         
         const row = document.createElement('tr');
@@ -1553,10 +1624,10 @@ function renderHasilPengawasanTable(data) {
             <td>${item['Hasil'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                        <button class="edit-btn" onclick="editHasilPengawasan('${key}', 'hasilPengawasan')">
+                    <button onclick="editDataPerdagangan('${item.id}', 'hasilPengawasan')" class="edit-btn">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteHasilPengawasan('${key}', 'hasilPengawasan')">
+                    <button onclick="deleteDataPerdagangan('${item.id}', 'hasilPengawasan')" class="delete-btn">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -1567,144 +1638,815 @@ function renderHasilPengawasanTable(data) {
 }
 
 // Fungsi Edit Data Perdagangan
-window.editData = function(key, table) {
+window.editDataPerdagangan = function(key, table) {
     const editPopup = document.getElementById('editDataPopup');
     const form = document.getElementById('editDataForm');
     
-    const dataRef = ref(db, `Bidang Perdagangan/${getPathByTable(table)}/${key}`);
+    const path = getPathByTablePerdagangan(table);
+    if (!path) {
+        console.error('Path tidak valid untuk table:', table);
+        return;
+    }
+    
+    const dataRef = ref(db, `Bidang Perdagangan/${path}/${key}`);
     get(dataRef).then((snapshot) => {
         if (snapshot.exists()) {
             const data = snapshot.val();
             currentTable = table;
-            
-            // Form untuk setiap tabel
-            if (table === 'marketplace') {
+            if (table === 'pelayananTera') {
                 form.innerHTML = `
                     <div class="form-group">
-                        <label for="edit_nama">Nama Marketplace</label>
-                        <input type="text" id="edit_nama" value="${data.namaMarketplace || ''}" required>
+                        <label for="edit_uttp">UTTP</label>
+                        <input type="text" id="edit_uttp" value="${data.UTTP || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_triwulan1">Triwulan 1</label>
+                        <input type="text" id="edit_triwulan1" value="${data['Triwulan 1'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_triwulan2">Triwulan 2</label>
+                        <input type="text" id="edit_triwulan2" value="${data['Triwulan 2'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_triwulan3">Triwulan 3</label>
+                        <input type="text" id="edit_triwulan3" value="${data['Triwulan 3'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_triwulan4">Triwulan 4</label>
+                        <input type="text" id="edit_triwulan4" value="${data['Triwulan 4'] || ''}" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Simpan Perubahan</button>
+                `;
+            } else if (table === 'teraKabWSB') {
+                form.innerHTML = `
+                    <div class="form-group">
+                        <label for="edit_lokasi">Lokasi</label>
+                        <input type="text" id="edit_lokasi" value="${data.LOKASI || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_nama_pasar">Nama Pasar</label>
+                        <input type="text" id="edit_nama_pasar" value="${Object.keys(data.DETAIL[0])[0] || ''}" required>
+                    </div>
+                    <div class="form-section">
+                        <h4>UP</h4>
+                        <div class="form-group">
+                            <label for="edit_up12 m</label>
+                           <input type="text" id="edit_up1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].UP?.['1 m ≤ up ≤ 2 m'] || '-'}" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="edit_up2">up ≤ 1 m</label>
+                           <input type="text" id="edit_up2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].UP?.['up ≤ 1 m'] || '-'}" required>
+                       </div>
+                   </div>
+                   <div class="form-section">
+                       <h4>TAK</h4>
+                       <div class="form-group">
+                           <label for="edit_tak1">5 l ≤ tb ≤ 25 l</label>
+                           <input type="text" id="edit_tak1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TAK?.['5 l ≤  tb ≤ 25 l'] || '-'}" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="edit_tak2">tb > 2 l</label>
+                           <input type="text" id="edit_tak2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TAK?.['tb > 2 l'] || '-'}" required>
+                       </div>
+                   </div>
+                   <div class="form-section">
+                       <h4>ANAK TIMBANGAN</h4>
+                       <h5>Biasa</h5>
+                       <div class="form-group">
+                           <label for="edit_atb1">atb ≤ 1 kg</label>
+                           <input type="text" id="edit_atb1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]]['ANAK TIMBANGAN']?.Biasa?.['atb ≤ 1 kg'] || '-'}" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="edit_atb2">1 < atb ≤ 5 kg</label>
+                           <input type="text" id="edit_atb2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]]['ANAK TIMBANGAN']?.Biasa?.['1 < atb ≤ 5 kg'] || '-'}" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="edit_atb3">5 < atb ≤ 20 kg</label>
+                           <input type="text" id="edit_atb3" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]]['ANAK TIMBANGAN']?.Biasa?.['5 < atb ≤ 20 kg'] || '-'}" required>
+                       </div>
+                       <h5>Halus</h5>
+                       <div class="form-group">
+                           <label for="edit_atbh1">atb ≤ 1 kg</label>
+                           <input type="text" id="edit_atbh1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]]['ANAK TIMBANGAN']?.Halus?.['atb ≤ 1 kg'] || '-'}" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="edit_atbh2">1 < atb ≤ 5 kg</label>
+                           <input type="text" id="edit_atbh2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]]['ANAK TIMBANGAN']?.Halus?.['1 < atb ≤ 5 kg'] || '-'}" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="edit_atbh3">5 < atb ≤ 20 kg</label>
+                           <input type="text" id="edit_atbh3" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]]['ANAK TIMBANGAN']?.Halus?.['5 < atb ≤ 20 kg'] || '-'}" required>
+                       </div>
+                   </div>
+                   <div class="form-section">
+                       <h4>TIMBANGAN</h4>
+                       <h5>DACIN LOGAM</h5>
+                       <div class="form-group">
+                           <label for="edit_dl1">DL ≤ 25 kg</label>
+                           <input type="text" id="edit_dl1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['DACIN LOGAM']?.['DL ≤ 25 kg'] || '-'}" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="edit_dl2">DL > 25 kg</label>
+                           <input type="text" id="edit_dl2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['DACIN LOGAM']?.['DL > 25 kg'] || '-'}" required>
+                       </div>
+                       <h5>SENTISIMAL</h5>
+                       <div class="form-group">
+                           <label for="edit_s1">S ≤ 150 kg</label>
+                           <input type="text" id="edit_s1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.SENTISIMAL?.['S ≤ 150 kg'] || '-'}" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="edit_s2">150 kg < S ≤ 500 kg</label>
+                           <input type="text" id="edit_s2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.SENTISIMAL?.['150 kg < S ≤ 500 kg'] || '-'}" required>
+                       </div>
+                       <h5>BOBOT INGSUT</h5>
+                       <div class="form-group">
+                           <label for="edit_tbi1">TBI ≤ 25 kg</label>
+                           <input type="text" id="edit_tbi1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['BOBOT INGSUT']?.['TBI ≤ 25 kg'] || '-'}" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="edit_tbi2">25 kg < TBI ≤ 150 kg</label>
+                           <input type="text" id="edit_tbi2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['BOBOT INGSUT']?.['25 kg < TBI ≤ 150 kg'] || '-'}" required>
+                       </div>
+                       <h5>PEGAS</h5>
+                       <div class="form-group">
+                           <label for="edit_tp1">TP ≤ 25 kg</label>
+                           <input type="text" id="edit_tp1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.PEGAS?.['TP ≤ 25 kg'] || '-'}" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="edit_tp2">TP > 25 kg</label>
+                           <input type="text" id="edit_tp2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.PEGAS?.['TP > 25 kg'] || '-'}" required>
+                       </div>
+                       <h5>Lainnya</h5>
+                       <div class="form-group">
+                           <label for="edit_meja">MEJA</label>
+                           <input type="text" id="edit_meja" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.MEJA || '-'}" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="edit_neraca">NERACA</label>
+                           <input type="text" id="edit_neraca" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.NERACA || '-'}" required>
+                       </div>
+                       <h5>TE (II)</h5>
+                       <div class="form-group">
+                           <label for="edit_te2_1">TE ≤ 1 kg</label>
+                           <input type="text" id="edit_te2_1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['TE (II)']?.['TE ≤ 1 kg'] || '-'}" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="edit_te2_2">TE > 1 kg</label>
+                           <input type="text" id="edit_te2_2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['TE (II)']?.['TE > 1 kg'] || '-'}" required>
+                       </div>
+                       <h5>TE (III & IV)</h5>
+                       <div class="form-group">
+                           <label for="edit_te34_1">25 < kg TE ≤ 25 kg</label>
+                           <input type="text" id="edit_te34_1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['TE (III & IV)']?.['25 < kg TE ≤ 25 kg'] || '-'}" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="edit_te34_2">25 < kg TE ≤ 150 kg</label>
+                           <input type="text" id="edit_te34_2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['TE (III & IV)']?.['25 < kg TE ≤ 150 kg'] || '-'}" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="edit_te34_3">25 < kg TE ≤ 500 kg</label>
+                           <input type="text" id="edit_te34_3" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['TE (III & IV)']?.['25 < kg TE ≤ 500 kg'] || '-'}" required>
+                       </div>
+                   </div>
+                   <div class="form-section">
+                       <h4>Lainnya</h4>
+                       <div class="form-group">
+                           <label for="edit_alatUkur">Alat Ukur Tinggi Orang</label>
+                           <input type="text" id="edit_alatUkur" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]]['Alat Ukur Tinggi Orang'] || '-'}" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="edit_teb">TEB 1000 KG</label>
+                           <input type="text" id="edit_teb" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]]['TEB 1000 KG'] || '-'}" required>
+                       </div>
+                   </div>
+                   <button type="submit" class="submit-btn">Simpan Perubahan</button>
+               `;            
+            }  else if (table === 'marketplace') {
+                form.innerHTML = `
+                    <div class="form-group">
+                        <label for="edit_nama_marketplace">Nama Marketplace</label>
+                        <input type="text" id="edit_nama_marketplace" value="${data['Nama Marketplace'] || ''}" required>
                     </div>
                     <div class="form-group">
                         <label for="edit_tahun_n2">Tahun n-2</label>
-                        <input type="text" id="edit_tahun_n2" value="${data.tahunN2 || ''}" required>
+                        <input type="text" id="edit_tahun_n2" value="${data['Tahun n-2'] || ''}" required>
                     </div>
                     <div class="form-group">
                         <label for="edit_tahun_n1">Tahun n-1</label>
-                        <input type="text" id="edit_tahun_n1" value="${data.tahunN1 || ''}" required>
+                        <input type="text" id="edit_tahun_n1" value="${data['Tahun n-1'] || ''}" required>
                     </div>
-                    <div class="form-group">
-                        <label for="edit_tw1">Triwulan 1</label>
-                        <input type="text" id="edit_tw1" value="${data.triwulan1 || ''}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_tw2">Triwulan 2</label>
-                        <input type="text" id="edit_tw2" value="${data.triwulan2 || ''}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_tw3">Triwulan 3</label>
-                        <input type="text" id="edit_tw3" value="${data.triwulan3 || ''}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_tw4">Triwulan 4</label>
-                        <input type="text" id="edit_tw4" value="${data.triwulan4 || ''}" required>
+                    <div class="form-section">
+                        <h4>Tahun n</h4>
+                        <div class="form-group">
+                            <label for="edit_triwulan1">Triwulan 1</label>
+                            <input type="text" id="edit_triwulan1" value="${data['Tahun n']?.['Triwuan 1'] || ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_triwulan2">Triwulan 2</label>
+                            <input type="text" id="edit_triwulan2" value="${data['Tahun n']?.['Triwuan 2'] || ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_triwulan3">Triwulan 3</label>
+                            <input type="text" id="edit_triwulan3" value="${data['Tahun n']?.['Triwuan 3'] || ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_triwulan4">Triwulan 4</label>
+                            <input type="text" id="edit_triwulan4" value="${data['Tahun n']?.['Triwuan 4'] || ''}" required>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="edit_keterangan">Keterangan</label>
-                        <textarea id="edit_keterangan">${data.keterangan || ''}</textarea>
+                        <input type="text" id="edit_keterangan" value="${data['Keterangan'] || ''}" required>
                     </div>
+                    <button type="submit" class="submit-btn">Simpan Perubahan</button>
                 `;
             } else if (table === 'tokoModern') {
                 form.innerHTML = `
                     <div class="form-group">
-                        <label for="edit_tgl_sk">Tanggal SK</label>
-                        <input type="date" id="edit_tgl_sk" value="${data.tanggalSK || ''}" required>
+                        <label for="edit_tanggal_sk">Tanggal SK</label>
+                        <input type="text" id="edit_tanggal_sk" value="${data['TANGGAL SK'] || ''}" required>
                     </div>
-                    <div class="form-group">
-                        <label for="edit_nama_usaha">Nama Usaha</label>
-                        <input type="text" id="edit_nama_usaha" value="${data.namaUsaha || ''}" required>
+                    <div class="form-section">
+                        <h4>Nama dan Alamat Lokasi Tempat Usaha</h4>
+                        <div class="form-group">
+                            <label for="edit_nama_usaha">Nama</label>
+                            <input type="text" id="edit_nama_usaha" value="${data['NAMA DAN ALAMAT LOKASI TEMPAT USAHA']?.NAMA || ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_alamat_usaha">Alamat</label>
+                            <input type="text" id="edit_alamat_usaha" value="${data['NAMA DAN ALAMAT LOKASI TEMPAT USAHA']?.ALAMAT || ''}" required>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="edit_alamat_usaha">Alamat Usaha</label>
-                        <textarea id="edit_alamat_usaha">${data.alamatUsaha || ''}</textarea>
+                    <div class="form-section">
+                        <h4>Nama dan Alamat Pemilik</h4>
+                        <div class="form-group">
+                            <label for="edit_nama_pemilik">Nama</label>
+                            <input type="text" id="edit_nama_pemilik" value="${data['NAMA DAN ALAMAT PEMILIK']?.NAMA || ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_alamat_pemilik">Alamat</label>
+                            <input type="text" id="edit_alamat_pemilik" value="${data['NAMA DAN ALAMAT PEMILIK']?.ALAMAT || ''}" required>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="edit_nama_pemilik">Nama Pemilik</label>
-                        <input type="text" id="edit_nama_pemilik" value="${data.namaPemilik || ''}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_alamat_pemilik">Alamat Pemilik</label>
-                        <textarea id="edit_alamat_pemilik">${data.alamatPemilik || ''}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_nib">NIB</label>
-                        <input type="text" id="edit_nib" value="${data.nib || ''}" required>
+                    <div class="form-section">
+                        <h4>Nomor Induk Berusaha</h4>
+                        <div class="form-group">
+                            <label for="edit_no_nib">No NIB</label>
+                            <input type="text" id="edit_no_nib" value="${data['NOMOR INDUK BERUSAHA']?.['NO NB'] || ''}" required>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="edit_status">Status</label>
-                        <select id="edit_status" required>
-                            <option value="Aktif" ${data.status === 'Aktif' ? 'selected' : ''}>Aktif</option>
-                            <option value="Tidak Aktif" ${data.status === 'Tidak Aktif' ? 'selected' : ''}>Tidak Aktif</option>
-                        </select>
+                        <input type="text" id="edit_status" value="${data['STATUS'] || ''}" required>
                     </div>
                     <div class="form-group">
                         <label for="edit_iutm">IUTM</label>
-                        <input type="text" id="edit_iutm" value="${data.iutm || ''}" required>
+                        <input type="text" id="edit_iutm" value="${data['IUTM'] || ''}" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_jenis_toko">Jenis Toko</label>
-                        <input type="text" id="edit_jenis_toko" value="${data.jenisToko || ''}" required>
+                        <label for="edit_jenis_toko">Jenis Toko Modern</label>
+                        <input type="text" id="edit_jenis_toko" value="${data['JENIS TOKO MODERN'] || ''}" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_kbli">KBLI</label>
-                        <input type="text" id="edit_kbli" value="${data.kbli || ''}" required>
+                        <label for="edit_komoditi">Komoditi/KBLI</label>
+                        <input type="text" id="edit_komoditi" value="${data['KOMODITI atau KBLI'] || ''}" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_catatan">Catatan</label>
-                        <textarea id="edit_catatan">${data.catatan || ''}</textarea>
+                        <label for="edit_catatan">Catatan Perubahan</label>
+                        <input type="text" id="edit_catatan" value="${data['CATATAN PERUBAHAN'] || ''}" required>
                     </div>
                     <div class="form-group">
                         <label for="edit_keterangan">Keterangan</label>
-                        <textarea id="edit_keterangan">${data.keterangan || ''}</textarea>
+                        <input type="text" id="edit_keterangan" value="${data['KETERANGAN'] || ''}" required>
                     </div>
+                    <button type="submit" class="submit-btn">Simpan Perubahan</button>
+                `;
+            }  else if (table === 'tokoModernOSS') {
+                form.innerHTML = `
+                    <div class="form-section">
+                        <h4>Nama dan Alamat Lokasi Tempat Usaha</h4>
+                        <div class="form-group">
+                            <label for="edit_nama_usaha">Nama</label>
+                            <input type="text" id="edit_nama_usaha" value="${data['Nama dan Alamat Lokasi Tempat Usaha']?.Nama || ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_alamat_usaha">Alamat</label>
+                            <input type="text" id="edit_alamat_usaha" value="${data['Nama dan Alamat Lokasi Tempat Usaha']?.Alamat || ''}" required>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h4>Nama dan Alamat Pemilik</h4>
+                        <div class="form-group">
+                            <label for="edit_nama_pemilik">Nama</label>
+                            <input type="text" id="edit_nama_pemilik" value="${data['Nama dan Alamat Pemilik']?.Nama || ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_alamat_pemilik">Alamat</label>
+                            <input type="text" id="edit_alamat_pemilik" value="${data['Nama dan Alamat Pemilik']?.Alamat || ''}" required>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h4>NIB</h4>
+                        <div class="form-group">
+                            <label for="edit_nib">NIB</label>
+                            <input type="text" id="edit_nib" value="${data['NOMOR_INDUK_BERUSAHA_(NIB)']?.NIB || ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_nomor_nib">Nomor</label>
+                            <input type="text" id="edit_nomor_nib" value="${data['NOMOR_INDUK_BERUSAHA_(NIB)']?.Nomor || ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_status_nib">Status</label>
+                            <input type="text" id="edit_status_nib" value="${data['NOMOR_INDUK_BERUSAHA_(NIB)']?.Status || ''}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_no_telp">No Telp</label>
+                        <input type="text" id="edit_no_telp" value="${data['No Telp'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_komoditi">Komoditi/KBLI</label>
+                        <input type="text" id="edit_komoditi" value="${data['Komoditi atau KBLI'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_jenis_toko">Jenis Toko</label>
+                        <input type="text" id="edit_jenis_toko" value="${data['Jenis Toko'] || ''}" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Simpan Perubahan</button>
+                `;
+            } else if (table === 'tokoUMKM') {
+                form.innerHTML = `
+                    <div class="form-group">
+                        <label for="edit_toko_modern">Toko Modern</label>
+                        <input type="text" id="edit_toko_modern" value="${data['Toko Modern'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_alamat">Alamat</label>
+                        <input type="text" id="edit_alamat" value="${data['Alamat'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_produk_umkm">Produk UMKM yang Dipasarkan</label>
+                        <input type="text" id="edit_produk_umkm" value="${data['Produk UMKM yang Dipasarkan'] || ''}" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Simpan Perubahan</button>
+                `;
+            }  else if (table === 'komoditasEkspor') {
+                form.innerHTML = `
+                    <div class="form-group">
+                        <label for="edit_komoditas">Komoditas</label>
+                        <input type="text" id="edit_komoditas" value="${data['Komoditas'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_perusahaan">Perusahaan</label>
+                        <input type="text" id="edit_perusahaan" value="${data['Perusahaan'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_alamat">Alamat</label>
+                        <input type="text" id="edit_alamat" value="${data['Alamat'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_negara_tujuan">Negara Tujuan</label>
+                        <input type="text" id="edit_negara_tujuan" value="${data['Negara Tujuan'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_keterangan">Keterangan</label>
+                        <input type="text" id="edit_keterangan" value="${data['Keterangan'] || ''}" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Simpan Perubahan</button>
+                `;
+            }  else if (table === 'matrikaEkspor') {
+                form.innerHTML = `
+                    <div class="form-group">
+                        <label for="edit_perusahaan">Perusahaan</label>
+                        <input type="text" id="edit_perusahaan" value="${data['Perusahaan'] || ''}" required>
+                    </div>
+                    <div class="form-section">
+                        <h4>Produksi</h4>
+                        <div class="form-group">
+                            <label for="edit_produksi_kapasitas">Kapasitas</label>
+                            <input type="text" id="edit_produksi_kapasitas" value="${data['Produksi']?.Kapasitas || ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_produksi_satuan">Satuan</label>
+                            <input type="text" id="edit_produksi_satuan" value="${data['Produksi']?.Satuan || ''}" required>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h4>Ekspor</h4>
+                        <div class="form-group">
+                            <label for="edit_ekspor_kapasitas">Kapasitas</label>
+                            <input type="text" id="edit_ekspor_kapasitas" value="${data['Ekspor']?.Kapasitas || ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_ekspor_satuan">Satuan</label>
+                            <input type="text" id="edit_ekspor_satuan" value="${data['Ekspor']?.Satuan || ''}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_nilai_usd">Nilai (USD)</label>
+                        <input type="text" id="edit_nilai_usd" value="${data['Nilai (usd)'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_negara_tujuan">Negara Tujuan</label>
+                        <input type="text" id="edit_negara_tujuan" value="${data['Negara Tujuan'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_komoditas">Komoditas</label>
+                        <input type="text" id="edit_komoditas" value="${data['Komoditas'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_keterangan">Keterangan</label>
+                        <input type="text" id="edit_keterangan" value="${data['Keterangan'] || ''}" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Simpan Perubahan</button>
+                `;
+            }  else if (table === 'disparitasHarga') {
+                form.innerHTML = `
+                    <div class="form-group">
+                        <label for="edit_nama_sampel">Nama Sampel Komoditi</label>
+                        <input type="text" id="edit_nama_sampel" value="${data['Nama Sampel Komoditi'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_satuan">Satuan</label>
+                        <input type="text" id="edit_satuan" value="${data['Satuan'] || ''}" required>
+                    </div>
+                    <div class="form-section">
+                        <h4>Bulan n</h4>
+                        <div class="form-group">
+                            <label for="edit_wonosobo">Kabupaten Wonosobo</label>
+                            <input type="text" id="edit_wonosobo" value="${data['Bulan n']?.['Kabupaten Wonosobo'] || ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_temanggung">Kabupaten Temanggung</label>
+                            <input type="text" id="edit_temanggung" value="${data['Bulan n']?.['Kabupaten Temanggung'] || ''}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_selisih">Selisih</label>
+                        <input type="text" id="edit_selisih" value="${data['Selisih'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_persen">Persen</label>
+                        <input type="text" id="edit_persen" value="${data['Persen'] || ''}" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Simpan Perubahan</button>
+                `;
+            }  else if (table === 'hasilPengawasan') {
+                form.innerHTML = `
+                    <div class="form-group">
+                        <label for="edit_kios">Kios Pupuk Lengkap</label>
+                        <input type="text" id="edit_kios" value="${data['Kios Pupuk Lengkap'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_wilayah">Wilayah</label>
+                        <input type="text" id="edit_wilayah" value="${data['Wilayah'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_nib">NIB</label>
+                        <input type="text" id="edit_nib" value="${data['NOMOR_INDUK_BERUSAHA_(NIB)'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_het">Harga HET</label>
+                        <input type="text" id="edit_het" value="${data['Harga HET'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_papan_nama">Papan Nama</label>
+                        <input type="text" id="edit_papan_nama" value="${data['Papan Nama'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_spjb">SPJB</label>
+                        <input type="text" id="edit_spjb" value="${data['SPJB'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_kartu_tani">Penyerapan Kartu Tani (%)</label>
+                        <input type="text" id="edit_kartu_tani" value="${data['Penyerapan Kartu Tani (%)'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rdkk">RDKK</label>
+                        <input type="text" id="edit_rdkk" value="${data['RDKK'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_hasil">Hasil</label>
+                        <input type="text" id="edit_hasil" value="${data['Hasil'] || ''}" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Simpan Perubahan</button>
                 `;
             }
-            // Tambahkan form untuk tabel lainnya sesuai kebutuhan
-            
-            editPopup.style.display = 'block';
+            // ... (form generation untuk tabel lainnya)
+             form.onsubmit = async (e) => {
+                e.preventDefault();
+                let updatedData = {};
+                 try {
+                    updatedData = getUpdatedDataByTablePerdagangan(table);
+                    await update(dataRef, updatedData);
+                    alert('Data berhasil diperbarui!');
+                    editPopup.style.display = 'none';
+                    loadBidangPerdagangan();
+                } catch (error) {
+                    console.error('Error saat update:', error);
+                    alert('Terjadi kesalahan saat memperbarui data!');
+                }
+            };
+             editPopup.style.display = 'block';
+        } else {
+            console.log('Data tidak ditemukan untuk key:', key);
         }
+    }).catch((error) => {
+        console.error('Error saat mengambil data:', error);
     });
 }
+ 
+async function getUpdatedDataByTablePerdagangan(table) {
+    switch(table) {
+        case 'pelayananra':
+            try {
+                // Ambil data yang ada untuk menghitung total
+                const refPath = ref(db, 'Bidang Perdagangan/Jumlah Pelayanan Tera/Jumlah Pelayanan Tera');
+                const snapshot = await get(refPath);
+                const existingData = snapshot.val() || {};
+                 // Data yang akan diupdate untuk item yang diedit
+                const updatedItemData = {
+                    'UTTP': document.getElementById('edit_uttp').value,
+                    'Triwulan 1': document.getElementById('edit_triwulan1').value,
+                    'Triwulan 2': document.getElementById('edit_triwulan2').value,
+                    'Triwulan 3': document.getElementById('edit_triwulan3').value,
+                    'Triwulan 4': document.getElementById('edit_triwulan4').value
+                };
+                 // Hitung total untuk semua triwulan
+                let totalTW1 = 0, totalTW2 = 0, totalTW3 = 0, totalTW4 = 0;
+                 // Loop melalui semua data kecuali Total dan Total Semua Layanan
+                Object.entries(existingData).forEach(([itemKey, value]) => {
+                    if (itemKey !== 'Total' && itemKey !== 'Total Semua Layanan') {
+                        if (itemKey === key) {
+                            // Gunakan nilai baru untuk item yang sedang diedit
+                            totalTW1 += parseInt(updatedItemData['Triwulan 1'] || 0);
+                            totalTW2 += parseInt(updatedItemData['Triwulan 2'] || 0);
+                            totalTW3 += parseInt(updatedItemData['Triwulan 3'] || 0);
+                            totalTW4 += parseInt(updatedItemData['Triwulan 4'] || 0);
+                        } else {
+                            // Gunakan nilai yang ada untuk item lain
+                            totalTW1 += parseInt(value['Triwulan 1'] || 0);
+                            totalTW2 += parseInt(value['Triwulan 2'] || 0);
+                            totalTW3 += parseInt(value['Triwulan 3'] || 0);
+                            totalTW4 += parseInt(value['Triwulan 4'] || 0);
+                        }
+                    }
+                });
+                 // Hitung total semua layanan
+                const totalSemuaLayanan = totalTW1 + totalTW2 + totalTW3 + totalTW4;
+                 // Siapkan objek updates
+                const updates = {};
+                updates[key] = updatedItemData;
+                updates['Total'] = {
+                    'Triwulan 1': totalTW1.toString(),
+                    'Triwulan 2': totalTW2.toString(),
+                    'Triwulan 3': totalTW3.toString(),
+                    'Triwulan 4': totalTW4.toString()
+                };
+                updates['Total Semua Layanan'] = totalSemuaLayanan.toString();
+                 // Update database
+                await update(refPath, updates);
+                return updates[key];
+            } catch (error) {
+                console.error('Error updating pelayanan tera:', error);
+                throw error;
+            }
+        case 'teraKabWSB':
+            return {
+                'LOKASI': document.getElementById('edit_lokasi').value,
+                'DETAIL': [{
+                    [document.getElementById('edit_nama_pasar').value]: {
+                        'UP': {
+                            '1 m ≤ up ≤ 2 m': document.getElementById('edit_up1').value || '-',
+                            'up ≤ 1 m': document.getElementById('edit_up2').value || '-'
+                        },
+                        'TAK': {
+                            '5 l ≤  tb ≤ 25 l': document.getElementById('edit_tak1').value || '-',
+                            'tb > 2 l': document.getElementById('edit_tak2').value || '-'
+                        },
+                        'ANAK TIMBANGAN': {
+                            'Biasa': {           'atb ≤ 1 kg': document.getElementById('edit_atb1').value || '-',
+                            '1 < atb ≤ 5 kg': document.getElementById('edit_atb2').value || '-',
+                            '5 < atb ≤ 20 kg': document.getElementById('edit_atb3').value || '-'
+                        },
+                        'Halus': {
+                            'atb ≤ 1 kg': document.getElementById('edit_atbh1').value || '-',
+                            '1 < atb ≤ 5 kg': document.getElementById('edit_atbh2').value || '-',
+                            '5 < atb ≤ 20 kg': document.getElementById('edit_atbh3').value || '-'
+                        }
+                    },
+                    'TIMBANGAN': {
+                        'DACIN LOGAM': {
+                            'DL ≤ 25 kg': document.getElementById('edit_dl1').value || '-',
+                            'DL > 25 kg': document.getElementById('edit_dl2').value || '-'
+                        },
+                        'SENTISIMAL': {
+                            'S ≤ 150 kg': document.getElementById('edit_s1').value || '-',
+                            '150 kg < S ≤ 500 kg': document.getElementById('edit_s2').value || '-'
+                        },
+                        'BOBOT INGSUT': {
+                            'TBI ≤ 25 kg': document.getElementById('edit_tbi1').value || '-',
+                            '25 kg < TBI ≤ 150 kg': document.getElementById('edit_tbi2').value || '-'
+                        },
+                        'PEGAS': {
+                            'TP ≤ 25 kg': document.getElementById('edit_tp1').value || '-',
+                            'TP > 25 kg': document.getElementById('edit_tp2').value || '-'
+                        },
+                        'MEJA': document.getElementById('edit_meja').value || '-',
+                        'NERACA': document.getElementById('edit_neraca').value || '-',
+                        'TE (II)': {
+                            'TE ≤ 1 kg': document.getElementById('edit_te2_1').value || '-',
+                            'TE > 1 kg': document.getElementById('edit_te2_2').value || '-'
+                        },
+                        'TE (III & IV)': {
+                            '25 < kg TE ≤ 25 kg': document.getElementById('edit_te34_1').value || '-',
+                            '25 < kg TE ≤ 150 kg': document.getElementById('edit_te34_2').value || '-',
+                            '25 < kg TE ≤ 500 kg': document.getElementById('edit_te34_3').value || '-'
+                        }
+                    },
+                    'Alat Ukur Tinggi Orang': document.getElementById('edit_alatUkur').value || '-',
+                    'TEB 1000 KG': document.getElementById('edit_teb').value || '-',
+                    'Jumlah Total UTTP': (() => {
+                        let total = 0;
+                        const inputIds = [
+                            'edit_up1', 'edit_up2',                     // UP
+                            'edit_tak1', 'edit_tak2',                   // TAK
+                            'edit_atb1', 'edit_atb2', 'edit_atb3',     // Anak Timbangan Biasa
+                            'edit_atbh1', 'edit_atbh2', 'edit_atbh3',  // Anak Timbangan Halus
+                            'edit_dl1', 'edit_dl2',                     // Dacin Logam
+                            'edit_s1', 'edit_s2',                       // Sentisimal
+                            'edit_tbi1', 'edit_tbi2',                   // Bobot Ingsut
+                            'edit_tp1', 'edit_tp2',                     // Timbangan Pegas
+                            'edit_meja', 'edit_neraca',                 // Timbangan Lainnya
+                            'edit_te2_1', 'edit_te2_2',                 // TE II
+                            'edit_te34_1', 'edit_te34_2', 'edit_te34_3', // TE III & IV
+                            'edit_alatUkur', 'edit_teb'                 // Lainnya
+                        ];
+                        inputIds.forEach(id => {
+                            const value = document.getElementById(id).value;
+                            if (value && value !== '-') {
+                                total += parseInt(value) || 0;
+                            }
+                        });
+                        return total.toString();
+                    })()
+                }
+            }]
+        };
+        case 'marketplace':
+           return {
+               'Nama Marketplace': document.getElementById('edit_nama_marketplace').value,
+               'Tahun n-2': document.getElementById('edit_tahun_n2').value,
+               'Tahun n-1': document.getElementById('edit_tahun_n1').value,
+               'Tahun n': {
+                   'Triwuan 1': document.getElementById('edit_triwulan1').value,
+                   'Triwuan 2': document.getElementById('edit_triwulan2').value,
+                   'Triwuan 3': document.getElementById('edit_triwulan3').value,
+                   'Triwuan 4': document.getElementById('edit_triwulan4').value
+               },
+               'Keterangan': document.getElementById('edit_keterangan').value
+           };
+        case 'tokoModern':
+           return {
+               'TANGGAL SK': document.getElementById('edit_tanggal_sk').value,
+               'NAMA DAN ALAMAT LOKASI TEMPAT USAHA': {
+                   'NAMA': document.getElementById('edit_nama_usaha').value,
+                   'ALAMAT': document.getElementById('edit_alamat_usaha').value
+               },
+               'NAMA DAN ALAMAT PEMILIK': {
+                   'NAMA': document.getElementById('edit_nama_pemilik').value,
+                   'ALAMAT': document.getElementById('edit_alamat_pemilik').value
+               },
+               'NOMOR INDUK BERUSAHA': {
+                   'NO NB': document.getElementById('edit_no_nib').value
+               },
+               'STATUS': document.getElementById('edit_status').value,
+               'IUTM': document.getElementById('edit_iutm').value,
+               'JENIS TOKO MODERN': document.getElementById('edit_jenis_toko').value,
+               'KOMODITI atau KBLI': document.getElementById('edit_komoditi').value,
+               'CATATAN PERUBAHAN': document.getElementById('edit_catatan').value,
+               'KETERANGAN': document.getElementById('edit_keterangan').value
+           };
+        case 'tokoModernOSS':
+           return {
+               'Nama dan Alamat Lokasi Tempat Usaha': {
+                   'Nama': document.getElementById('edit_nama_usaha').value,
+                   'Alamat': document.getElementById('edit_alamat_usaha').value
+               },
+               'Nama dan Alamat Pemilik': {
+                   'Nama': document.getElementById('edit_nama_pemilik').value,
+                   'Alamat': document.getElementById('edit_alamat_pemilik').value
+               },
+               'NOMOR_INDUK_BERUSAHA_(NIB)': {
+                   'NIB': document.getElementById('edit_nib').value,
+                   'Nomor': document.getElementById('edit_nomor_nib').value,
+                   'Status': document.getElementById('edit_status_nib').value
+               },
+               'No Telp': document.getElementById('edit_no_telp').value,
+               'Komoditi atau KBLI': document.getElementById('edit_komoditi').value,
+               'Jenis Toko': document.getElementById('edit_jenis_toko').value
+           };
+        case 'tokoUMKM':
+           return {
+               'Toko Modern': document.getElementById('edit_toko_modern').value,
+               'Alamat': document.getElementById('edit_alamat').value,
+               'Produk UMKM yang Dipasarkan': document.getElementById('edit_produk_umkm').value
+           };
+        case 'komoditasEkspor':
+           return {
+               'Komoditas': document.getElementById('edit_komoditas').value,
+               'Perusahaan': document.getElementById('edit_perusahaan').value,
+               'Alamat': document.getElementById('edit_alamat').value,
+               'Negara Tujuan': document.getElementById('edit_negara_tujuan').value,
+               'Keterangan': document.getElementById('edit_keterangan').value
+           };
+        case 'matrikaEkspor':
+           return {
+               'Perusahaan': document.getElementById('edit_perusahaan').value,
+               'Produksi': {
+                   'Kapasitas': document.getElementById('edit_produksi_kapasitas').value,
+                   'Satuan': document.getElementById('edit_produksi_satuan').value
+               },
+               'Ekspor': {
+                   'Kapasitas': document.getElementById('edit_ekspor_kapasitas').value,
+                   'Satuan': document.getElementById('edit_ekspor_satuan').value
+               },
+               'Nilai (usd)': document.getElementById('edit_nilai_usd').value,
+               'Negara Tujuan': document.getElementById('edit_negara_tujuan').value,
+               'Komoditas': document.getElementById('edit_komoditas').value,
+               'Keterangan': document.getElementById('edit_keterangan').value
+           };
+        case 'disparitasHarga':
+           return {
+               'Nama Sampel Komoditi': document.getElementById('edit_nama_sampel').value,
+               'Satuan': document.getElementById('edit_satuan').value,
+               'Bulan n': {
+                   'Kabupaten Wonosobo': document.getElementById('edit_wonosobo').value,
+                   'Kabupaten Temanggung': document.getElementById('edit_temanggung').value
+               },
+               'Selisih': document.getElementById('edit_selisih').value,
+               'Persen': document.getElementById('edit_persen').value
+           };
+        case 'hasilPengawasan':
+           return {
+               'Kios Pupuk Lengkap': document.getElementById('edit_kios').value,
+               'Wilayah': document.getElementById('edit_wilayah').value,
+               'NOMOR_INDUK_BERUSAHA_(NIB)': document.getElementById('edit_nib').value,
+               'Harga HET': document.getElementById('edit_het').value,
+               'Papan Nama': document.getElementById('edit_papan_nama').value,
+               'SPJB': document.getElementById('edit_spjb').value,
+               'Penyerapan Kartu Tani (%)': document.getElementById('edit_kartu_tani').value,
+               'RDKK': document.getElementById('edit_rdkk').value,
+               'Hasil': document.getElementById('edit_hasil').value
+           };
+        default:
+           return {};
+   }
+}
 
-// Fungsi Delete Data Perdagangan
-window.deleteData = function(key, table) {
+window.deleteDataPerdagangan = async function(key, table) {
     if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-        const dataRef = ref(db, `Bidang Perdagangan/${getPathByTable(table)}/${key}`);
-        remove(dataRef)
-            .then(() => {
-                alert('Data berhasil dihapus!');
-                loadTableData(table);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('Terjadi kesalahan saat menghapus data');
-            });
-    }
+        try {
+            const deleteRef = ref(db, `Bidang Perdagangan/${getPathByTablePerdagangan(table)}/${key}`);
+            await remove(deleteRef);
+            
+            alert('Data berhasil dihapus!');
+            loadBidangPerdagangan();
+        } catch (error) {
+            console.error('Error deleting data:', error);
+            alert('Terjadi kesalahan saat menghapus data: ' + error.message);
+        }
+    };
 }
 
 // Fungsi helper untuk mendapatkan path database berdasarkan tabel
-function getPathByTable(table) {
-    const pathMap = {
-        'marketplace': 'Data Marketplace',
-        'tokoModern': 'Data Toko Modern',
-        'tokoModernOSS': 'Data Toko Modern OSS',
-        'tokoUMKM': 'Data Toko UMKM',
-        'komoditasEkspor': 'Komoditas Ekspor',
-        'matrikaEkspor': 'Matrika Ekspor',
-        'disparitasHarga': 'Disparitas Harga',
-        'hasilPengawasan': 'Hasil Pengawasan'
-    };
-    return pathMap[table] || table;
-}
+function getPathByTablePerdagangan(table) {
+    switch(table) {
+        case 'pelayananTera':
+            return 'Jumlah Pelayanan Tera/Jumlah Pelayanan Tera';
+        case 'teraKabWSB':
+            return 'Data Semua Tera Kab WSB';
+        case 'marketplace':
+            return 'Data Marketplace Lokal';
+        case 'tokoModern':
+            return 'Data Toko Modern';
+        case 'tokoModernOSS':
+            return 'Data Toko Modern OSS';
+        case 'tokoUMKM':
+            return 'Data Toko Modern Memasarkan UMKM';
+        case 'komoditasEkspor':
+            return 'Komoditas Ekspor';
+        case 'matrikaEkspor':
+            return 'Matrika Ekspor';
+        case 'disparitasHarga':
+            return 'Disparitas Harga';
+        case 'hasilPengawasan':
+            return 'Hasil Pengawasan';
+        default:
+            console.error('Table tidak dikenali:', table);
+            return '';
+    }
+} 
 
 function loadBidangPasar() {
     const bidangPasarRef = ref(db, 'Bidang Pasar');
@@ -3598,10 +4340,10 @@ function renderPelakuUKMTable(data) {
             <td>${value['NOMOR_INDUK_BERUSAHA_(NIB)'] || '-'}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editData('${key}', 'pelakuUKM')">
+                    <button class="edit-btn" onclick="editDataKoperasi('${key}', 'pelakuUKM')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteData('${key}', 'pelakuUKM')">
+                    <button class="delete-btn" onclick="deleteDataKoperasi('${key}', 'pelakuUKM')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -3630,10 +4372,10 @@ function renderUKMBerijinTable(data) {
             <td>${value['Jenis Usaha'] || '-'}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editData('${key}', 'ukmBerijin')">
+                    <button class="edit-btn" onclick="editDataKoperasi('${key}', 'ukmBerijin')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteData('${key}', 'ukmBerijin')">
+                    <button class="delete-btn" onclick="deleteDataKoperasi('${key}', 'ukmBerijin')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -3660,10 +4402,10 @@ function renderUKMAksesPerbankanTable(data) {
             <td>${value.Bank || '-'}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editData('${key}', 'ukmAksesPerbankan')">
+                    <button class="edit-btn" onclick="editDataKoperasi('${key}', 'ukmAksesPerbankan')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteData('${key}', 'ukmAksesPerbankan')">
+                    <button class="delete-btn" onclick="deleteDataKoperasi('${key}', 'ukmAksesPerbankan')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -3690,10 +4432,10 @@ function renderWirausahaBermitraUKMTable(data) {
             <td>${value['No Hp'] || '-'}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editData('${key}', 'wirausahaBermitraUKM')">
+                    <button class="edit-btn" onclick="editDataKoperasi('${key}', 'wirausahaBermitraUKM')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteData('${key}', 'wirausahaBermitraUKM')">
+                    <button class="delete-btn" onclick="deleteDataKoperasi('${key}', 'wirausahaBermitraUKM')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -3720,10 +4462,10 @@ function renderAksesModalUsahaTable(data) {
             <td>${value['No Hp'] || '-'}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editData('${key}', 'aksesModalUsaha')">
+                    <button class="edit-btn" onclick="editDataKoperasi('${key}', 'aksesModalUsaha')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteData('${key}', 'aksesModalUsaha')">
+                    <button class="delete-btn" onclick="deleteDataKoperasi('${key}', 'aksesModalUsaha')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -3750,10 +4492,10 @@ function renderMiskinPesertaPelatihanTable(data) {
             <td>${value['No Hp'] || '-'}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editData('${key}', 'miskinPesertaPelatihan')">
+                    <button class="edit-btn" onclick="editDataKoperasi('${key}', 'miskinPesertaPelatihan')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteData('${key}', 'miskinPesertaPelatihan')">
+                    <button class="delete-btn" onclick="deleteDataKoperasi('${key}', 'miskinPesertaPelatihan')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -3777,10 +4519,10 @@ function renderKoperasiProduksiTable(data) {
             <td>${value['Jenis Produksi'] || '-'}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editData('${key}', 'koperasiProduksi')">
+                    <button class="edit-btn" onclick="editDataKoperasi('${key}', 'koperasiProduksi')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteData('${key}', 'koperasiProduksi')">
+                    <button class="delete-btn" onclick="deleteDataKoperasi('${key}', 'koperasiProduksi')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -3809,10 +4551,10 @@ function renderKoperasiAktifTable(data) {
             <td>${value.Kecamatan || '-'}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editData('${key}', 'koperasiAktif')">
+                    <button class="edit-btn" onclick="editDataKoperasi('${key}', 'koperasiAktif')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteData('${key}', 'koperasiAktif')">
+                    <button class="delete-btn" onclick="deleteDataKoperasi('${key}', 'koperasiAktif')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -3822,7 +4564,6 @@ function renderKoperasiAktifTable(data) {
     });
 }
 
-// Fungsi untuk render tabel Akses Pasar Online
 function renderAksesPasarOnlineTable(data) {
     const tbody = document.getElementById('aksesPasarOnlineBody');
     tbody.innerHTML = '';
@@ -3837,10 +4578,10 @@ function renderAksesPasarOnlineTable(data) {
             <td>${value['Media Pemasaran'] || '-'}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editData('${key}', 'aksesPasarOnline')">
+                    <button class="edit-btn" onclick="editDataKoperasi('${key}', 'aksesPasarOnline')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteData('${key}', 'aksesPasarOnline')">
+                    <button class="delete-btn" onclick="deleteDataKoperasi('${key}', 'aksesPasarOnline')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -3865,10 +4606,10 @@ function renderAksesKreditBankTable(data) {
             <td>${value['Bank Pemberi Fasilitas'] || '-'}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editData('${key}', 'aksesKreditBank')">
+                    <button class="edit-btn" onclick="editDataKoperasi('${key}', 'aksesKreditBank')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteData('${key}', 'aksesKreditBank')">
+                    <button class="delete-btn" onclick="deleteDataKoperasi('${key}', 'aksesKreditBank')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -3894,10 +4635,10 @@ function renderKoperasiSehatTable(data) {
             <td>${value['Tahun Penilaian'] || '-'}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editData('${key}', 'koperasiSehat')">
+                    <button class="edit-btn" onclick="editDataKoperasi('${key}', 'koperasiSehat')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteData('${key}', 'koperasiSehat')">
+                    <button class="delete-btn" onclick="deleteDataKoperasi('${key}', 'koperasiSehat')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -3937,10 +4678,10 @@ function renderRekapOmzetTable(data) {
             <td>${value.SHU || '-'}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editData('${key}', 'rekapOmzet')">
+                    <button class="edit-btn" onclick="editDataKoperasi('${key}', 'rekapOmzet')">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteData('${key}', 'rekapOmzet')">
+                    <button class="delete-btn" onclick="deleteDataKoperasi('${key}', 'rekapOmzet')">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -3951,11 +4692,11 @@ function renderRekapOmzetTable(data) {
 }
 
 // Fungsi Edit Data Koperasi
-window.editData = function(key, table) {
+window.editDataKoperasi = function(key, table) {
     const editPopup = document.getElementById('editDataPopup');
     const form = document.getElementById('editDataForm');
     
-    const dataRef = ref(db, `Bidang Koperasi/${getPathByTable(table)}/${key}`);
+    const dataRef = ref(db, `Bidang Koperasi/${getPathByTableKoperasi(table)}/${key}`);
     get(dataRef).then((snapshot) => {
         if (snapshot.exists()) {
             const data = snapshot.val();
@@ -4372,10 +5113,10 @@ window.editData = function(key, table) {
     });
 };
 
-window.deleteData = async function(key, table) {
+window.deleteDataKopeasi = async function(key, table) {
     if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
         try {
-            const deleteRef = ref(db, `Bidang Koperasi/${getPathByTable(table)}/${key}`);
+            const deleteRef = ref(db, `Bidang Koperasi/${getPathByTableKoperasi(table)}/${key}`);
             await remove(deleteRef);
             
             alert('Data berhasil dihapus!');
@@ -4387,7 +5128,7 @@ window.deleteData = async function(key, table) {
     }
 };
 
-function getPathByTable(table) {
+function getPathByTableKoperasi(table) {
     switch(table) {
         case 'pelakuUKM':
             return 'Data Pelaku UKM/Triwulan 3';
