@@ -1,0 +1,402 @@
+{
+  "bidang": {
+    "koperasi": {
+      "pelakuUKM": {
+        "data": [
+          {
+            "id": "po1",
+            "triwulan": 3,
+            "profil": {
+              "nama": "MIFTAHUDIN",
+              "nik": "3307113007320001",
+              "gender": "L",
+              "alamat": "Jalan Dieng km 3.5 Krasak Mojotengah Wonosobo",
+              "kontak": {
+                "email": "miftahudin.yusufdoa@gmail.com",
+                "telp": "085227588572"
+              },
+              "usaha": {
+                "sektor": "Industri Makanan"
+              }
+            }
+          }
+        ]
+      },
+      "koperasi": {
+        "list": [
+          {
+            "id": "kop1",
+            "nama": "Koperasi S",
+            "noBadanHukum": "1234567890",
+            "profil": {
+              "alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+              "nik": "3307094704890001",
+              "lokasi": {
+                "desa": "Wonosobo",
+                "kecamatan": "Wonosobo",
+                "kelurahan": "Wonosobo"
+              }
+            },
+            "status": {
+              "aktif": true,
+              "sehat": true,
+              "produksi": true
+            },
+            "akses": {
+              "kredit": {
+                "bank": "BSI",
+                "status": true
+              },
+              "pasarOnline": {
+                "platform": ["Instagram"],
+                "status": true
+              }
+            },
+            "statistik": {
+              "anggota": {
+                "aktif": 10,
+                "tidakAktif": 0,
+                "total": 10
+              },
+              "karyawan": {
+                "aktif": 4,
+                "tidakAktif": 0,
+                "total": 4
+              },
+              "manajer": {
+                "aktif": 4,
+                "tidakAktif": 0,
+                "total": 4
+              }
+            },
+            "keuangan": {
+              "modal": {
+                "sendiri": 10000000,
+                "luar": 10000000
+              },
+              "shu": 10000000,
+              "volumeUsaha": 10000000
+            }
+          }
+        ]
+      }
+    },
+    "pasar": {
+      "list": [
+        {
+          "id": "psr1",
+          "nama": "PASAR INDUK",
+          "lokasi": {
+            "alamat": "Kec. Wonosobo",
+            "kecamatan": "Wonosobo"
+          },
+          "fasilitas": {
+            "mck": true,
+            "tps": true,
+            "parkir": true,
+            "bongkarMuat": true,
+            "tempatIbadah": true
+          },
+          "statistik": {
+            "los": {
+              "jumlah": 4142,
+              "terpakai": 4082,
+              "kosong": 60
+            },
+            "kios": {
+              "jumlah": 321,
+              "terpakai": 321,
+              "kosong": 0
+            }
+          },
+          "kondisi": "tidakBaik"
+        }
+      ],
+      "upt": {
+        "list": [
+          {
+            "id": "upt1",
+            "nama": "UPT PASAR INDUK",
+            "pasar": [
+              {
+                "nama": "PASAR WONOSOBO",
+                "profil": {
+                  "alamat": "Kec. Wonosobo",
+                  "tahunBerdiri": 1810,
+                  "luas": {
+                    "tanah": 1222,
+                    "bangunan": 2222,
+                    "lantai": 22
+                  }
+                },
+                "fasilitas": {
+                  "mck": true,
+                  "tps": true,
+                  "parkir": true,
+                  "bongkarMuat": true,
+                  "tempatIbadah": true
+                },
+                "statistik": {
+                  "pedagang": {
+                    "kios": 2,
+                    "los": 2,
+                    "dasaran": 2
+                  },
+                  "paguyuban": 4
+                },
+                "kondisi": "baik"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "perdagangan": {
+      "tera": {
+        "lokasi": [
+          {
+            "id": "tr1",
+            "kecamatan": "Kertek",
+            "pasar": [
+              {
+                "nama": "Pasar Kertek",
+                "alat": {
+                  "timbangan": {
+                    "elektronik": {
+                      "kategori2": {
+                        "lebihDari1kg": 0,
+                        "kurangDari1kg": 0
+                      },
+                      "kategori3dan4": {
+                        "sampai25kg": 0,
+                        "sampai150kg": 0,
+                        "sampai500kg": 0
+                      }
+                    },
+                    "meja": 0,
+                    "sentisimal": {
+                      "sampai150kg": 0,
+                      "sampai500kg": 0
+                    },
+                    "pegas": {
+                      "sampai25kg": 0,
+                      "lebihDari25kg": 0
+                    }
+                  },
+                  "anakTimbangan": {
+                    "biasa": {
+                      "sampai1kg": 0,
+                      "sampai5kg": 0,
+                      "sampai20kg": 0
+                    },
+                    "halus": {
+                      "sampai1kg": 0,
+                      "sampai5kg": 0,
+                      "sampai20kg": 0
+                    }
+                  },
+                  "ukurPanjang": {
+                    "sampai1m": 0,
+                    "sampai2m": 0
+                  },
+                  "ukurTinggiOrang": 0,
+                  "takaran": {
+                    "sampai2l": 0,
+                    "sampai25l": 0
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "pelayananTera": {
+        "statistik": {
+          "triwulan": {
+            "1": {
+              "total": 64,
+              "perAlat": [
+                {
+                  "jenis": "Neraca",
+                  "jumlah": 32
+                },
+                {
+                  "jenis": "Meteran",
+                  "jumlah": 32
+                }
+              ]
+            },
+            "2": {
+              "total": 77,
+              "perAlat": [
+                {
+                  "jenis": "Neraca",
+                  "jumlah": 52
+                },
+                {
+                  "jenis": "Meteran",
+                  "jumlah": 25
+                }
+              ]
+            }
+          },
+          "totalTahunan": 1022
+        }
+      },
+      "ekspor": {
+        "komoditas": [
+          {
+            "id": "eks1",
+            "nama": "Arang",
+            "perusahaan": "PT. PASAR LOAK",
+            "alamat": "Jln. Madura",
+            "tujuan": "Italia",
+            "kategori": "Mamalia"
+          }
+        ],
+        "matriksEkspor": {
+          "tembakau": [
+            {
+              "id": "temb1",
+              "komoditas": "Barecore",
+              "perusahaan": "PT Mekar Abdi",
+              "tujuan": ["India", "China"],
+              "kapasitas": {
+                "produksi": {
+                  "jumlah": 242342342,
+                  "satuan": "gram"
+                },
+                "ekspor": {
+                  "jumlah": 41343,
+                  "satuan": "gram"
+                }
+              },
+              "nilai": {
+                "usd": 231231
+              },
+              "keterangan": "Triwulan 1 dan 2 tidak ekspor"
+            }
+          ]
+        }
+      },
+      "pengawasan": {
+        "pupuk": [
+          {
+            "id": "pws1",
+            "kios": "Berkah Rejeki",
+            "wilayah": "Kaliwiro",
+            "kelengkapan": {
+              "nib": true,
+              "spjb": true,
+              "rdkk": true,
+              "papanNama": true,
+              "hargaHET": true
+            },
+            "penyerapanKartuTani": 100,
+            "hasil": "Memenuhi Syarat"
+          }
+        ]
+      },
+      "tokoModernUMKM": {
+        "list": [
+          {
+            "id": "tmumkm1",
+            "toko": "Toko Tuyul",
+            "alamat": "Jln. Jaraksari",
+            "produkUMKM": [
+              {
+                "nama": "Mie Ongklok",
+                "kategori": "Makanan"
+              }
+            ]
+          }
+        ]
+      },
+      "tokoModernOSS": {
+        "list": [
+          {
+            "id": "tmos1",
+            "profil": {
+              "nama": "WarKom",
+              "pemilik": {
+                "nama": "Fuan",
+                "alamat": "Jln. SAMBEK",
+                "telp": "08193463413"
+              },
+              "usaha": {
+                "nama": "Lupin",
+                "alamat": "Jln. SAMBEK",
+                "kbli": "47111"
+              }
+            },
+            "perizinan": {
+              "nib": {
+                "status": true,
+                "nomor": "10384",
+                "aktif": true
+              }
+            }
+          }
+        ]
+      }
+    },
+    "masyarakat": {
+      "wirausaha": {
+        "list": [
+          {
+            "id": "mw1",
+            "triwulan": 3,
+            "profil": {
+              "nama": "Numa Liza Kumala Sari",
+              "gender": "P",
+              "alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+              "telp": "083238780009",
+              "bidangUsaha": "Kuliner"
+            }
+          }
+        ]
+      },
+      "aksesModal": {
+        "list": [
+          {
+            "id": "am1",
+            "triwulan": 3,
+            "profil": {
+              "nama": "Numa Liza Kumala Sari",
+              "gender": "P",
+              "alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+              "telp": "083238780009",
+              "bidangUsaha": "Kuliner"
+            }
+          }
+        ]
+      },
+      "pesertaPelatihan": {
+        "list": [
+          {
+            "id": "pp1",
+            "triwulan": 3,
+            "profil": {
+              "nama": "Numa Liza Kumala Sari",
+              "gender": "P",
+              "alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+              "telp": "083238780009",
+              "bidangUsaha": "Kuliner"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "auth": {
+    "admin": {
+      "list": [
+        {
+          "id": "ADMP0001",
+          "username": "PKL-01",
+          "password": "pkl-perdagangan"
+        }
+      ]
+    }
+  }
+}

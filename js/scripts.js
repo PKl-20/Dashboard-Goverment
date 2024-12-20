@@ -1238,7 +1238,6 @@ function renderPelayananTeraTable(data) {
     
     tbody.innerHTML = '';
     let no = 1;
-    let totalLayanan = '';
     let totalPerTriwulan = data.find(item => item.id === 'Total') || {
         'Triwulan 1': '0',
         'Triwulan 2': '0',
@@ -1652,6 +1651,8 @@ window.editDataPerdagangan = function(key, table) {
     get(dataRef).then((snapshot) => {
         if (snapshot.exists()) {
             const data = snapshot.val();
+            form.setAttribute('data-key', key);
+            form.setAttribute('data-table', table);
             currentTable = table;
             if (table === 'pelayananTera') {
                 form.innerHTML = `
@@ -2081,14 +2082,6 @@ window.editDataPerdagangan = function(key, table) {
                             <input type="text" id="edit_temanggung" value="${data['Bulan n']?.['Kabupaten Temanggung'] || ''}" required>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="edit_selisih">Selisih</label>
-                        <input type="text" id="edit_selisih" value="${data['Selisih'] || ''}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_persen">Persen</label>
-                        <input type="text" id="edit_persen" value="${data['Persen'] || ''}" required>
-                    </div>
                     <button type="submit" class="submit-btn">Simpan Perubahan</button>
                 `;
             }  else if (table === 'hasilPengawasan') {
@@ -2132,13 +2125,33 @@ window.editDataPerdagangan = function(key, table) {
                     <button type="submit" class="submit-btn">Simpan Perubahan</button>
                 `;
             }
-            // ... (form generation untuk tabel lainnya)
-             form.onsubmit = async (e) => {
+            form.onsubmit = async (e) => {
                 e.preventDefault();
-                let updatedData = {};
-                 try {
-                    updatedData = getUpdatedDataByTablePerdagangan(table);
-                    await update(dataRef, updatedData);
+                try {
+                    const itemKey = form.getAttribute('data-key');
+                    const currentTable = form.getAttribute('data-table');
+                    const currentPath = getPathByTablePerdagangan(currentTable);
+                    
+                    // Gunakan reference yang benar untuk update
+                    const updateRef = ref(db, `Bidang Perdagangan/${currentPath}/${itemKey}`);
+                    
+                    // Dapatkan data yang sudah ada
+                    const snapshot = await get(updateRef);
+                    const existingData = snapshot.val();
+                    
+                    // Dapatkan data yang diupdate
+                    const updatedData = await getUpdatedDataByTablePerdagangan(currentTable);
+                    
+                    // Gabungkan data yang ada dengan data yang diupdate
+                    const finalData = currentTable === 'teraKabWSB' ? {
+                        ...existingData,
+                        LOKASI: updatedData.LOKASI,
+                        DETAIL: updatedData.DETAIL
+                    } : updatedData;
+                    
+                    // Update data
+                    await update(updateRef, finalData);
+                    
                     alert('Data berhasil diperbarui!');
                     editPopup.style.display = 'none';
                     loadBidangPerdagangan();
@@ -2147,7 +2160,7 @@ window.editDataPerdagangan = function(key, table) {
                     alert('Terjadi kesalahan saat memperbarui data!');
                 }
             };
-             editPopup.style.display = 'block';
+            editPopup.style.display = 'block';
         } else {
             console.log('Data tidak ditemukan untuk key:', key);
         }
@@ -2158,13 +2171,17 @@ window.editDataPerdagangan = function(key, table) {
  
 async function getUpdatedDataByTablePerdagangan(table) {
     switch(table) {
-        case 'pelayananra':
+        case 'pelayananTera':
             try {
+                const form = document.getElementById('editDataForm');
+                const itemKey = form.getAttribute('data-key');
+                
                 // Ambil data yang ada untuk menghitung total
                 const refPath = ref(db, 'Bidang Perdagangan/Jumlah Pelayanan Tera/Jumlah Pelayanan Tera');
                 const snapshot = await get(refPath);
                 const existingData = snapshot.val() || {};
-                 // Data yang akan diupdate untuk item yang diedit
+                
+                // Data yang akan diupdate untuk item yang diedit
                 const updatedItemData = {
                     'UTTP': document.getElementById('edit_uttp').value,
                     'Triwulan 1': document.getElementById('edit_triwulan1').value,
@@ -2172,12 +2189,14 @@ async function getUpdatedDataByTablePerdagangan(table) {
                     'Triwulan 3': document.getElementById('edit_triwulan3').value,
                     'Triwulan 4': document.getElementById('edit_triwulan4').value
                 };
-                 // Hitung total untuk semua triwulan
+                
+                // Hitung total untuk semua triwulan
                 let totalTW1 = 0, totalTW2 = 0, totalTW3 = 0, totalTW4 = 0;
-                 // Loop melalui semua data kecuali Total dan Total Semua Layanan
-                Object.entries(existingData).forEach(([itemKey, value]) => {
-                    if (itemKey !== 'Total' && itemKey !== 'Total Semua Layanan') {
-                        if (itemKey === key) {
+                
+                // Loop melalui semua data kecuali Total dan Total Semua Layanan
+                Object.entries(existingData).forEach(([key, value]) => {
+                    if (key !== 'Total' && key !== 'Total Semua Layanan') {
+                        if (key === itemKey) {
                             // Gunakan nilai baru untuk item yang sedang diedit
                             totalTW1 += parseInt(updatedItemData['Triwulan 1'] || 0);
                             totalTW2 += parseInt(updatedItemData['Triwulan 2'] || 0);
@@ -2192,11 +2211,13 @@ async function getUpdatedDataByTablePerdagangan(table) {
                         }
                     }
                 });
-                 // Hitung total semua layanan
+                
+                // Hitung total semua layanan
                 const totalSemuaLayanan = totalTW1 + totalTW2 + totalTW3 + totalTW4;
-                 // Siapkan objek updates
+                
+                // Siapkan objek updates
                 const updates = {};
-                updates[key] = updatedItemData;
+                updates[itemKey] = updatedItemData;
                 updates['Total'] = {
                     'Triwulan 1': totalTW1.toString(),
                     'Triwulan 2': totalTW2.toString(),
@@ -2204,9 +2225,10 @@ async function getUpdatedDataByTablePerdagangan(table) {
                     'Triwulan 4': totalTW4.toString()
                 };
                 updates['Total Semua Layanan'] = totalSemuaLayanan.toString();
-                 // Update database
+                
+                // Update database
                 await update(refPath, updates);
-                return updates[key];
+                return updatedItemData;
             } catch (error) {
                 console.error('Error updating pelayanan tera:', error);
                 throw error;
@@ -2377,16 +2399,45 @@ async function getUpdatedDataByTablePerdagangan(table) {
                'Keterangan': document.getElementById('edit_keterangan').value
            };
         case 'disparitasHarga':
-           return {
-               'Nama Sampel Komoditi': document.getElementById('edit_nama_sampel').value,
-               'Satuan': document.getElementById('edit_satuan').value,
-               'Bulan n': {
-                   'Kabupaten Wonosobo': document.getElementById('edit_wonosobo').value,
-                   'Kabupaten Temanggung': document.getElementById('edit_temanggung').value
-               },
-               'Selisih': document.getElementById('edit_selisih').value,
-               'Persen': document.getElementById('edit_persen').value
-           };
+                try {
+                    // Fung untuk mengubah string harga ke number
+                const parseHarga = (hargaStr) => {
+                    return parseInt(hargaStr.replace(/\D/g, ''));
+                };
+                
+                // Fungsi untuk memformat harga ke format Rupiah
+                const formatHarga = (number) => {
+                    return `RP. ${Math.abs(number)}`;
+                };
+                
+                // Ambil nilai harga dari input
+                const hargaWonosobo = document.getElementById('edit_wonosobo').value;
+                const hargaTemanggung = document.getElementById('edit_temanggung').value;
+                
+                // Konversi ke number untuk perhitungan
+                const hargaWsb = parseHarga(hargaWonosobo);
+                const hargaTmg = parseHarga(hargaTemanggung);
+                
+                // Hitung selisih (Temanggung - Wonosobo)
+                const selisih = hargaTmg - hargaWsb;
+                
+                // Hitung persentase
+                const persen = ((selisih / hargaTmg) * 100).toFixed(0);
+                
+                return {
+                    'Nama Sampel Komoditi': document.getElementById('edit_nama_sampel').value,
+                    'Satuan': document.getElementById('edit_satuan').value,
+                    'Bulan n': {
+                        'Kabupaten Wonosobo': hargaWonosobo,
+                        'Kabupaten Temanggung': hargaTemanggung
+                    },
+                    'Selisih': selisih >= 0 ? formatHarga(selisih) : `-${formatHarga(selisih)}`,
+                    'Persen': `${persen}%`
+                };
+            } catch (error) {
+                console.error('Error updating disparitas harga:', error);
+                throw error;
+            }
         case 'hasilPengawasan':
            return {
                'Kios Pupuk Lengkap': document.getElementById('edit_kios').value,
