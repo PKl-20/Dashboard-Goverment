@@ -1435,3 +1435,105 @@ aside .sidebar .dropdown-btn {
     border-radius: 4px;
 }
 
+/* Styling untuk Export Data */
+.export-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+}
+
+.export-actions button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: var(--border-radius-1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.select-all-btn {
+    background: var(--color-primary);
+    color: var(--color-white);
+}
+
+.deselect-all-btn {
+    background: var(--color-warning);
+    color: var(--color-dark);
+}
+
+.export-selected-btn {
+    background: var(--color-success);
+    color: var(--color-white);
+}
+
+.export-actions button:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
+}
+
+.export-card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.export-card {
+    background: var(--color-white);
+    padding: 2rem;
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+}
+
+.export-card:hover {
+    transform: translateY(-5px);
+}
+
+.export-card.active {
+    border: 2px solid var(--color-primary);
+    background: var(--color-light);
+}
+
+.export-card .material-icons-sharp {
+    font-size: 2.5rem;
+    color: var(--color-primary);
+}
+
+.export-card h3 {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--color-dark);
+}
+
+/* Dark mode adjustments */
+.dark-mode-variables .export-card {
+    background: var(--color-white);
+}
+
+.dark-mode-variables .export-card.active {
+    background: var(--color-light);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .export-actions {
+        flex-direction: column;
+    }
+    
+    .export-actions button {
+        width: 100%;
+    }
+    
+    .export-card-container {
+        grid-template-columns: 1fr;
+    }
+}
+

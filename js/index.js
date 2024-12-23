@@ -133,3 +133,52 @@ if (newDocumentLink) {
         updateActiveState(this);
     });
 }
+
+function handleExportData() {
+    const exportCards = document.querySelectorAll('.export-card');
+    const selectAllBtn = document.querySelector('.select-all-btn');
+    const deselectAllBtn = document.querySelector('.deselect-all-btn');
+    const exportSelectedBtn = document.querySelector('.export-selected-btn');
+
+    exportCards.forEach(card => {
+        card.addEventListener('click', () => {
+            card.classList.toggle('active');
+            updateExportButtonState();
+        });
+    });
+
+    selectAllBtn.addEventListener('click', () => {
+        exportCards.forEach(card => {
+            card.classList.add('active');
+        });
+        updateExportButtonState();
+    });
+
+    deselectAllBtn.addEventListener('click', () => {
+        exportCards.forEach(card => {
+            card.classList.remove('active');
+        });
+        updateExportButtonState();
+    });
+
+    function updateExportButtonState() {
+        const selectedCards = document.querySelectorAll('.export-card.active');
+        exportSelectedBtn.disabled = selectedCards.length === 0;
+        exportSelectedBtn.style.opacity = selectedCards.length === 0 ? '0.5' : '1';
+    }
+
+    exportSelectedBtn.addEventListener('click', () => {
+        const selectedTables = Array.from(document.querySelectorAll('.export-card.active'))
+            .map(card => card.dataset.table);
+        
+        if (selectedTables.length > 0) {
+            console.log('Mengexport tabel:', selectedTables);
+        }
+    });
+
+    updateExportButtonState();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    handleExportData();
+});

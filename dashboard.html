@@ -808,6 +808,118 @@
         </main>
         <main id="Export-Data">
             <h1>Export Data</h1>
+            <div class="export-actions">
+                <button class="select-all-btn">Pilih Semua</button>
+                <button class="deselect-all-btn">Batal Pilih</button>
+                <button class="export-selected-btn">Export Data</button>
+            </div>
+            <div class="export-card-container">
+                <!-- Bidang Perdagangan -->
+                <div class="export-card" data-table="pelayananTera">
+                    <span class="material-icons-sharp">scale</span>
+                    <h3>Data Pelayanan Tera</h3>
+                </div>
+                <div class="export-card" data-table="teraKabWSB">
+                    <span class="material-icons-sharp">balance</span>
+                    <h3>Data Semua Tera Kab WSB</h3>
+                </div>
+                <div class="export-card" data-table="marketplace">
+                    <span class="material-icons-sharp">store</span>
+                    <h3>Data Marketplace Lokal</h3>
+                </div>
+                <div class="export-card" data-table="tokoModern">
+                    <span class="material-icons-sharp">shopping_cart</span>
+                    <h3>Data Toko Modern</h3>
+                </div>
+                <div class="export-card" data-table="tokoModernOSS">
+                    <span class="material-icons-sharp">store_mall_directory</span>
+                    <h3>Data Toko Modern OSS</h3>
+                </div>
+                <div class="export-card" data-table="tokoModernMemasarkanUMKM">
+                    <span class="material-icons-sharp">local_mall</span>
+                    <h3>Data Toko Modern Memasarkan UMKM</h3>
+                </div>
+                <div class="export-card" data-table="komoditasEkspor">
+                    <span class="material-icons-sharp">inventory_2</span>
+                    <h3>Komoditas Ekspor</h3>
+                </div>
+                <div class="export-card" data-table="matrikaEkspor">
+                    <span class="material-icons-sharp">trending_up</span>
+                    <h3>Matrika Ekspor</h3>
+                </div>
+                <div class="export-card" data-table="disparitasHarga">
+                    <span class="material-icons-sharp">price_change</span>
+                    <h3>Disparitas Harga</h3>
+                </div>
+                <div class="export-card" data-table="hasilPengawasan">
+                    <span class="material-icons-sharp">visibility</span>
+                    <h3>Hasil Pengawasan</h3>
+                </div>
+        
+                <!-- Bidang Pasar -->
+                <div class="export-card" data-table="kondisiPasar">
+                    <span class="material-icons-sharp">store_mall_directory</span>
+                    <h3>Data Kondisi Pasar</h3>
+                </div>
+                <div class="export-card" data-table="losKios">
+                    <span class="material-icons-sharp">storefront</span>
+                    <h3>Jumlah Los & Kios Pasar</h3>
+                </div>
+                <div class="export-card" data-table="profil">
+                    <span class="material-icons-sharp">assignment</span>
+                    <h3>Matriks Profil Pasar Daerah</h3>
+                </div>
+        
+                <!-- Bidang Koperasi -->
+                <div class="export-card" data-table="pelakuUKM">
+                    <span class="material-icons-sharp">people</span>
+                    <h3>Data Pelaku UKM</h3>
+                </div>
+                <div class="export-card" data-table="ukmBerijin">
+                    <span class="material-icons-sharp">verified</span>
+                    <h3>UKM Berijin</h3>
+                </div>
+                <div class="export-card" data-table="ukmAksesPerbankan">
+                    <span class="material-icons-sharp">account_balance</span>
+                    <h3>UKM Akses Perbankan</h3>
+                </div>
+                <div class="export-card" data-table="wirausahaBermitraUKM">
+                    <span class="material-icons-sharp">handshake</span>
+                    <h3>Masyarakat Wirausaha Bermitra UKM</h3>
+                </div>
+                <div class="export-card" data-table="aksesModalUsaha">
+                    <span class="material-icons-sharp">payments</span>
+                    <h3>Masyarakat Akses Modal Usaha</h3>
+                </div>
+                <div class="export-card" data-table="miskinPesertaPelatihan">
+                    <span class="material-icons-sharp">school</span>
+                    <h3>Masyarakat Miskin Peserta Pelatihan</h3>
+                </div>
+                <div class="export-card" data-table="koperasiProduksi">
+                    <span class="material-icons-sharp">factory</span>
+                    <h3>Jumlah Koperasi Produksi</h3>
+                </div>
+                <div class="export-card" data-table="koperasiAktif">
+                    <span class="material-icons-sharp">business</span>
+                    <h3>Jumlah Koperasi Seluruh Koperasi Aktif</h3>
+                </div>
+                <div class="export-card" data-table="aksesPasarOnline">
+                    <span class="material-icons-sharp">shopping_basket</span>
+                    <h3>Koperasi Produksi Akses Pasar Online</h3>
+                </div>
+                <div class="export-card" data-table="aksesKreditBank">
+                    <span class="material-icons-sharp">credit_card</span>
+                    <h3>Koperasi Akses Kredit Bank</h3>
+                </div>
+                <div class="export-card" data-table="koperasiSehat">
+                    <span class="material-icons-sharp">health_and_safety</span>
+                    <h3>Jumlah Koperasi Sehat</h3>
+                </div>
+                <div class="export-card" data-table="rekapOmzet">
+                    <span class="material-icons-sharp">bar_chart</span>
+                    <h3>Rekap Omzet Koperasi</h3>
+                </div>
+            </div>
         </main>
         <main id="New-Document">
             <h1>New Document</h1>
@@ -866,7 +978,7 @@
         </div>
     </div>
 </body>
-<script type="module" src="js/scripts.js"></script>
-<script src="js/orders.js"></script>
 <script src="js/index.js"></script>
+<script type="module" src="js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
 </html>

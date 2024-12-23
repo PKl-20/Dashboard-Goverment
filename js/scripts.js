@@ -28,7 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if (currentPage.includes('dashboard.html')) {
         checkLoginStatus();
         setupDocumentUpload();
-        
+        loadExportData();
+
         const tabButtons = document.querySelectorAll('.tab-button');
         const tableContainers = document.querySelectorAll('.table-container');
 
@@ -5333,4 +5334,1616 @@ function getUpdatedDataByTable(table) {
         };
     }
     return {};
+}
+
+async function loadExportData() {
+    const exportSelectedBtn = document.querySelector('.export-selected-btn'); 
+    
+    exportSelectedBtn.addEventListener('click', async () => {
+        const activeCards = document.querySelectorAll('.export-card.active');
+        if (activeCards.length === 0) {
+            alert('Pilih minimal satu data untuk diekspor!');
+            return;
+        }
+        
+        try {
+            const response = await fetch("assets/files/template.xlsx");
+            const templateBuffer = await response.arrayBuffer();
+            
+            const workbook = new ExcelJS.Workbook();
+            await workbook.xlsx.load(templateBuffer);
+
+            for (const card of activeCards) {
+                const tableId = card.getAttribute('data-table');
+                const sheetTitle = card.querySelector('h3').textContent;
+                
+                let worksheetName = sheetTitle;
+                if (worksheetName.length > 31) {
+                    switch(tableId) {
+                        case 'tokoModernMemasarkanUMKM':
+                            worksheetName = 'Data Toko Modern & UMKM';
+                            break;
+                        case 'wirausahaBermitraUKM':
+                            worksheetName = 'Data Wirausaha & UKM';
+                            break;
+                        case 'miskinPesertaPelatihan':
+                            worksheetName = 'Data Peserta Pelatihan';
+                            break;
+                        case 'koperasiAktif':
+                            worksheetName = 'Data Koperasi Aktif';
+                            break;
+                        case 'aksesPasarOnline':
+                            worksheetName = 'Koperasi Akses Pasar Online';
+                            break;
+                        case 'koperasiProduksi':
+                            worksheetName = 'Data Koperasi Produksi';
+                            break;    
+                    }
+                }
+                const worksheet = workbook.addWorksheet(worksheetName);
+                const templateSheet = workbook.getWorksheet(1);
+
+                let lastColumn;
+                switch(tableId) {
+                    // Bidang Perdagangan
+                    case 'pelayananTera':
+                        lastColumn = 'F'; // No, UTTP, Triwulan 1-4
+                        break;
+                    case 'teraKabWSB':
+                        lastColumn = 'AD'; // No, Nama Wajib Tera, Alamat, Jenis UTTP, Tanggal Tera, Status
+                        break;
+                    case 'marketplace':
+                        lastColumn = 'I';
+                        break;
+                    case 'disparitasHarga':
+                        lastColumn = 'G'; // No, Nama Sampel Komoditi, Satuan, Kab Wonosobo, Kab Temanggung, Selisih, Persen
+                        break;
+                    case 'hasilPengawasan':
+                        lastColumn = 'J'; // No, Wilayah, Kios Pupuk, NIB, SPJB, RDKK, Harga HET, Papan Nama, Penyerapan, Hasil
+                        break;
+                    case 'tokoModern':
+                        lastColumn = 'G'; // No, Nama Toko, Alamat, Kecamatan, Kelurahan, Status, Keterangan
+                        break;
+                    case 'tokoModernOSS':
+                        lastColumn = 'G'; // No, Nama Toko, Alamat, NIB, Kecamatan, Kelurahan, Status
+                        break;
+                    case 'tokoModernMemasarkanUMKM':
+                        lastColumn = 'F'; // No, Nama Toko, Alamat, Jumlah UMKM, Status, Keterangan
+                        break;
+                    case 'pedagangBermodalBesar':
+                        lastColumn = 'G'; // No, Nama, Alamat, Jenis Usaha, Status, NIB, Keterangan
+                        break;
+                    case 'pedagangBermodalKecil':
+                        lastColumn = 'G'; // No, Nama, Alamat, Jenis Usaha, Status, NIB, Keterangan
+                        break;    
+
+                    // Bidang Pasar
+                    case 'pedagangPasar':
+                        lastColumn = 'H'; // No, Nama, NIK, Alamat, No Los/Kios, Jenis Dagangan, Status, Keterangan
+                        break;
+                    case 'pasarRakyat':
+                        lastColumn = 'G'; // No, Nama Pasar, Alamat, Kecamatan, Kelurahan, Luas, Status
+                        break;
+                    case 'kiosKantin':
+                        lastColumn = 'G'; // No, Nama Kios, Alamat, Pemilik, Status, Jenis Dagangan, Keterangan
+                        break;
+
+                    // Bidang Koperasi
+                    case 'pelakuUKM':
+                        lastColumn = 'H'; // No, NIK, Nama, Gender, No Telp, Email, Sektor Usaha, Alamat
+                        break;
+                    case 'ukmBerijin':
+                        lastColumn = 'G'; // No, NIK, Nama, Alamat, Jenis Usaha, No NIB, Tanggal NIB
+                        break;
+                    case 'ukmAksesPerbankan':
+                        lastColumn = 'G'; // No, NIK, Nama, Alamat, Bank, Jenis Kredit, Nominal
+                        break;
+                    case 'wirausahaBermitraUKM':
+                        lastColumn = 'G'; // No, NIK, Nama, Alamat, Jenis Usaha, Mitra, Bentuk Kemitraan
+                        break;
+                    case 'aksesModalUsaha':
+                        lastColumn = 'G'; // No, NIK, Nama, Alamat, Sumber Modal, Nominal, Tanggal
+                        break;
+                    case 'miskinPesertaPelatihan':
+                        lastColumn = 'G'; // No, NIK, Nama, Alamat, Jenis Pelatihan, Tanggal Pelatihan, Status
+                        break;
+                    case 'koperasiProduksi':
+                        lastColumn = 'E'; // No, Nama Koperasi, Alamat, Produk, Bulan
+                        break;
+                    case 'koperasiAktif':
+                        lastColumn = 'H'; // No, Nama Koperasi, NIK, No Badan Hukum, Alamat, Kelurahan, Kecamatan, Desa
+                        break;
+                    case 'aksesPasarOnline':
+                        lastColumn = 'D'; // No, Nama Koperasi, Alamat, Media Pemasaran
+                        break;
+                    case 'aksesKreditBank':
+                        lastColumn = 'D'; // No, Nama Koperasi, Alamat, Bank Pemberi Fasilitas
+                        break;
+                    case 'koperasiSehat':
+                        lastColumn = 'E'; // No, Nama Koperasi, Alamat, Hasil, Tahun Penilaian
+                        break;
+                    case 'rekapOmzet':
+                        lastColumn = 'S'; // No, Kecamatan, Data Koperasi (3), Data Anggota (3), RAT Unit, Data Manajer (3), Data Karyawan (3), Data Keuangan (4)
+                        break;
+                    default:
+                        lastColumn = 'F'; // Default 6 kolom
+                }
+
+                // Merge cells untuk header sesuai lebar tabel
+                worksheet.mergeCells(`A1:${lastColumn}1`); // PEMERINTAH KABUPATEN WONOSOBO
+                worksheet.mergeCells(`A2:${lastColumn}2`); // DINAS PERDAGANGAN, KOPERASI, UKM
+                worksheet.mergeCells(`A3:${lastColumn}3`); // Alamat
+                worksheet.mergeCells(`A4:${lastColumn}4`); // Telp/Fax
+                worksheet.mergeCells(`A5:${lastColumn}5`); // Website
+
+                // Copy 5 baris pertama dari template
+                for (let i = 1; i <= 5; i++) {
+                    const row = templateSheet.getRow(i);
+                    const newRow = worksheet.getRow(i);
+                    
+                    // Copy values dan styling
+                    row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+                        if (colNumber <= lastColumn.charCodeAt(0) - 64) { // Konversi huruf ke angka (A=1, B=2, dst)
+                            const newCell = newRow.getCell(colNumber);
+                            newCell.value = cell.value;
+                            newCell.style = Object.assign({}, cell.style);
+                            
+                            // Tambahkan border untuk header
+                            newCell.border = {
+                                top: { style: 'thin' },
+                                bottom: { style: 'thin' },
+                                left: { style: 'thin' },
+                                right: { style: 'thin' }
+                            };
+                        }
+                    });
+                    
+                    newRow.height = row.height;
+                }
+
+                // Tambahkan judul tabel
+                worksheet.mergeCells(`A7:${lastColumn}8`);
+                const titleCell = worksheet.getCell('A7');
+                titleCell.value = sheetTitle;
+                titleCell.font = { size: 16, bold: true, color: { argb: '000000' } };
+                titleCell.alignment = { horizontal: 'center', vertical: 'middle' };
+
+                // Sisanya tetap sama
+                let data = [];
+                switch(tableId) {
+                    // Bidang Perdagangan
+                    case 'pelayananTera':
+                        data = await getPelayananTeraData();
+                        await generatePelayananTeraSheet(worksheet, data);
+                        break;
+                    case 'teraKabWSB':
+                        data = await getTeraKabWSBData();
+                        await generateTeraKabWSBSheet(worksheet, data);
+                        break;
+                    case 'marketplace':
+                        data = await getMarketplaceData();
+                        await generateMarketplaceSheet(worksheet, data);
+                        break;
+                    case 'disparitasHarga':
+                        data = await getDisparitasHargaData();
+                        await generateDisparitasHargaSheet(worksheet, data);
+                        break;
+                    case 'hasilPengawasan':
+                        data = await getHasilPengawasanData();
+                        await generateHasilPengawasanSheet(worksheet, data);
+                        break;
+                    case 'tokoModern':
+                        data = await getTokoModernData();
+                        await generateTokoModernSheet(worksheet, data);
+                        break;
+                    case 'tokoModernOSS':
+                        data = await getTokoModernOSSData();
+                        await generateTokoModernOSSSheet(worksheet, data);
+                        break;
+                    case 'tokoModernMemasarkanUMKM':
+                        data = await getTokoModernMemasarkanUMKMData();
+                        await generateTokoModernMemasarkanUMKMSheet(worksheet, data);
+                        break;
+                    case 'komoditasEkspor':
+                        data = await getKomoditasEksporData();
+                        await generateKomoditasEksporSheet(worksheet, data);
+                        break;
+                    case 'matrikaEkspor':
+                        data = await getMatrikaEksporData();
+                        await generateMatrikaEksporSheet(worksheet, data);
+                        break;
+                
+                    // Bidang Pasar
+                    case 'kondisiPasar':
+                        data = await getKondisiPasarData();
+                        await generateKondisiPasarSheet(worksheet, data);
+                        break;
+                    case 'losKios':
+                        data = await getLosKiosData();
+                        await generateLosKiosSheet(worksheet, data);
+                        break;
+                    case 'profil':
+                        data = await getProfilData();
+                        await generateProfilSheet(worksheet, data);
+                        break;
+
+                    // Bidang Koperasi
+                    case 'pelakuUKM':
+                        data = await getPelakuUKMData();
+                        await generatePelakuUKMSheet(worksheet, data);
+                        break;
+                    case 'ukmBerijin':
+                        data = await getUKMBerijinData();
+                        await generateUKMBerijinSheet(worksheet, data);
+                        break;
+                    case 'ukmAksesPerbankan':
+                        data = await getUKMAksesPerbankanData();
+                        await generateUKMAksesPerbankanSheet(worksheet, data);
+                        break;
+                    case 'wirausahaBermitraUKM':
+                        data = await getWirausahaBermitraUKMData();
+                        await generateWirausahaBermitraUKMSheet(worksheet, data);
+                        break;
+                    case 'aksesModalUsaha':
+                        data = await getAksesModalUsahaData();
+                        await generateAksesModalUsahaSheet(worksheet, data);
+                        break;
+                    case 'miskinPesertaPelatihan':
+                        data = await getMiskinPesertaPelatihanData();
+                        await generateMiskinPesertaPelatihanSheet(worksheet, data);
+                        break;
+                    case 'koperasiProduksi':
+                        data = await getKoperasiProduksiData();
+                        await generateKoperasiProduksiSheet(worksheet, data);
+                        break;
+                    case 'koperasiAktif':
+                        data = await getKoperasiAktifData();
+                        await generateKoperasiAktifSheet(worksheet, data);
+                        break;
+                    case 'aksesPasarOnline':
+                        data = await getAksesPasarOnlineData();
+                        await generateAksesPasarOnlineSheet(worksheet, data);
+                        break;
+                    case 'aksesKreditBank':
+                        data = await getAksesKreditBankData();
+                        await generateAksesKreditBankSheet(worksheet, data);
+                        break;
+                    case 'koperasiSehat':
+                        data = await getKoperasiSehatData();
+                        await generateKoperasiSehatSheet(worksheet, data);
+                        break;
+                    case 'rekapOmzet':
+                        data = await getRekapOmzetData();
+                        await generateRekapOmzetSheet(worksheet, data);
+                        break;
+                }
+            }
+
+            workbook.removeWorksheet('Sheet1');
+            
+            // Export workbook
+            const buffer = await workbook.xlsx.writeBuffer();
+            const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Data_Export_${new Date().toLocaleDateString()}.xlsx`;
+            link.click();
+        } catch (error) {
+            console.error('Error saat mengekspor data:', error);
+            alert('Terjadi kesalahan saat mengekspor data!');
+        }
+    });
+}
+
+// ============= BIDANG PERDAGANGAN =============
+
+// 1. Pelayanan Tera
+async function getPelayananTeraData() {
+    const teraRef = ref(db, 'Bidang Perdagangan/Jumlah Pelayanan Tera');
+    const snapshot = await get(teraRef);
+    return snapshot.val();
+}
+
+async function generatePelayananTeraSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'UTTP',
+        'Triwulan 1',
+        'Triwulan 2',
+        'Triwulan 3',
+        'Triwulan 4'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data && data['Jumlah Pelayanan Tera']) {
+        Object.entries(data['Jumlah Pelayanan Tera']).forEach(([key, value]) => {
+            if (key !== 'Total' && key !== 'Total Semua Layanan') {
+                const row = worksheet.getRow(rowIndex);
+                row.values = [
+                    no++,
+                    value['UTTP'] || '',
+                    value['Triwulan 1'] || '',
+                    value['Triwulan 2'] || '',
+                    value['Triwulan 3'] || '',
+                    value['Triwulan 4'] || ''
+                ];
+                styleDataRow(row);
+                rowIndex++;
+            }
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 2. Tera Kab WSB
+async function getTeraKabWSBData() {
+    const teraKabRef = ref(db, 'Bidang Perdagangan/Data Semua Tera Kab WSB/Triwulan 3');
+    const snapshot = await get(teraKabRef);
+    return snapshot.val();
+}
+
+async function generateTeraKabWSBSheet(worksheet, data) {
+
+    const headers = [
+        [
+            'NO', 'LOKASI', 
+            'UP', 'UP', 'TAK', 'TAK',
+            'ANAK', 'ANAK', 'ANAK', 'ANAK', 'ANAK', 'ANAK',
+            'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN',
+            'Alat Ukur Tinggi', 'TEB 1000 KG', 'JUMLAH TOTAL'
+        ],
+        [
+            '', '', 
+            '1 m ≤', 'up ≤ 1', '5 l ≤', 'tb > 2',
+            'Biasa', 'Biasa', 'Biasa',
+            'Halus', 'Halus', 'Halus',
+            'DACIN', 'DACIN',
+            'SENT', 'SENT',
+            'BOBOT', 'BOBOT',
+            'PEG', 'PEG',
+            'MEJA', 'NERACA',
+            'TE', 'TE',
+            'TE', 'TE', 'TE',
+            '', '', ''
+        ],
+        [
+            '', '',
+            'up ≤ 2', 'm', 'tb ≤ 25', 'l',
+            'atb ≤ 1', '1 < atb ≤', '5 < atb ≤',
+            'atb ≤ 1', '1 < atb ≤', '5 < atb ≤',
+            'DL ≤ 25', 'DL > 25',
+            'S ≤ 150', '150 < S ≤ 500',
+            'TBI ≤ 25', '25 < TBI ≤ 150',
+            'TP ≤ 25', 'TP > 25',
+            '', '',
+            'TE ≤ 1', 'TE > 1',
+            'TE ≤ 25', '25 < TE ≤ 150', '25 < TE ≤ 500',
+            '', '', ''
+        ],
+        [
+            '', '',
+            'm', '', 'l', '',
+            'kg', '5 kg', '20 kg',
+            'kg', '5 kg', '20 kg',
+            'kg', 'kg',
+            'kg', 'kg',
+            'kg', 'kg',
+            'kg', 'kg',
+            '', '',
+            'kg', 'kg',
+            'kg', 'kg', 'kg',
+            '', '', ''
+        ]
+    ];
+
+    // Merge cells yang lebih akurat
+    worksheet.mergeCells('A9:A12');  // NO
+    worksheet.mergeCells('B9:B12');  // LOKASI
+    
+    // UP
+    worksheet.mergeCells('C9:D9');   // UP
+    worksheet.mergeCells('C10:C11'); // 1 m ≤
+    worksheet.mergeCells('D10:D11'); // up ≤ 1
+    
+    // TAK
+    worksheet.mergeCells('E9:F9');   // TAK
+    worksheet.mergeCells('E10:E11'); // 5 l ≤
+    worksheet.mergeCells('F10:F11'); // tb > 2
+    
+    // ANAK TIMBANGAN
+    worksheet.mergeCells('G9:L9');   // ANAK
+    worksheet.mergeCells('G10:I10'); // Biasa
+    worksheet.mergeCells('J10:L10'); // Halus
+    
+    // TIMBANGAN
+    worksheet.mergeCells('M9:AA9');  // TIMBANGAN
+    worksheet.mergeCells('M10:N10'); // DACIN
+    worksheet.mergeCells('O10:P10'); // SENT
+    worksheet.mergeCells('Q10:R10'); // BOBOT
+    worksheet.mergeCells('S10:T10'); // PEG
+    worksheet.mergeCells('U10:U12'); // MEJA
+    worksheet.mergeCells('V10:V12'); // NERACA
+    worksheet.mergeCells('W10:X10'); // TE (II)
+    worksheet.mergeCells('Y10:AA10');// TE (III & IV)
+    
+    // Kolom terakhir
+    worksheet.mergeCells('AB9:AB12');// Alat Ukur Tinggi
+    worksheet.mergeCells('AC9:AC12');// TEB 1000 KG
+    worksheet.mergeCells('AD9:AD12');// JUMLAH TOTAL
+
+    // Terapkan header dengan rotasi teks
+    headers.forEach((headerRow, idx) => {
+        const row = worksheet.getRow(idx + 9);
+        headerRow.forEach((header, colIdx) => {
+            const cell = row.getCell(colIdx + 1);
+            cell.value = header;
+            cell.font = { 
+                bold: true, 
+                color: { argb: '000000' },
+                size: 8
+            };
+            cell.alignment = { 
+                horizontal: 'center',
+                vertical: 'middle',
+                wrapText: true,
+            };
+            cell.border = {
+                top: { style: 'thin' },
+                bottom: { style: 'thin' },
+                left: { style: 'thin' },
+                right: { style: 'thin' }
+            };
+        });
+        row.height = 25;
+    });
+
+    let rowIndex = 13;
+    let no = 1;
+
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            if (value.DETAIL) {
+                value.DETAIL.forEach(detail => {
+                    Object.entries(detail).forEach(([lokasi, items]) => {
+                        const row = worksheet.getRow(rowIndex);
+                        const values = new Array(30).fill('-');
+
+                        values[0] = no++;
+                        values[1] = lokasi;
+
+                        // UP
+                        values[2] = items.UP['1 m ≤ up ≤ 2 m'];
+                        values[3] = items.UP['up ≤ 1 m'];
+
+                        // TAK
+                        values[4] = items.TAK['5 l ≤  tb ≤ 25 l'];
+                        values[5] = items.TAK['tb > 2 l'];
+
+                        // ANAK TIMBANGAN - Biasa
+                        values[6] = items['ANAK TIMBANGAN'].Biasa['atb ≤ 1 kg'];
+                        values[7] = items['ANAK TIMBANGAN'].Biasa['1 < atb ≤ 5 kg'];
+                        values[8] = items['ANAK TIMBANGAN'].Biasa['5 < atb ≤ 20 kg'];
+
+                        // ANAK TIMBANGAN - Halus
+                        values[9] = items['ANAK TIMBANGAN'].Halus['atb ≤ 1 kg'];
+                        values[10] = items['ANAK TIMBANGAN'].Halus['1 < atb ≤ 5 kg'];
+                        values[11] = items['ANAK TIMBANGAN'].Halus['5 < atb ≤ 20 kg'];
+
+                        // TIMBANGAN
+                        const timbangan = items.TIMBANGAN;
+                        values[12] = timbangan['DACIN LOGAM']['DL ≤ 25 kg'];
+                        values[13] = timbangan['DACIN LOGAM']['DL > 25 kg'];
+                        values[14] = timbangan.SENTISIMAL['S ≤ 150 kg'];
+                        values[15] = timbangan.SENTISIMAL['150 kg < S ≤ 500 kg'];
+                        values[16] = timbangan['BOBOT INGSUT']['TBI ≤ 25 kg'];
+                        values[17] = timbangan['BOBOT INGSUT']['25 kg < TBI ≤ 150 kg'];
+                        values[18] = timbangan.PEGAS['TP ≤ 25 kg'];
+                        values[19] = timbangan.PEGAS['TP > 25 kg'];
+                        values[20] = timbangan.MEJA;
+                        values[21] = timbangan.NERACA;
+                        values[22] = timbangan['TE (II)']['TE ≤ 1 kg'];
+                        values[23] = timbangan['TE (II)']['TE > 1 kg'];
+                        values[24] = timbangan['TE (III & IV)']['TE ≤ 25 kg'];
+                        values[25] = timbangan['TE (III & IV)']['25 kg < TE ≤ 150 kg'];
+                        values[26] = timbangan['TE (III & IV)']['25 kg < TE ≤ 500 kg'];
+
+                        // Kolom terakhir
+                        values[27] = items['Alat Ukur Tinggi Orang'];
+                        values[28] = items['TEB 1000 KG'];
+                        values[29] = items['Jumlah Total UTTP'];
+
+                        // Set nilai dan style
+                        row.values = values.map(v => v === '-' ? '-' : v || '-');
+                        styleDataRow(row);
+                        row.height = 25;
+                        rowIndex++;
+                    });
+                });
+            }
+        });
+    }
+
+    worksheet.columns.forEach((col, idx) => {
+        if (idx === 0) col.width = 4;       // NOMOR
+        else if (idx === 1) col.width = 12;  // LOKASI
+        else col.width = 5;                  // Kolom lainnya
+    });
+    worksheet.getRow(9).height = 30;
+    worksheet.getRow(10).height = 30;
+    worksheet.getRow(11).height = 30;
+}
+
+// 3. Marketplace
+async function getMarketplaceData() {
+    const marketplaceRef = ref(db, 'Bidang Perdagangan/Data Marketplace Lokal');
+    const snapshot = await get(marketplaceRef);
+    return snapshot.val();
+}
+
+async function generateMarketplaceSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Nama Marketplace',
+        'Tahun n-1',
+        'Tahun n-2',
+        'Triwuan 1',
+        'Triwuan 2',
+        'Triwuan 3',
+        'Triwuan 4',
+        'Keterangan'
+        
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama Marketplace'] || '',
+                value['Tahun n-1'] || '',
+                value['Tahun n-2'] || '',
+                value['Triwuan 1'] || '',
+                value['Triwuan 2'] || '',
+                value['Triwuan 3'] || '',
+                value['Triwuan 4'] || '',
+                value['Keterangan'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 4. Toko Modern
+async function getTokoModernData() {
+    const tokoRef = ref(db, 'Bidang Perdagangan/Data Toko Modern');
+    const snapshot = await get(tokoRef);
+    return snapshot.val();
+}
+
+async function generateTokoModernSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Nama Toko',
+        'Alamat',
+        'Kecamatan',
+        'Kelurahan',
+        'Status',
+        'Keterangan'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama Toko'] || '',
+                value['Alamat'] || '',
+                value['Kecamatan'] || '',
+                value['Kelurahan'] || '',
+                value['Status'] || '',
+                value['Keterangan'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 5. Toko Modern OSS
+async function getTokoModernOSSData() {
+    const tokoRef = ref(db, 'Bidang Perdagangan/Data Toko Modern OSS');
+    const snapshot = await get(tokoRef);
+    return snapshot.val();
+}
+
+async function generateTokoModernOSSSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Nama Toko',
+        'Alamat',
+        'NIB',
+        'Kecamatan',
+        'Kelurahan',
+        'Status'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama Toko'] || '',
+                value['Alamat'] || '',
+                value['NIB'] || '',
+                value['Kecamatan'] || '',
+                value['Kelurahan'] || '',
+                value['Status'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 6. Toko Modern Memasarkan UMKM
+async function getTokoModernMemasarkanUMKMData() {
+    const tokoRef = ref(db, 'Bidang Perdagangan/Data Toko Modern Memasarkan UMKM');
+    const snapshot = await get(tokoRef);
+    return snapshot.val();
+}
+
+async function generateTokoModernMemasarkanUMKMSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Nama Toko',
+        'Alamat',
+        'Jumlah UMKM',
+        'Status',
+        'Keterangan'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama Toko'] || '',
+                value['Alamat'] || '',
+                value['Jumlah UMKM'] || '',
+                value['Status'] || '',
+                value['Keterangan'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 7. Komoditas Ekspor
+async function getKomoditasEksporData() {
+    const eksporRef = ref(db, 'Bidang Perdagangan/Komoditas Ekspor');
+    const snapshot = await get(eksporRef);
+    return snapshot.val();
+}
+
+async function generateKomoditasEksporSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Nama Komoditas',
+        'Volume',
+        'Satuan',
+        'Nilai (USD)',
+        'Negara Tujuan',
+        'Tahun'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama Komoditas'] || '',
+                value['Volume'] || '',
+                value['Satuan'] || '',
+                value['Nilai'] || '',
+                value['Negara Tujuan'] || '',
+                value['Tahun'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 8. Matrika Ekspor
+async function getMatrikaEksporData() {
+    const matrikaRef = ref(db, 'Bidang Perdagangan/Matrika Ekspor');
+    const snapshot = await get(matrikaRef);
+    return snapshot.val();
+}
+
+async function generateMatrikaEksporSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Tahun',
+        'Volume',
+        'Satuan',
+        'Nilai (USD)',
+        'Pertumbuhan (%)',
+        'Keterangan'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Tahun'] || '',
+                value['Volume'] || '',
+                value['Satuan'] || '',
+                value['Nilai'] || '',
+                value['Pertumbuhan'] || '',
+                value['Keterangan'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 9. Disparitas Harga
+async function getDisparitasHargaData() {
+    const disparitasRef = ref(db, 'Bidang Perdagangan/Disparitas Harga');
+    const snapshot = await get(disparitasRef);
+    return snapshot.val();
+}
+
+async function generateDisparitasHargaSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No', 
+        'Nama Sampel Komoditi', 
+        'Satuan',
+        'Kabupaten Wonosobo',
+        'Kabupaten Temanggung',
+        'Selisih',
+        'Persen'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama Sampel Komoditi'] || '',
+                value['Satuan'] || '',
+                value['Kabupaten Wonosobo'] || '',
+                value['Kabupaten Temanggung'] || '',
+                value['Selisih'] || '',
+                value['Persen'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 10. Hasil Pengawasan
+async function getHasilPengawasanData() {
+    const pengawasanRef = ref(db, 'Bidang Perdagangan/Hasil Pengawasan');
+    const snapshot = await get(pengawasanRef);
+    return snapshot.val();
+}
+
+async function generateHasilPengawasanSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Wilayah',
+        'Kios Pupuk Lengkap',
+        'NIB',
+        'SPJB',
+        'RDKK',
+        'Harga HET',
+        'Papan Nama',
+        'Penyerapan Kartu Tani (%)',
+        'Hasil'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Wilayah'] || '',
+                value['Kios Pupuk Lengkap'] || '',
+                value['NOMOR_INDUK_BERUSAHA_(NIB)'] || '',
+                value['SPJB'] || '',
+                value['RDKK'] || '',
+                value['Harga HET'] || '',
+                value['Papan Nama'] || '',
+                value['Penyerapan Kartu Tani (%)'] || '',
+                value['Hasil'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// ============= BIDANG PASAR =============
+
+// 1. Kondisi Pasar
+async function getKondisiPasarData() {
+    const pasarRef = ref(db, 'Bidang Pasar/Data Kondisi Pasar');
+    const snapshot = await get(pasarRef);
+    return snapshot.val();
+}
+
+async function generateKondisiPasarSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Nama Pasar',
+        'Alamat',
+        'Kondisi Bangunan',
+        'Tahun Pembangunan',
+        'Tahun Renovasi',
+        'Status',
+        'Keterangan'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama Pasar'] || '',
+                value['Alamat'] || '',
+                value['Kondisi Bangunan'] || '',
+                value['Tahun Pembangunan'] || '',
+                value['Tahun Renovasi'] || '',
+                value['Status'] || '',
+                value['Keterangan'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 2. Los & Kios
+async function getLosKiosData() {
+    const losKiosRef = ref(db, 'Bidang Pasar/Data Los dan Kios');
+    const snapshot = await get(losKiosRef);
+    return snapshot.val();
+}
+
+async function generateLosKiosSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Nama Pasar',
+        'Jumlah Los',
+        'Jumlah Kios',
+        'Los Terpakai',
+        'Kios Terpakai',
+        'Los Kosong',
+        'Kios Kosong'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama Pasar'] || '',
+                value['Jumlah Los'] || '',
+                value['Jumlah Kios'] || '',
+                value['Los Terpakai'] || '',
+                value['Kios Terpakai'] || '',
+                value['Los Kosong'] || '',
+                value['Kios Kosong'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 3. Profil Pasar
+async function getProfilData() {
+    const profilRef = ref(db, 'Bidang Pasar/Matriks Profil Pasar');
+    const snapshot = await get(profilRef);
+    return snapshot.val();
+}
+
+async function generateProfilSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Nama Pasar',
+        'Luas Lahan',
+        'Luas Bangunan',
+        'Jumlah Pedagang',
+        'Status Lahan',
+        'Potensi Retribusi',
+        'Keterangan'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama Pasar'] || '',
+                value['Luas Lahan'] || '',
+                value['Luas Bangunan'] || '',
+                value['Jumlah Pedagang'] || '',
+                value['Status Lahan'] || '',
+                value['Potensi Retribusi'] || '',
+                value['Keterangan'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// ============= BIDANG KOPERASI =============
+
+// 1. Pelaku UKM
+async function getPelakuUKMData() {
+    const ukmRef = ref(db, 'Bidang Koperasi/Data Pelaku UKM');
+    const snapshot = await get(ukmRef);
+    return snapshot.val();
+}
+
+async function generatePelakuUKMSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'NIK',
+        'Nama',
+        'Gender',
+        'No Telp',
+        'Email',
+        'Sektor Usaha',
+        'Alamat'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['NIK'] || '',
+                value['Nama'] || '',
+                value['Gender'] || '',
+                value['No Telp'] || '',
+                value['Email'] || '',
+                value['Sektor Usaha'] || '',
+                value['Alamat'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 2. UKM Berijin
+async function getUKMBerijinData() {
+    const ukmRef = ref(db, 'Bidang Koperasi/Data UKM Berijin');
+    const snapshot = await get(ukmRef);
+    return snapshot.val();
+}
+
+async function generateUKMBerijinSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'NIK',
+        'Nama',
+        'Alamat',
+        'Jenis Usaha',
+        'No NIB',
+        'Tanggal NIB'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['NIK'] || '',
+                value['Nama'] || '',
+                value['Alamat'] || '',
+                value['Jenis Usaha'] || '',
+                value['No NIB'] || '',
+                value['Tanggal NIB'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 3. UKM Akses Perbankan
+async function getUKMAksesPerbankanData() {
+    const ukmRef = ref(db, 'Bidang Koperasi/Data UKM Akses Perbankan');
+    const snapshot = await get(ukmRef);
+    return snapshot.val();
+}
+
+async function generateUKMAksesPerbankanSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'NIK',
+        'Nama',
+        'Alamat',
+        'Jenis Usaha',
+        'Nama Bank',
+        'Jumlah Pinjaman',
+        'Status'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['NIK'] || '',
+                value['Nama'] || '',
+                value['Alamat'] || '',
+                value['Jenis Usaha'] || '',
+                value['Nama Bank'] || '',
+                value['Jumlah Pinjaman'] || '',
+                value['Status'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 4. Wirausaha Bermitra UKM
+async function getWirausahaBermitraUKMData() {
+    const wirausahaRef = ref(db, 'Bidang Koperasi/Data Wirausaha Bermitra UKM');
+    const snapshot = await get(wirausahaRef);
+    return snapshot.val();
+}
+
+async function generateWirausahaBermitraUKMSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'NIK',
+        'Nama',
+        'Alamat',
+        'Jenis Usaha',
+        'Mitra',
+        'Bentuk Kemitraan',
+        'Status'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['NIK'] || '',
+                value['Nama'] || '',
+                value['Alamat'] || '',
+                value['Jenis Usaha'] || '',
+                value['Mitra'] || '',
+                value['Bentuk Kemitraan'] || '',
+                value['Status'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 5. Akses Modal Usaha
+async function getAksesModalUsahaData() {
+    const modalRef = ref(db, 'Bidang Koperasi/Data Akses Modal Usaha');
+    const snapshot = await get(modalRef);
+    return snapshot.val();
+}
+
+async function generateAksesModalUsahaSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'NIK',
+        'Nama',
+        'Alamat',
+        'Jenis Usaha',
+        'Sumber Modal',
+        'Jumlah Modal',
+        'Status'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['NIK'] || '',
+                value['Nama'] || '',
+                value['Alamat'] || '',
+                value['Jenis Usaha'] || '',
+                value['Sumber Modal'] || '',
+                value['Jumlah Modal'] || '',
+                value['Status'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 6. Miskin Peserta Pelatihan
+async function getMiskinPesertaPelatihanData() {
+    const pelatihanRef = ref(db, 'Bidang Koperasi/Data Miskin Peserta Pelatihan');
+    const snapshot = await get(pelatihanRef);
+    return snapshot.val();
+}
+
+async function generateMiskinPesertaPelatihanSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'NIK',
+        'Nama',
+        'Alamat',
+        'Jenis Pelatihan',
+        'Tanggal Pelatihan',
+        'Status',
+        'Keterangan'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['NIK'] || '',
+                value['Nama'] || '',
+                value['Alamat'] || '',
+                value['Jenis Pelatihan'] || '',
+                value['Tanggal Pelatihan'] || '',
+                value['Status'] || '',
+                value['Keterangan'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 7. Koperasi Produksi
+async function getKoperasiProduksiData() {
+    const koperasiRef = ref(db, 'Bidang Koperasi/Data Koperasi Produksi');
+    const snapshot = await get(koperasiRef);
+    return snapshot.val();
+}
+
+async function generateKoperasiProduksiSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Nama Koperasi',
+        'Alamat',
+        'Jenis Produksi',
+        'Jumlah Anggota',
+        'Volume Produksi',
+        'Status',
+        'Keterangan'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama Koperasi'] || '',
+                value['Alamat'] || '',
+                value['Jenis Produksi'] || '',
+                value['Jumlah Anggota'] || '',
+                value['Volume Produksi'] || '',
+                value['Status'] || '',
+                value['Keterangan'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 8. Koperasi Aktif
+async function getKoperasiAktifData() {
+    const koperasiRef = ref(db, 'Bidang Koperasi/Data Koperasi Aktif');
+    const snapshot = await get(koperasiRef);
+    return snapshot.val();
+}
+
+async function generateKoperasiAktifSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Nama Koperasi',
+        'Alamat',
+        'Jenis Koperasi',
+        'Jumlah Anggota',
+        'Asset',
+        'Volume Usaha',
+        'SHU'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama Koperasi'] || '',
+                value['Alamat'] || '',
+                value['Jenis Koperasi'] || '',
+                value['Jumlah Anggota'] || '',
+                value['Asset'] || '',
+                value['Volume Usaha'] || '',
+                value['SHU'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 9. Akses Pasar Online
+async function getAksesPasarOnlineData() {
+    const pasarRef = ref(db, 'Bidang Koperasi/Data Akses Pasar Online');
+    const snapshot = await get(pasarRef);
+    return snapshot.val();
+}
+
+async function generateAksesPasarOnlineSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Nama Koperasi',
+        'Alamat',
+        'Platform',
+        'Jenis Produk',
+        'Jumlah Produk',
+        'Omzet Online',
+        'Status'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama Koperasi'] || '',
+                value['Alamat'] || '',
+                value['Platform'] || '',
+                value['Jenis Produk'] || '',
+                value['Jumlah Produk'] || '',
+                value['Omzet Online'] || '',
+                value['Status'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 10. Akses Kredit Bank
+async function getAksesKreditBankData() {
+    const kreditRef = ref(db, 'Bidang Koperasi/Data Akses Kredit Bank');
+    const snapshot = await get(kreditRef);
+    return snapshot.val();
+}
+
+async function generateAksesKreditBankSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Nama Koperasi',
+        'Alamat',
+        'Nama Bank',
+        'Jenis Kredit',
+        'Jumlah Kredit',
+        'Jangka Waktu',
+        'Status'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama Koperasi'] || '',
+                value['Alamat'] || '',
+                value['Nama Bank'] || '',
+                value['Jenis Kredit'] || '',
+                value['Jumlah Kredit'] || '',
+                value['Jangka Waktu'] || '',
+                value['Status'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 11. Koperasi Sehat
+async function getKoperasiSehatData() {
+    const sehatRef = ref(db, 'Bidang Koperasi/Data Koperasi Sehat');
+    const snapshot = await get(sehatRef);
+    return snapshot.val();
+}
+
+async function generateKoperasiSehatSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Nama Koperasi',
+        'Alamat',
+        'Jenis Koperasi',
+        'Jumlah Anggota',
+        'Klasifikasi',
+        'Nilai',
+        'Predikat'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama Koperasi'] || '',
+                value['Alamat'] || '',
+                value['Jenis Koperasi'] || '',
+                value['Jumlah Anggota'] || '',
+                value['Klasifikasi'] || '',
+                value['Nilai'] || '',
+                value['Predikat'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 12. Rekap Omzet
+async function getRekapOmzetData() {
+    const omzetRef = ref(db, 'Bidang Koperasi/Data Rekap Omzet');
+    const snapshot = await get(omzetRef);
+    return snapshot.val();
+}
+
+async function generateRekapOmzetSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Nama Koperasi',
+        'Jenis Koperasi',
+        'Tahun',
+        'Triwulan',
+        'Omzet',
+        'Pertumbuhan (%)',
+        'Keterangan'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama Koperasi'] || '',
+                value['Jenis Koperasi'] || '',
+                value['Tahun'] || '',
+                value['Triwulan'] || '',
+                value['Omzet'] || '',
+                value['Pertumbuhan'] || '',
+                value['Keterangan'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// Fungsi helper untuk styling
+function styleHeader(row) {
+    row.eachCell(cell => {
+        cell.font = { bold: true, color: { argb: '000000' } };
+        cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
+        cell.border = {
+            top: { style: 'thin' },
+            bottom: { style: 'thin' },
+            left: { style: 'thin' },
+            right: { style: 'thin' }
+        };
+    });
+    row.height = 30; // Sesuaikan tinggi header
+}
+
+function styleDataRow(row) {
+    row.eachCell(cell => {
+        cell.border = {
+            top: { style: 'thin' },
+            bottom: { style: 'thin' },
+            left: { style: 'thin' },
+            right: { style: 'thin' }
+        };
+        cell.alignment = { horizontal: 'center', vertical: 'middle' };
+    });
+}
+
+function autoFitColumns(worksheet) {
+    worksheet.columns.forEach(column => {
+        let maxLength = 0;
+        column.eachCell({ includeEmpty: true }, cell => {
+            const columnLength = cell.value ? cell.value.toString().length : 10;
+            if (columnLength > maxLength) {
+                maxLength = columnLength;
+            }
+        });
+        column.width = maxLength < 10 ? 10 : maxLength + 2;
+    });
 }
