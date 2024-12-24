@@ -4,12 +4,12 @@
       "Triwulan 3": {
         "po1": {
           "ALAMAT": "Jalan Dieng km 3.5 Krasak Mojotengah Wonosobo",
-          "ALAMAT_EMAIL": "miftahudin.yusufdoa@gmail.com",
+          "ALAMAT EMAIL": "miftahudin.yusufdoa@gmail.com",
           "GENDER": "L",
           "NAMA": "MIFTAHUDIN",
           "NIK": "3307113007320001",
-          "NO_TELP": "085227588572",
-          "SEKTOR_USAHA": "Industri Makanan"
+          "NO TELP": "085227588572",
+          "SEKTOR USAHA": "Industri Makanan"
         }
       }
     },
@@ -63,8 +63,8 @@
           "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
           "Bidang Usaha": "Kuliner",
           "Gender": "P",
-          "NAMA": "Numa Liza Kumala Sari",
-          "No Hp": "083238780009"
+          "Nama": "Numa Liza Kumala Sari",
+          "No Telp": "083238780009"
         }
       }
     },
@@ -74,8 +74,8 @@
           "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
           "Bidang Usaha": "Kuliner",
           "Gender": "P",
-          "NAMA": "Numa Liza Kumala Sari",
-          "No Hp": "083238780009"
+          "Nama": "Numa Liza Kumala Sari",
+          "No Telp": "083238780009"
         }
       }
     },
@@ -85,8 +85,8 @@
           "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
           "Bidang Usaha": "Kuliner",
           "Gender": "P",
-          "NAMA": "Numa Liza Kumala Sari",
-          "No Hp": "083238780009"
+          "Nama": "Numa Liza Kumala Sari",
+          "No Telp": "083238780009"
         }
       }
     },
@@ -127,7 +127,7 @@
           "Bank": "BSI",
           "Bidang Usaha": "Kuliner",
           "Gender": "P",
-          "NAMA": "Numa Liza Kumala Sari",
+          "Nama": "Numa Liza Kumala Sari",
           "NIK": "3307094704890001"
         }
       }
@@ -138,10 +138,10 @@
           "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
           "Gender": "P",
           "Jenis Usaha": "Kuliner",
-          "NAMA": "Numa Liza Kumala Sari",
+          "Nama": "Numa Liza Kumala Sari",
           "NIK": "3307094704890001",
           "Nama Usaha": "Albaikitchen",
-          "No Hp": "083238780009"
+          "No Telp": "083238780009"
         }
       }
     }
@@ -378,15 +378,15 @@
           "NAMA": "JULIANI, SE"
         },
         "NOMOR INDUK BERUSAHA": {
-          "NB": "ADA",
-          "NO NB": "9120110281781"
+          "NIB": "ADA",
+          "NO NIB": "9120110281781",
+          "STATUS": "Aktif"
         },
         "PERIZINAN": {
           "HO": "ADA",
           "SIUP": "ADA",
           "TDP": "ADA"
         },
-        "STATUS": "Aktif",
         "TANGGAL SK": "30-12-2019"
       }
     },
@@ -462,9 +462,8 @@
         "Wilayah": "Kaliwiro"
       }
     },
-    "Jumlah Pelayanan Tera": {
-      "Jumlah Pelayanan Tera": {
-        "-OEHXxjEXGmFiVe0Mglx": {
+    "Data Pelayanan Tera": {
+      "-OEHXxjEXGmFiVe0Mglx": {
           "Triwulan 1": "32",
           "Triwulan 2": "52",
           "Triwulan 3": "213",
@@ -485,7 +484,6 @@
           "Triwulan 4": "122",
           "UTTP": "Meteran"
         }
-      }
     },
     "Komoditas Ekspor": {
       "Alamat": "Jln. Madura",

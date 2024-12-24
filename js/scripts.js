@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
             if (currentTable === 'pelayananTera') {
                 try {
-                    const refPath = ref(db, 'Bidang Perdagangan/Jumlah Pelayanan Tera/Jumlah Pelayanan Tera');
+                    const refPath = ref(db, 'Bidang Perdagangan/Data Pelayanan Tera');
                     const snapshot = await get(refPath);
                     const existingData = snapshot.val() || {};
                     const newData = {
@@ -317,10 +317,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         'ALAMAT': document.getElementById('alamatPemilik').value
                     },
                     'NOMOR INDUK BERUSAHA': {
-                        'NB': document.getElementById('statusNIB').value,
-                        'NO NB': document.getElementById('nomorNIB').value
+                        'NIB': document.getElementById('statusNIB').value,
+                        'NO NIB': document.getElementById('nomorNIB').value,
+                        'STATUS': document.getElementById('status').value
                     },
-                    'STATUS': document.getElementById('status').value
+                    'PERIZINAN': {
+                        'SIUP': document.getElementById('SIUP').value,
+                        "TDP": document.getElementById('TDP').value,
+                        'HO': document.getElementById('HO').value
+                    }
                 };
         
                 try {
@@ -645,7 +650,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     Gender: document.getElementById('gender').value,
                     NIK: document.getElementById('nik').value,
                     Alamat: document.getElementById('alamat').value,
-                    'No Hp': document.getElementById('noHp').value,
+                    'No Telp': document.getElementById('noHp').value,
                     'Nama Usaha': document.getElementById('namaUsaha').value,
                     'Jenis Usaha': document.getElementById('jenisUsaha').value
                 };
@@ -688,7 +693,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     Gender: document.getElementById('gender').value,
                     Alamat: document.getElementById('alamat').value,
                     'Bidang Usaha': document.getElementById('bidangUsaha').value,
-                    'No Hp': document.getElementById('noHp').value
+                    'No Telp': document.getElementById('noHp').value
                 };
         
                 try {
@@ -708,7 +713,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     Gender: document.getElementById('gender').value,
                     Alamat: document.getElementById('alamat').value,
                     'Bidang Usaha': document.getElementById('bidangUsaha').value,
-                    'No Hp': document.getElementById('noHp').value
+                    'No Telp': document.getElementById('noHp').value
                 };
         
                 try {
@@ -728,7 +733,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     Gender: document.getElementById('gender').value,
                     Alamat: document.getElementById('alamat').value,
                     'Bidang Usaha': document.getElementById('bidangUsaha').value,
-                    'No Hp': document.getElementById('noHp').value
+                    'No Telp': document.getElementById('noHp').value
                 };
         
                 try {
@@ -1113,7 +1118,7 @@ function loadBidangPerdagangan() {
         if (snapshot.exists()) {
             const data = snapshot.val();
             
-            const pelayananTeraRawData = data['Jumlah Pelayanan Tera']?.['Jumlah Pelayanan Tera'];
+            const pelayananTeraRawData = data['Data Pelayanan Tera'];
             console.log('Raw Data:', pelayananTeraRawData); // Debug raw data
                 // Hitung total semua layanan
             let totalSemuaLayanan = 0;
@@ -1405,8 +1410,12 @@ function renderTokoModernTable(data) {
             <td>${item['NAMA DAN ALAMAT LOKASI TEMPAT USAHA']?.ALAMAT || ''}</td>
             <td>${item['NAMA DAN ALAMAT PEMILIK']?.NAMA || ''}</td>
             <td>${item['NAMA DAN ALAMAT PEMILIK']?.ALAMAT || ''}</td>
-            <td>${item['NOMOR INDUK BERUSAHA']?.['NO NB'] || ''}</td>
-            <td>${item['STATUS'] || ''}</td>
+            <td>${item['NOMOR INDUK BERUSAHA'].NIB || ''}</td>
+            <td>${item['NOMOR INDUK BERUSAHA']?.['NO NIB'] || ''}</td>
+            <td>${item['NOMOR INDUK BERUSAHA'].STATUS || ''}</td>
+            <td>${item['PERIZINAN'].SIUP || ''}</td>
+            <td>${item['PERIZINAN'].TDP || ''}</td>
+            <td>${item['PERIZINAN'].HO || ''}</td>
             <td>${item['IUTM'] || ''}</td>
             <td>${item['JENIS TOKO MODERN'] || ''}</td>
             <td>${item['KOMODITI atau KBLI'] || ''}</td>
@@ -1890,16 +1899,47 @@ window.editDataPerdagangan = function(key, table) {
                             <input type="text" id="edit_alamat_pemilik" value="${data['NAMA DAN ALAMAT PEMILIK']?.ALAMAT || ''}" required>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="edit_nib">Status</label>
+                        <select id="edit_nib" required>
+                            <option value="Aktif" ${data['NOMOR INDUK BERUSAHA'].NIB === 'ADA' ? 'selected' : ''}>ADA</option>
+                            <option value="Tidak Aktif" ${data['NOMOR INDUK BERUSAHA'].NIB === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                        </select>
+                    </div>
                     <div class="form-section">
                         <h4>Nomor Induk Berusaha</h4>
                         <div class="form-group">
                             <label for="edit_no_nib">No NIB</label>
-                            <input type="text" id="edit_no_nib" value="${data['NOMOR INDUK BERUSAHA']?.['NO NB'] || ''}" required>
+                            <input type="text" id="edit_no_nib" value="${data['NOMOR INDUK BERUSAHA']?.['NO NIB'] || ''}" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="edit_status">Status</label>
-                        <input type="text" id="edit_status" value="${data['STATUS'] || ''}" required>
+                        <select id="edit_status" required>
+                            <option value="Aktif" ${data['NOMOR INDUK BERUSAHA'].STATUS === 'Aktif' ? 'selected' : ''}>Aktif</option>
+                            <option value="Tidak Aktif" ${data['NOMOR INDUK BERUSAHA'].STATUS === 'Tidak Aktif' ? 'selected' : ''}>Tidak Aktif</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_SIUP">Status</label>
+                        <select id="edit_SIUP" required>
+                            <option value="Aktif" ${data['PERIZINAN'].SIUP === 'ADA' ? 'selected' : ''}>ADA</option>
+                            <option value="Tidak Aktif" ${data['PERIZINAN'].SIUP === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_TDP">Status</label>
+                        <select id="edit_TDP" required>
+                            <option value="Aktif" ${data['PERIZINAN'].TDP === 'ADA' ? 'selected' : ''}>ADA</option>
+                            <option value="Tidak Aktif" ${data['PERIZINAN'].TDP === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_HO">Status</label>
+                        <select id="edit_HO" required>
+                            <option value="Aktif" ${data['PERIZINAN'].HO === 'ADA' ? 'selected' : ''}>ADA</option>
+                            <option value="Tidak Aktif" ${data['PERIZINAN'].HO === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="edit_iutm">IUTM</label>
@@ -2178,7 +2218,7 @@ async function getUpdatedDataByTablePerdagangan(table) {
                 const itemKey = form.getAttribute('data-key');
                 
                 // Ambil data yang ada untuk menghitung total
-                const refPath = ref(db, 'Bidang Perdagangan/Jumlah Pelayanan Tera/Jumlah Pelayanan Tera');
+                const refPath = ref(db, 'Bidang Perdagangan/Data Pelayanan Tera');
                 const snapshot = await get(refPath);
                 const existingData = snapshot.val() || {};
                 
@@ -2330,26 +2370,32 @@ async function getUpdatedDataByTablePerdagangan(table) {
                'Keterangan': document.getElementById('edit_keterangan').value
            };
         case 'tokoModern':
-           return {
-               'TANGGAL SK': document.getElementById('edit_tanggal_sk').value,
-               'NAMA DAN ALAMAT LOKASI TEMPAT USAHA': {
-                   'NAMA': document.getElementById('edit_nama_usaha').value,
-                   'ALAMAT': document.getElementById('edit_alamat_usaha').value
-               },
-               'NAMA DAN ALAMAT PEMILIK': {
-                   'NAMA': document.getElementById('edit_nama_pemilik').value,
-                   'ALAMAT': document.getElementById('edit_alamat_pemilik').value
-               },
-               'NOMOR INDUK BERUSAHA': {
-                   'NO NB': document.getElementById('edit_no_nib').value
-               },
-               'STATUS': document.getElementById('edit_status').value,
-               'IUTM': document.getElementById('edit_iutm').value,
-               'JENIS TOKO MODERN': document.getElementById('edit_jenis_toko').value,
-               'KOMODITI atau KBLI': document.getElementById('edit_komoditi').value,
-               'CATATAN PERUBAHAN': document.getElementById('edit_catatan').value,
-               'KETERANGAN': document.getElementById('edit_keterangan').value
-           };
+            return {
+                'TANGGAL SK': document.getElementById('edit_tanggal_sk').value,
+                'NAMA DAN ALAMAT LOKASI TEMPAT USAHA': {
+                    'NAMA': document.getElementById('edit_nama_usaha').value,
+                    'ALAMAT': document.getElementById('edit_alamat_usaha').value
+                },
+                'NAMA DAN ALAMAT PEMILIK': {
+                    'NAMA': document.getElementById('edit_nama_pemilik').value,
+                    'ALAMAT': document.getElementById('edit_alamat_pemilik').value
+                },
+                'NOMOR INDUK BERUSAHA': {
+                    'NO NIB': document.getElementById('edit_no_nib').value,
+                    'NO NIB': document.getElementById('edit_no_nib').value,
+                    'STATUS': document.getElementById('edit_status').value
+                },
+                'PERIZINAN':{
+                    'HO': document.getElementById('edit_HO').value,
+                    'SIUP': document.getElementById('edit_SIUP').value,
+                    'TDP': document.getElementById('edit_TDP').value
+                },
+                'IUTM': document.getElementById('edit_iutm').value,
+                'JENIS TOKO MODERN': document.getElementById('edit_jenis_toko').value,
+                'KOMODITI atau KBLI': document.getElementById('edit_komoditi').value,
+                'CATATAN PERUBAHAN': document.getElementById('edit_catatan').value,
+                'KETERANGAN': document.getElementById('edit_keterangan').value
+            };
         case 'tokoModernOSS':
            return {
                'Nama dan Alamat Lokasi Tempat Usaha': {
@@ -2475,7 +2521,7 @@ window.deleteDataPerdagangan = async function(key, table) {
 function getPathByTablePerdagangan(table) {
     switch(table) {
         case 'pelayananTera':
-            return 'Jumlah Pelayanan Tera/Jumlah Pelayanan Tera';
+            return 'Data Pelayanan Tera';
         case 'teraKabWSB':
             return 'Data Semua Tera Kab WSB';
         case 'marketplace':
@@ -2953,9 +2999,9 @@ function openAddDataPopup(table) {
                 </div>
             </div>
             <div class="form-section">
-                <h3>NIB</h3>
+                <h3>Nomor Induk Berusaha</h3>
                 <div class="form-group">
-                    <label>Status NIB</label>
+                    <label>NIB</label>
                     <select id="statusNIB" required>
                         <option value="ADA">ADA</option>
                         <option value="TIDAK ADA">TIDAK ADA</option>
@@ -2965,13 +3011,37 @@ function openAddDataPopup(table) {
                     <label for="nomorNIB">Nomor NIB</label>
                     <input type="text" id="nomorNIB">
                 </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" required>
+                        <option value="Aktif">Aktif</option>
+                        <option value="Tidak Aktif">Tidak Aktif</option>
+                    </select>
+                </div>
             </div>
             <div class="form-group">
-                <label for="status">Status</label>
-                <select id="status" required>
-                    <option value="Aktif">Aktif</option>
-                    <option value="Tidak Aktif">Tidak Aktif</option>
-                </select>
+                <h3>Perizinan</h3>
+                <div class="form-group">
+                    <label>SIUP</label>
+                    <select id="SIUP" required>
+                        <option value="ADA">ADA</option>
+                        <option value="TIDAK ADA">TIDAK ADA</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>TDP</label>
+                    <select id="TDP" required>
+                        <option value="ADA">ADA</option>
+                        <option value="TIDAK ADA">TIDAK ADA</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>HO</label>
+                    <select id="HO" required>
+                        <option value="ADA">ADA</option>
+                        <option value="TIDAK ADA">TIDAK ADA</option>
+                    </select>
+                </div>
             </div>
             <button type="submit">Tambah Data</button>
         `;
@@ -4419,7 +4489,7 @@ function renderUKMBerijinTable(data) {
             <td>${value.Gender || '-'}</td>
             <td>${value.NIK || '-'}</td>
             <td>${value.Alamat || '-'}</td>
-            <td>${value['No Hp'] || '-'}</td>
+            <td>${value['No Telp'] || '-'}</td>
             <td>${value['Nama Usaha'] || '-'}</td>
             <td>${value['Jenis Usaha'] || '-'}</td>
             <td>
@@ -4481,7 +4551,7 @@ function renderWirausahaBermitraUKMTable(data) {
             <td>${value.Gender || '-'}</td>
             <td>${value.Alamat || '-'}</td>
             <td>${value['Bidang Usaha'] || '-'}</td>
-            <td>${value['No Hp'] || '-'}</td>
+            <td>${value['No Telp'] || '-'}</td>
             <td>
                 <div class="action-buttons">
                     <button class="edit-btn" onclick="editDataKoperasi('${key}', 'wirausahaBermitraUKM')">
@@ -4511,7 +4581,7 @@ function renderAksesModalUsahaTable(data) {
             <td>${value.Gender || '-'}</td>
             <td>${value.Alamat || '-'}</td>
             <td>${value['Bidang Usaha'] || '-'}</td>
-            <td>${value['No Hp'] || '-'}</td>
+            <td>${value['No Telp'] || '-'}</td>
             <td>
                 <div class="action-buttons">
                     <button class="edit-btn" onclick="editDataKoperasi('${key}', 'aksesModalUsaha')">
@@ -4541,7 +4611,7 @@ function renderMiskinPesertaPelatihanTable(data) {
             <td>${value.Gender || '-'}</td>
             <td>${value.Alamat || '-'}</td>
             <td>${value['Bidang Usaha'] || '-'}</td>
-            <td>${value['No Hp'] || '-'}</td>
+            <td>${value['No Telp'] || '-'}</td>
             <td>
                 <div class="action-buttons">
                     <button class="edit-btn" onclick="editDataKoperasi('${key}', 'miskinPesertaPelatihan')">
@@ -4815,7 +4885,7 @@ window.editDataKoperasi = function(key, table) {
                     </div>
                     <div class="form-group">
                         <label for="edit_noHp">No. HP</label>
-                        <input type="text" id="edit_noHp" value="${data['No Hp'] || ''}" required>
+                        <input type="text" id="edit_noHp" value="${data['No Telp'] || ''}" required>
                     </div>
                     <div class="form-group">
                         <label for="edit_namaUsaha">Nama Usaha</label>
@@ -4881,7 +4951,7 @@ window.editDataKoperasi = function(key, table) {
                     </div>
                     <div class="form-group">
                         <label for="edit_noHp">No. HP</label>
-                        <input type="text" id="edit_noHp" value="${data['No Hp'] || ''}" required>
+                        <input type="text" id="edit_noHp" value="${data['No Telp'] || ''}" required>
                     </div>
                     <button type="submit">Simpan Perubahan</button>
                 `;
@@ -4908,7 +4978,7 @@ window.editDataKoperasi = function(key, table) {
                     </div>
                     <div class="form-group">
                         <label for="edit_noHp">No. HP</label>
-                        <input type="text" id="edit_noHp" value="${data['No Hp'] || ''}" required>
+                        <input type="text" id="edit_noHp" value="${data['No Telp'] || ''}" required>
                     </div>
                     <button type="submit">Simpan Perubahan</button>
                 `;
@@ -4951,7 +5021,7 @@ window.editDataKoperasi = function(key, table) {
                     </div>
                     <div class="form-group">
                         <label for="edit_noHp">No. HP</label>
-                        <input type="text" id="edit_noHp" value="${data['No Hp'] || ''}" required>
+                        <input type="text" id="edit_noHp" value="${data['No Telp'] || ''}" required>
                     </div>
                     <div class="form-group">
                         <label for="edit_jenisPelatihan">Jenis Pelatihan</label>
@@ -5229,7 +5299,7 @@ function getUpdatedDataByTable(table) {
             Gender: document.getElementById('edit_gender').value,
             NIK: document.getElementById('edit_nik').value,
             Alamat: document.getElementById('edit_alamat').value,
-            'No Hp': document.getElementById('edit_noHp').value,
+            'No Telp': document.getElementById('edit_noHp').value,
             'Nama Usaha': document.getElementById('edit_namaUsaha').value,
             'Jenis Usaha': document.getElementById('edit_jenisUsaha').value
         };
@@ -5248,7 +5318,7 @@ function getUpdatedDataByTable(table) {
             Gender: document.getElementById('edit_gender').value,
             Alamat: document.getElementById('edit_alamat').value,
             'Bidang Usaha': document.getElementById('edit_bidangUsaha').value,
-            'No Hp': document.getElementById('edit_noHp').value
+            'No Telp': document.getElementById('edit_noHp').value
         };
     } else if (table === 'aksesModalUsaha') {
         return {
@@ -5256,7 +5326,7 @@ function getUpdatedDataByTable(table) {
             Gender: document.getElementById('edit_gender').value,
             Alamat: document.getElementById('edit_alamat').value,
             'Bidang Usaha': document.getElementById('edit_bidangUsaha').value,
-            'No Hp': document.getElementById('edit_noHp').value
+            'No Telp': document.getElementById('edit_noHp').value
         };
     } else if (table === 'koperasiProduksi') {
         return {
@@ -5270,7 +5340,7 @@ function getUpdatedDataByTable(table) {
             Gender: document.getElementById('edit_gender').value,
             NIK: document.getElementById('edit_nik').value,
             Alamat: document.getElementById('edit_alamat').value,
-            'No Hp': document.getElementById('edit_noHp').value,
+            'No Telp': document.getElementById('edit_noHp').value,
         'Jenis Pelatihan': document.getElementById('edit_jenisPelatihan').value,
         'Tahun Pelatihan': document.getElementById('edit_tahunPelatihan').value
         };
@@ -5387,7 +5457,7 @@ async function loadExportData() {
                 switch(tableId) {
                     // Bidang Perdagangan
                     case 'pelayananTera':
-                        lastColumn = 'F'; // No, UTTP, Triwulan 1-4
+                        lastColumn = 'F';
                         break;
                     case 'teraKabWSB':
                         lastColumn = 'AD'; // No, Nama Wajib Tera, Alamat, Jenis UTTP, Tanggal Tera, Status
@@ -5402,56 +5472,56 @@ async function loadExportData() {
                         lastColumn = 'J'; // No, Wilayah, Kios Pupuk, NIB, SPJB, RDKK, Harga HET, Papan Nama, Penyerapan, Hasil
                         break;
                     case 'tokoModern':
-                        lastColumn = 'G'; // No, Nama Toko, Alamat, Kecamatan, Kelurahan, Status, Keterangan
+                        lastColumn = 'Q'; // No, Nama Toko, Alamat, Kecamatan, Kelurahan, Status, Keterangan
                         break;
                     case 'tokoModernOSS':
-                        lastColumn = 'G'; // No, Nama Toko, Alamat, NIB, Kecamatan, Kelurahan, Status
+                        lastColumn = 'K'; // No, Nama Toko, Alamat, NIB, Kecamatan, Kelurahan, Status
                         break;
                     case 'tokoModernMemasarkanUMKM':
-                        lastColumn = 'F'; // No, Nama Toko, Alamat, Jumlah UMKM, Status, Keterangan
+                        lastColumn = 'D'; // No, Nama Toko, Alamat, Jumlah UMKM, Status, Keterangan
                         break;
-                    case 'pedagangBermodalBesar':
-                        lastColumn = 'G'; // No, Nama, Alamat, Jenis Usaha, Status, NIB, Keterangan
+                    case 'komoditasEkspor':
+                        lastColumn = 'F'; // No, Nama, Alamat, Jenis Usaha, Status, NIB, Keterangan
                         break;
-                    case 'pedagangBermodalKecil':
-                        lastColumn = 'G'; // No, Nama, Alamat, Jenis Usaha, Status, NIB, Keterangan
+                    case 'matrikaEkspor':
+                        lastColumn = 'J'; // No, Nama, Alamat, Jenis Usaha, Status, NIB, Keterangan
                         break;    
 
                     // Bidang Pasar
                     case 'pedagangPasar':
-                        lastColumn = 'H'; // No, Nama, NIK, Alamat, No Los/Kios, Jenis Dagangan, Status, Keterangan
+                        lastColumn = 'J'; // No, Nama, NIK, Alamat, No Los/Kios, Jenis Dagangan, Status, Keterangan
                         break;
                     case 'pasarRakyat':
-                        lastColumn = 'G'; // No, Nama Pasar, Alamat, Kecamatan, Kelurahan, Luas, Status
+                        lastColumn = 'H'; // No, Nama Pasar, Alamat, Kecamatan, Kelurahan, Luas, Status
                         break;
                     case 'kiosKantin':
-                        lastColumn = 'G'; // No, Nama Kios, Alamat, Pemilik, Status, Jenis Dagangan, Keterangan
+                        lastColumn = 'H'; // No, Nama Kios, Alamat, Pemilik, Status, Jenis Dagangan, Keterangan
                         break;
 
                     // Bidang Koperasi
                     case 'pelakuUKM':
-                        lastColumn = 'H'; // No, NIK, Nama, Gender, No Telp, Email, Sektor Usaha, Alamat
+                        lastColumn = 'I'; // No, NIK, Nama, Gender, No Telp, Email, Sektor Usaha, Alamat
                         break;
                     case 'ukmBerijin':
-                        lastColumn = 'G'; // No, NIK, Nama, Alamat, Jenis Usaha, No NIB, Tanggal NIB
+                        lastColumn = 'H'; // No, NIK, Nama, Alamat, Jenis Usaha, No NIB, Tanggal NIB
                         break;
                     case 'ukmAksesPerbankan':
                         lastColumn = 'G'; // No, NIK, Nama, Alamat, Bank, Jenis Kredit, Nominal
                         break;
                     case 'wirausahaBermitraUKM':
-                        lastColumn = 'G'; // No, NIK, Nama, Alamat, Jenis Usaha, Mitra, Bentuk Kemitraan
+                        lastColumn = 'F'; // No, NIK, Nama, Alamat, Jenis Usaha, Mitra, Bentuk Kemitraan
                         break;
                     case 'aksesModalUsaha':
-                        lastColumn = 'G'; // No, NIK, Nama, Alamat, Sumber Modal, Nominal, Tanggal
+                        lastColumn = 'F'; // No, NIK, Nama, Alamat, Sumber Modal, Nominal, Tanggal
                         break;
                     case 'miskinPesertaPelatihan':
-                        lastColumn = 'G'; // No, NIK, Nama, Alamat, Jenis Pelatihan, Tanggal Pelatihan, Status
+                        lastColumn = 'F'; // No, NIK, Nama, Alamat, Jenis Pelatihan, Tanggal Pelatihan, Status
                         break;
                     case 'koperasiProduksi':
                         lastColumn = 'E'; // No, Nama Koperasi, Alamat, Produk, Bulan
                         break;
                     case 'koperasiAktif':
-                        lastColumn = 'H'; // No, Nama Koperasi, NIK, No Badan Hukum, Alamat, Kelurahan, Kecamatan, Desa
+                        lastColumn = 'D'; // No, Nama Koperasi, NIK, No Badan Hukum, Alamat, Kelurahan, Kecamatan, Desa
                         break;
                     case 'aksesPasarOnline':
                         lastColumn = 'D'; // No, Nama Koperasi, Alamat, Media Pemasaran
@@ -5639,7 +5709,7 @@ async function loadExportData() {
 
 // 1. Pelayanan Tera
 async function getPelayananTeraData() {
-    const teraRef = ref(db, 'Bidang Perdagangan/Jumlah Pelayanan Tera');
+    const teraRef = ref(db, 'Bidang Perdagangan/Data Pelayanan Tera');
     const snapshot = await get(teraRef);
     return snapshot.val();
 }
@@ -5660,25 +5730,68 @@ async function generatePelayananTeraSheet(worksheet, data) {
     let rowIndex = 11;
     let no = 1;
     
-    if (data && data['Jumlah Pelayanan Tera']) {
-        Object.entries(data['Jumlah Pelayanan Tera']).forEach(([key, value]) => {
+    if (data) {
+        let totalTriwulan1 = 0;
+        let totalTriwulan2 = 0;
+        let totalTriwulan3 = 0;
+        let totalTriwulan4 = 0;
+
+        Object.entries(data).forEach(([key, value]) => {
             if (key !== 'Total' && key !== 'Total Semua Layanan') {
                 const row = worksheet.getRow(rowIndex);
+                const triwulan1 = parseFloat(value['Triwulan 1']) || 0;
+                const triwulan2 = parseFloat(value['Triwulan 2']) || 0;
+                const triwulan3 = parseFloat(value['Triwulan 3']) || 0;
+                const triwulan4 = parseFloat(value['Triwulan 4']) || 0;
+
+                totalTriwulan1 += triwulan1;
+                totalTriwulan2 += triwulan2;
+                totalTriwulan3 += triwulan3;
+                totalTriwulan4 += triwulan4;
+
                 row.values = [
                     no++,
                     value['UTTP'] || '',
-                    value['Triwulan 1'] || '',
-                    value['Triwulan 2'] || '',
-                    value['Triwulan 3'] || '',
-                    value['Triwulan 4'] || ''
+                    triwulan1,
+                    triwulan2,
+                    triwulan3,
+                    triwulan4
                 ];
                 styleDataRow(row);
                 rowIndex++;
             }
         });
+
+        const totalData = data['Total'];
+        const totalSemuaLayanan = data['Total Semua Layanan'];
+
+        const totalRow = worksheet.getRow(rowIndex);
+        totalRow.values = [
+            '',
+            'Total',
+            totalData['Triwulan 1'] || totalTriwulan1,
+            totalData['Triwulan 2'] || totalTriwulan2,
+            totalData['Triwulan 3'] || totalTriwulan3,
+            totalData['Triwulan 4'] || totalTriwulan4
+        ];
+        styleDataRow(totalRow);
+        rowIndex++;
+
+        const totalLayananRow = worksheet.getRow(rowIndex);
+        totalLayananRow.values = [
+            '',
+            'Total Semua Layanan',
+            totalSemuaLayanan || '',
+            '',
+            '',
+            '' 
+        ];
+        styleDataRow(totalLayananRow);
     }
+
     autoFitColumns(worksheet);
 }
+
 
 // 2. Tera Kab WSB
 async function getTeraKabWSBData() {
@@ -5689,6 +5802,41 @@ async function getTeraKabWSBData() {
 
 async function generateTeraKabWSBSheet(worksheet, data) {
 
+    // Merge cells yang lebih akurat
+    worksheet.mergeCells('A9:A11');  // NO
+    worksheet.mergeCells('B9:B11');  // LOKASI
+    
+    // UP
+    worksheet.mergeCells('C9:D9');   // UP
+    worksheet.mergeCells('C10:C11'); // 1 m ≤
+    worksheet.mergeCells('D10:D11'); // up ≤ 1
+    
+    // TAK
+    worksheet.mergeCells('E9:F9');   // TAK
+    worksheet.mergeCells('E10:E11'); // 5 l ≤
+    worksheet.mergeCells('F10:F11'); // tb > 2
+    
+    // ANAK TIMBANGAN
+    worksheet.mergeCells('G9:L9');   // ANAK
+    worksheet.mergeCells('G10:I10'); // Biasa
+    worksheet.mergeCells('J10:L10'); // Halus
+    
+    // TIMBANGAN
+    worksheet.mergeCells('M9:AA9');  // TIMBANGAN
+    worksheet.mergeCells('M10:N10'); // DACIN
+    worksheet.mergeCells('O10:P10'); // SENT
+    worksheet.mergeCells('Q10:R10'); // BOBOT
+    worksheet.mergeCells('S10:T10'); // PEG
+    worksheet.mergeCells('U10:U12'); // MEJA
+    worksheet.mergeCells('V10:V12'); // NERACA
+    worksheet.mergeCells('W10:X10'); // TE (II)
+    worksheet.mergeCells('Y10:AA10');// TE (III & IV)
+    
+    // Kolom terakhir
+    worksheet.mergeCells('AB9:AB11');// Alat Ukur Tinggi
+    worksheet.mergeCells('AC9:AC11');// TEB 1000 KG
+    worksheet.mergeCells('AD9:AD11');// JUMLAH TOTAL
+    
     const headers = [
         [
             'NO', 'LOKASI', 
@@ -5740,41 +5888,6 @@ async function generateTeraKabWSBSheet(worksheet, data) {
             '', '', ''
         ]
     ];
-
-    // Merge cells yang lebih akurat
-    worksheet.mergeCells('A9:A12');  // NO
-    worksheet.mergeCells('B9:B12');  // LOKASI
-    
-    // UP
-    worksheet.mergeCells('C9:D9');   // UP
-    worksheet.mergeCells('C10:C11'); // 1 m ≤
-    worksheet.mergeCells('D10:D11'); // up ≤ 1
-    
-    // TAK
-    worksheet.mergeCells('E9:F9');   // TAK
-    worksheet.mergeCells('E10:E11'); // 5 l ≤
-    worksheet.mergeCells('F10:F11'); // tb > 2
-    
-    // ANAK TIMBANGAN
-    worksheet.mergeCells('G9:L9');   // ANAK
-    worksheet.mergeCells('G10:I10'); // Biasa
-    worksheet.mergeCells('J10:L10'); // Halus
-    
-    // TIMBANGAN
-    worksheet.mergeCells('M9:AA9');  // TIMBANGAN
-    worksheet.mergeCells('M10:N10'); // DACIN
-    worksheet.mergeCells('O10:P10'); // SENT
-    worksheet.mergeCells('Q10:R10'); // BOBOT
-    worksheet.mergeCells('S10:T10'); // PEG
-    worksheet.mergeCells('U10:U12'); // MEJA
-    worksheet.mergeCells('V10:V12'); // NERACA
-    worksheet.mergeCells('W10:X10'); // TE (II)
-    worksheet.mergeCells('Y10:AA10');// TE (III & IV)
-    
-    // Kolom terakhir
-    worksheet.mergeCells('AB9:AB12');// Alat Ukur Tinggi
-    worksheet.mergeCells('AC9:AC12');// TEB 1000 KG
-    worksheet.mergeCells('AD9:AD12');// JUMLAH TOTAL
 
     // Terapkan header dengan rotasi teks
     headers.forEach((headerRow, idx) => {
@@ -5891,18 +6004,33 @@ async function generateMarketplaceSheet(worksheet, data) {
         'Nama Marketplace',
         'Tahun n-1',
         'Tahun n-2',
+        'Tahun n',
+        'Tahun n',
+        'Tahun n',
+        'Tahun n',
+        'Keterangan'
+    ];
+    worksheet.getRow(11).values = [
+        '',
+        '',
+        '',
+        '',
         'Triwuan 1',
         'Triwuan 2',
         'Triwuan 3',
         'Triwuan 4',
-        'Keterangan'
-        
+        ''
     ];
-    
+
+    worksheet.mergeCells('E10:H10');
+    worksheet.getCell('E10').value = 'Tahun n';
+
     const headerRow = worksheet.getRow(10);
     styleHeader(headerRow);
+    const headerRow2 = worksheet.getRow(11);
+    styleHeader(headerRow2);
 
-    let rowIndex = 11;
+    let rowIndex = 12;
     let no = 1;
     
     if (data) {
@@ -5913,18 +6041,20 @@ async function generateMarketplaceSheet(worksheet, data) {
                 value['Nama Marketplace'] || '',
                 value['Tahun n-1'] || '',
                 value['Tahun n-2'] || '',
-                value['Triwuan 1'] || '',
-                value['Triwuan 2'] || '',
-                value['Triwuan 3'] || '',
-                value['Triwuan 4'] || '',
+                value['Tahun n']?.['Triwuan 1'] || '',
+                value['Tahun n']?.['Triwuan 2'] || '',
+                value['Tahun n']?.['Triwuan 3']|| '',
+                value['Tahun n']?.['Triwuan 4'] || '',
                 value['Keterangan'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
         });
     }
+
     autoFitColumns(worksheet);
 }
+
 
 // 4. Toko Modern
 async function getTokoModernData() {
@@ -5936,18 +6066,54 @@ async function getTokoModernData() {
 async function generateTokoModernSheet(worksheet, data) {
     worksheet.getRow(10).values = [
         'No',
-        'Nama Toko',
-        'Alamat',
-        'Kecamatan',
-        'Kelurahan',
-        'Status',
+        'Tanggal SK',
+        'Nama Usaha',
+        'Alamat Usaha',
+        'Nama Pemilik',
+        'Alamat Pemilik',
+        'Nomor Induk Berusaha',
+        '',
+        '',
+        'Perizinan',
+        '',
+        '',
+        'IUTM',
+        'Jenis Toko',
+        'KBLI',
+        'Catatan',
         'Keterangan'
     ];
+    worksheet.getRow(11).values = [
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        'NIB',
+        'No NIB',
+        'STATUS',
+        'SIUP',
+        'TDP',
+        'HO',
+        '',
+        '',
+        '',
+        '',
+        ''
+    ];
+
+    worksheet.mergeCells('G10:I10');
+    worksheet.getCell('G10').value = 'Nomor Induk Berusaha';
+    worksheet.mergeCells('J10:L10');
+    worksheet.getCell('J10').value = 'Perizinan';
     
     const headerRow = worksheet.getRow(10);
     styleHeader(headerRow);
+    const headerRow2 = worksheet.getRow(11);
+    styleHeader(headerRow2);
 
-    let rowIndex = 11;
+    let rowIndex = 12;
     let no = 1;
     
     if (data) {
@@ -5955,12 +6121,22 @@ async function generateTokoModernSheet(worksheet, data) {
             const row = worksheet.getRow(rowIndex);
             row.values = [
                 no++,
-                value['Nama Toko'] || '',
-                value['Alamat'] || '',
-                value['Kecamatan'] || '',
-                value['Kelurahan'] || '',
-                value['Status'] || '',
-                value['Keterangan'] || ''
+                value['TANGGAL SK'] || '',
+                value['NAMA DAN ALAMAT LOKASI TEMPAT USAHA']?.NAMA || '',
+                value['NAMA DAN ALAMAT LOKASI TEMPAT USAHA']?.ALAMAT || '',
+                value['NAMA DAN ALAMAT PEMILIK'].NAMA || '',
+                value['NAMA DAN ALAMAT PEMILIK'].ALAMAT || '',
+                value['NOMOR INDUK BERUSAHA']?.['NIB'] || '',
+                value['NOMOR INDUK BERUSAHA']?.['NO NIB'] || '',
+                value['NOMOR INDUK BERUSAHA']?.['STATUS'] || '',
+                value['PERIZINAN'].SIUP || '',
+                value['PERIZINAN'].TDP || '',
+                value['PERIZINAN'].HO || '',
+                value['IUTM'] || '',
+                value['JENIS TOKO MODERN'] || '',
+                value['KOMODITI atau KBLI'] || '',
+                value['CATATAN PERTUBAHAN'] || '',
+                value['KETERANGAN'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
@@ -5979,12 +6155,17 @@ async function getTokoModernOSSData() {
 async function generateTokoModernOSSSheet(worksheet, data) {
     worksheet.getRow(10).values = [
         'No',
-        'Nama Toko',
-        'Alamat',
+        'Nama Usaha',
+        'Alamat Usaha',
+        'Nama Pemilik',
+        'Alamat Pemilik',
         'NIB',
-        'Kecamatan',
-        'Kelurahan',
-        'Status'
+        'Nomor NIB',
+        'Status',
+        'No Telepon',
+        'KBLI',
+        'Jenis Toko'
+        
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -5998,12 +6179,16 @@ async function generateTokoModernOSSSheet(worksheet, data) {
             const row = worksheet.getRow(rowIndex);
             row.values = [
                 no++,
-                value['Nama Toko'] || '',
-                value['Alamat'] || '',
-                value['NIB'] || '',
-                value['Kecamatan'] || '',
-                value['Kelurahan'] || '',
-                value['Status'] || ''
+                value['Nama dan Alamat Lokasi Tempat Usaha'].Nama || '',
+                value['Nama dan Alamat Lokasi Tempat Usaha'].Alamat || '',
+                value['Nama dan Alamat Pemilik'].Nama || '',
+                value['Nama dan Alamat Pemilik'].Alamat || '',
+                value['NOMOR_INDUK_BERUSAHA_(NIB)'].NIB || '',
+                value['NOMOR_INDUK_BERUSAHA_(NIB)'].Nomor || '',
+                value['NOMOR_INDUK_BERUSAHA_(NIB)'].Status || '',
+                value['No Telp'] || '',
+                value['Komoditi atau KBLI'] || '',
+                value['Jenis Toko'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
@@ -6022,11 +6207,9 @@ async function getTokoModernMemasarkanUMKMData() {
 async function generateTokoModernMemasarkanUMKMSheet(worksheet, data) {
     worksheet.getRow(10).values = [
         'No',
-        'Nama Toko',
+        'Nama Toko Modern',
         'Alamat',
-        'Jumlah UMKM',
-        'Status',
-        'Keterangan'
+        'Produk UMKM yang Dipasarkan'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -6040,11 +6223,9 @@ async function generateTokoModernMemasarkanUMKMSheet(worksheet, data) {
             const row = worksheet.getRow(rowIndex);
             row.values = [
                 no++,
-                value['Nama Toko'] || '',
+                value['Toko Modern'] || '',
                 value['Alamat'] || '',
-                value['Jumlah UMKM'] || '',
-                value['Status'] || '',
-                value['Keterangan'] || ''
+                value['Produk UMKM yang Dipasarkan'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
@@ -6064,11 +6245,10 @@ async function generateKomoditasEksporSheet(worksheet, data) {
     worksheet.getRow(10).values = [
         'No',
         'Nama Komoditas',
-        'Volume',
-        'Satuan',
-        'Nilai (USD)',
+        'Perusahaan',
+        'Alamat',
         'Negara Tujuan',
-        'Tahun'
+        'Keterangan'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -6082,12 +6262,11 @@ async function generateKomoditasEksporSheet(worksheet, data) {
             const row = worksheet.getRow(rowIndex);
             row.values = [
                 no++,
-                value['Nama Komoditas'] || '',
-                value['Volume'] || '',
-                value['Satuan'] || '',
-                value['Nilai'] || '',
+                value['Komoditas'] || '',
+                value['Perusahaan'] || '',
+                value['Alamat'] || '',
                 value['Negara Tujuan'] || '',
-                value['Tahun'] || ''
+                value['Keterangan'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
@@ -6106,11 +6285,14 @@ async function getMatrikaEksporData() {
 async function generateMatrikaEksporSheet(worksheet, data) {
     worksheet.getRow(10).values = [
         'No',
-        'Tahun',
-        'Volume',
+        'Perusahaan',
+        'Kapasitas',
+        'Satuan',
+        'Kapasitas',
         'Satuan',
         'Nilai (USD)',
-        'Pertumbuhan (%)',
+        'Negara Tujuan',
+        'Komoditas',
         'Keterangan'
     ];
     
@@ -6170,8 +6352,8 @@ async function generateDisparitasHargaSheet(worksheet, data) {
                 no++,
                 value['Nama Sampel Komoditi'] || '',
                 value['Satuan'] || '',
-                value['Kabupaten Wonosobo'] || '',
-                value['Kabupaten Temanggung'] || '',
+                value['Bulan n']?.['Kabupaten Wonosobo'] || '',
+                value['Bulan n']?.['Kabupaten Temanggung'] || '',
                 value['Selisih'] || '',
                 value['Persen'] || ''
             ];
@@ -6192,14 +6374,14 @@ async function getHasilPengawasanData() {
 async function generateHasilPengawasanSheet(worksheet, data) {
     worksheet.getRow(10).values = [
         'No',
-        'Wilayah',
         'Kios Pupuk Lengkap',
+        'Wilayah',
         'NIB',
-        'SPJB',
-        'RDKK',
         'Harga HET',
         'Papan Nama',
+        'SPJB',
         'Penyerapan Kartu Tani (%)',
+        'RDKK',
         'Hasil'
     ];
     
@@ -6214,14 +6396,14 @@ async function generateHasilPengawasanSheet(worksheet, data) {
             const row = worksheet.getRow(rowIndex);
             row.values = [
                 no++,
-                value['Wilayah'] || '',
                 value['Kios Pupuk Lengkap'] || '',
+                value['Wilayah'] || '',
                 value['NOMOR_INDUK_BERUSAHA_(NIB)'] || '',
-                value['SPJB'] || '',
-                value['RDKK'] || '',
                 value['Harga HET'] || '',
                 value['Papan Nama'] || '',
+                value['SPJB'] || '',
                 value['Penyerapan Kartu Tani (%)'] || '',
+                value['RDKK'] || '',
                 value['Hasil'] || ''
             ];
             styleDataRow(row);
@@ -6235,7 +6417,7 @@ async function generateHasilPengawasanSheet(worksheet, data) {
 
 // 1. Kondisi Pasar
 async function getKondisiPasarData() {
-    const pasarRef = ref(db, 'Bidang Pasar/Data Kondisi Pasar');
+    const pasarRef = ref(db, 'Bidang Pasar/dataKondisiPasar');
     const snapshot = await get(pasarRef);
     return snapshot.val();
 }
@@ -6244,12 +6426,14 @@ async function generateKondisiPasarSheet(worksheet, data) {
     worksheet.getRow(10).values = [
         'No',
         'Nama Pasar',
-        'Alamat',
-        'Kondisi Bangunan',
-        'Tahun Pembangunan',
-        'Tahun Renovasi',
-        'Status',
-        'Keterangan'
+        'Areal Parkir',
+        'TPS',
+        'MCK',
+        'Tempat Ibadah',
+        'Bongkar Muat',
+        'Baik',
+        'Tidak Baik',
+        'Perlu Penyempurnaan'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -6263,13 +6447,15 @@ async function generateKondisiPasarSheet(worksheet, data) {
             const row = worksheet.getRow(rowIndex);
             row.values = [
                 no++,
-                value['Nama Pasar'] || '',
-                value['Alamat'] || '',
-                value['Kondisi Bangunan'] || '',
-                value['Tahun Pembangunan'] || '',
-                value['Tahun Renovasi'] || '',
-                value['Status'] || '',
-                value['Keterangan'] || ''
+                value['namaPasar'] || '',
+                value['fasilitas'].arealParkir || '',
+                value['fasilitas'].TPS || '',
+                value['fasilitas'].MCK || '',
+                value['fasilitas'].tempatIbadah || '',
+                value['fasilitas'].bongkarMuat || '',
+                value['kondisi'].baik || '',
+                value['kondisi'].perluPenyempurnaan || '',
+                value['kondisi'].tidakBaik || ''
             ];
             styleDataRow(row);
             rowIndex++;
@@ -6280,7 +6466,7 @@ async function generateKondisiPasarSheet(worksheet, data) {
 
 // 2. Los & Kios
 async function getLosKiosData() {
-    const losKiosRef = ref(db, 'Bidang Pasar/Data Los dan Kios');
+    const losKiosRef = ref(db, 'Bidang Pasar/jumlahLosKiosPasar/dataPasar');
     const snapshot = await get(losKiosRef);
     return snapshot.val();
 }
@@ -6308,7 +6494,7 @@ async function generateLosKiosSheet(worksheet, data) {
             const row = worksheet.getRow(rowIndex);
             row.values = [
                 no++,
-                value['Nama Pasar'] || '',
+                value['namaPasar'] || '',
                 value['Jumlah Los'] || '',
                 value['Jumlah Kios'] || '',
                 value['Los Terpakai'] || '',
@@ -6325,7 +6511,7 @@ async function generateLosKiosSheet(worksheet, data) {
 
 // 3. Profil Pasar
 async function getProfilData() {
-    const profilRef = ref(db, 'Bidang Pasar/Matriks Profil Pasar');
+    const profilRef = ref(db, 'Bidang Pasar/matriksProfilPasar');
     const snapshot = await get(profilRef);
     return snapshot.val();
 }
@@ -6353,7 +6539,7 @@ async function generateProfilSheet(worksheet, data) {
             const row = worksheet.getRow(rowIndex);
             row.values = [
                 no++,
-                value['Nama Pasar'] || '',
+                value['namaPasar'] || '',
                 value['Luas Lahan'] || '',
                 value['Luas Bangunan'] || '',
                 value['Jumlah Pedagang'] || '',
@@ -6372,7 +6558,7 @@ async function generateProfilSheet(worksheet, data) {
 
 // 1. Pelaku UKM
 async function getPelakuUKMData() {
-    const ukmRef = ref(db, 'Bidang Koperasi/Data Pelaku UKM');
+    const ukmRef = ref(db, 'Bidang Koperasi/Data Pelaku UKM/Triwulan 3');
     const snapshot = await get(ukmRef);
     return snapshot.val();
 }
@@ -6380,13 +6566,105 @@ async function getPelakuUKMData() {
 async function generatePelakuUKMSheet(worksheet, data) {
     worksheet.getRow(10).values = [
         'No',
+        'Nama',
+        'Gender',
+        'NIK',
+        'No Telepon',
+        'Email',
+        'Sektor Usaha',
+        'Alamat',
+        'NIB'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['NAMA'] || '',
+                value['GENDER'] || '',
+                value['NIK'] || '',
+                value['NO TELP'] || '',
+                value['ALAMAT EMAIL'] || '',
+                value['SEKTOR USAHA'] || '',
+                value['ALAMAT'] || '',
+                value['NIB'] || '-',
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 2. UKM Berijin
+async function getUKMBerijinData() {
+    const ukmRef = ref(db, 'Bidang Koperasi/UKM Berijin/Triwulan 3');
+    const snapshot = await get(ukmRef);
+    return snapshot.val();
+}
+
+async function generateUKMBerijinSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Nama',
+        'Gender',
+        'NIK',
+        'Alamat',
+        'No Telepon',
+        'Nama Usaha',
+        'Jenis Usaha',
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                
+                value['Nama'] || '',
+                value['Gender'] || '',
+                value['NIK'] || '',
+                value['Alamat'] || '',
+                value['No Telp'] || '',
+                value['Nama Usaha'] || '',
+                value['Jenis Usaha'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 3. UKM Akses Perbankan
+async function getUKMAksesPerbankanData() {
+    const ukmRef = ref(db, 'Bidang Koperasi/UKM Akses Perbankan/Triwulan 3');
+    const snapshot = await get(ukmRef);
+    return snapshot.val();
+}
+
+async function generateUKMAksesPerbankanSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
         'NIK',
         'Nama',
         'Gender',
-        'No Telp',
-        'Email',
-        'Sektor Usaha',
-        'Alamat'
+        'Alamat',
+        'Bidang Usaha',
+        'Bank'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -6403,98 +6681,9 @@ async function generatePelakuUKMSheet(worksheet, data) {
                 value['NIK'] || '',
                 value['Nama'] || '',
                 value['Gender'] || '',
-                value['No Telp'] || '',
-                value['Email'] || '',
-                value['Sektor Usaha'] || '',
-                value['Alamat'] || ''
-            ];
-            styleDataRow(row);
-            rowIndex++;
-        });
-    }
-    autoFitColumns(worksheet);
-}
-
-// 2. UKM Berijin
-async function getUKMBerijinData() {
-    const ukmRef = ref(db, 'Bidang Koperasi/Data UKM Berijin');
-    const snapshot = await get(ukmRef);
-    return snapshot.val();
-}
-
-async function generateUKMBerijinSheet(worksheet, data) {
-    worksheet.getRow(10).values = [
-        'No',
-        'NIK',
-        'Nama',
-        'Alamat',
-        'Jenis Usaha',
-        'No NIB',
-        'Tanggal NIB'
-    ];
-    
-    const headerRow = worksheet.getRow(10);
-    styleHeader(headerRow);
-
-    let rowIndex = 11;
-    let no = 1;
-    
-    if (data) {
-        Object.entries(data).forEach(([key, value]) => {
-            const row = worksheet.getRow(rowIndex);
-            row.values = [
-                no++,
-                value['NIK'] || '',
-                value['Nama'] || '',
                 value['Alamat'] || '',
-                value['Jenis Usaha'] || '',
-                value['No NIB'] || '',
-                value['Tanggal NIB'] || ''
-            ];
-            styleDataRow(row);
-            rowIndex++;
-        });
-    }
-    autoFitColumns(worksheet);
-}
-
-// 3. UKM Akses Perbankan
-async function getUKMAksesPerbankanData() {
-    const ukmRef = ref(db, 'Bidang Koperasi/Data UKM Akses Perbankan');
-    const snapshot = await get(ukmRef);
-    return snapshot.val();
-}
-
-async function generateUKMAksesPerbankanSheet(worksheet, data) {
-    worksheet.getRow(10).values = [
-        'No',
-        'NIK',
-        'Nama',
-        'Alamat',
-        'Jenis Usaha',
-        'Nama Bank',
-        'Jumlah Pinjaman',
-        'Status'
-    ];
-    
-    const headerRow = worksheet.getRow(10);
-    styleHeader(headerRow);
-
-    let rowIndex = 11;
-    let no = 1;
-    
-    if (data) {
-        Object.entries(data).forEach(([key, value]) => {
-            const row = worksheet.getRow(rowIndex);
-            row.values = [
-                no++,
-                value['NIK'] || '',
-                value['Nama'] || '',
-                value['Alamat'] || '',
-                value['Jenis Usaha'] || '',
-                value['Nama Bank'] || '',
-                value['Jumlah Pinjaman'] || '',
-                value['Status'] || ''
+                value['Bidang Usaha'] || '',
+                value['Bank'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
@@ -6505,7 +6694,7 @@ async function generateUKMAksesPerbankanSheet(worksheet, data) {
 
 // 4. Wirausaha Bermitra UKM
 async function getWirausahaBermitraUKMData() {
-    const wirausahaRef = ref(db, 'Bidang Koperasi/Data Wirausaha Bermitra UKM');
+    const wirausahaRef = ref(db, 'Bidang Koperasi/Masyarakat Wirausaha Bermitra UKM/Triwulan 3');
     const snapshot = await get(wirausahaRef);
     return snapshot.val();
 }
@@ -6513,13 +6702,11 @@ async function getWirausahaBermitraUKMData() {
 async function generateWirausahaBermitraUKMSheet(worksheet, data) {
     worksheet.getRow(10).values = [
         'No',
-        'NIK',
         'Nama',
+        'Gender',
         'Alamat',
-        'Jenis Usaha',
-        'Mitra',
-        'Bentuk Kemitraan',
-        'Status'
+        'Bidang Usaha',
+        'No Telp'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -6533,13 +6720,11 @@ async function generateWirausahaBermitraUKMSheet(worksheet, data) {
             const row = worksheet.getRow(rowIndex);
             row.values = [
                 no++,
-                value['NIK'] || '',
                 value['Nama'] || '',
+                value['Gender'] || '',
                 value['Alamat'] || '',
-                value['Jenis Usaha'] || '',
-                value['Mitra'] || '',
-                value['Bentuk Kemitraan'] || '',
-                value['Status'] || ''
+                value['Bidang Usaha'] || '',
+                value['No Telp'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
@@ -6550,7 +6735,7 @@ async function generateWirausahaBermitraUKMSheet(worksheet, data) {
 
 // 5. Akses Modal Usaha
 async function getAksesModalUsahaData() {
-    const modalRef = ref(db, 'Bidang Koperasi/Data Akses Modal Usaha');
+    const modalRef = ref(db, 'Bidang Koperasi/Masyarakat Akses Modal Usaha/Triwulan 3');
     const snapshot = await get(modalRef);
     return snapshot.val();
 }
@@ -6558,13 +6743,11 @@ async function getAksesModalUsahaData() {
 async function generateAksesModalUsahaSheet(worksheet, data) {
     worksheet.getRow(10).values = [
         'No',
-        'NIK',
         'Nama',
+        'Gender',
         'Alamat',
-        'Jenis Usaha',
-        'Sumber Modal',
-        'Jumlah Modal',
-        'Status'
+        'Bidang Usaha',
+        'No Telp'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -6578,13 +6761,11 @@ async function generateAksesModalUsahaSheet(worksheet, data) {
             const row = worksheet.getRow(rowIndex);
             row.values = [
                 no++,
-                value['NIK'] || '',
                 value['Nama'] || '',
+                value['Gender'] || '',
                 value['Alamat'] || '',
-                value['Jenis Usaha'] || '',
-                value['Sumber Modal'] || '',
-                value['Jumlah Modal'] || '',
-                value['Status'] || ''
+                value['Bidang Usaha'] || '',
+                value['No Telp'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
@@ -6595,7 +6776,7 @@ async function generateAksesModalUsahaSheet(worksheet, data) {
 
 // 6. Miskin Peserta Pelatihan
 async function getMiskinPesertaPelatihanData() {
-    const pelatihanRef = ref(db, 'Bidang Koperasi/Data Miskin Peserta Pelatihan');
+    const pelatihanRef = ref(db, 'Bidang Koperasi/Masyarakat Miskin Peserta Pelatihan/Triwulan 3');
     const snapshot = await get(pelatihanRef);
     return snapshot.val();
 }
@@ -6603,13 +6784,91 @@ async function getMiskinPesertaPelatihanData() {
 async function generateMiskinPesertaPelatihanSheet(worksheet, data) {
     worksheet.getRow(10).values = [
         'No',
-        'NIK',
         'Nama',
+        'Gender',
         'Alamat',
-        'Jenis Pelatihan',
-        'Tanggal Pelatihan',
-        'Status',
-        'Keterangan'
+        'Bidang Usaha',
+        'No Telp'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama'] || '',
+                value['Gender'] || '',
+                value['Alamat'] || '',
+                value['Bidang Usaha'] || '',
+                value['No Telp'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 7. Koperasi Produksi
+async function getKoperasiProduksiData() {
+    const koperasiRef = ref(db, 'Bidang Koperasi/Jumlah Koperasi Produksi/Desember');
+    const snapshot = await get(koperasiRef);
+    return snapshot.val();
+}
+
+async function generateKoperasiProduksiSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'Nama Koperasi',
+        'Alamat',
+        'Produk'
+    ];
+    
+    const headerRow = worksheet.getRow(10);
+    styleHeader(headerRow);
+
+    let rowIndex = 11;
+    let no = 1;
+    
+    if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+            const row = worksheet.getRow(rowIndex);
+            row.values = [
+                no++,
+                value['Nama Koperasi'] || '',
+                value['Alamat'] || '',
+                value['Produk'] || ''
+            ];
+            styleDataRow(row);
+            rowIndex++;
+        });
+    }
+    autoFitColumns(worksheet);
+}
+
+// 8. Koperasi Aktif
+async function getKoperasiAktifData() {
+    const koperasiRef = ref(db, 'Bidang Koperasi/Jumlah Koperasi Seluruh Koperasi Aktif');
+    const snapshot = await get(koperasiRef);
+    return snapshot.val();
+}
+
+async function generateKoperasiAktifSheet(worksheet, data) {
+    worksheet.getRow(10).values = [
+        'No',
+        'NIK',
+        'Nama Koperasi',
+        'No Badan Hukum',
+        'Alamat',
+        'Desa',
+        'Kelurahan',
+        'Kecamatan'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -6624,102 +6883,12 @@ async function generateMiskinPesertaPelatihanSheet(worksheet, data) {
             row.values = [
                 no++,
                 value['NIK'] || '',
-                value['Nama'] || '',
-                value['Alamat'] || '',
-                value['Jenis Pelatihan'] || '',
-                value['Tanggal Pelatihan'] || '',
-                value['Status'] || '',
-                value['Keterangan'] || ''
-            ];
-            styleDataRow(row);
-            rowIndex++;
-        });
-    }
-    autoFitColumns(worksheet);
-}
-
-// 7. Koperasi Produksi
-async function getKoperasiProduksiData() {
-    const koperasiRef = ref(db, 'Bidang Koperasi/Data Koperasi Produksi');
-    const snapshot = await get(koperasiRef);
-    return snapshot.val();
-}
-
-async function generateKoperasiProduksiSheet(worksheet, data) {
-    worksheet.getRow(10).values = [
-        'No',
-        'Nama Koperasi',
-        'Alamat',
-        'Jenis Produksi',
-        'Jumlah Anggota',
-        'Volume Produksi',
-        'Status',
-        'Keterangan'
-    ];
-    
-    const headerRow = worksheet.getRow(10);
-    styleHeader(headerRow);
-
-    let rowIndex = 11;
-    let no = 1;
-    
-    if (data) {
-        Object.entries(data).forEach(([key, value]) => {
-            const row = worksheet.getRow(rowIndex);
-            row.values = [
-                no++,
                 value['Nama Koperasi'] || '',
+                value['No Badan Hukum'] || '',
                 value['Alamat'] || '',
-                value['Jenis Produksi'] || '',
-                value['Jumlah Anggota'] || '',
-                value['Volume Produksi'] || '',
-                value['Status'] || '',
-                value['Keterangan'] || ''
-            ];
-            styleDataRow(row);
-            rowIndex++;
-        });
-    }
-    autoFitColumns(worksheet);
-}
-
-// 8. Koperasi Aktif
-async function getKoperasiAktifData() {
-    const koperasiRef = ref(db, 'Bidang Koperasi/Data Koperasi Aktif');
-    const snapshot = await get(koperasiRef);
-    return snapshot.val();
-}
-
-async function generateKoperasiAktifSheet(worksheet, data) {
-    worksheet.getRow(10).values = [
-        'No',
-        'Nama Koperasi',
-        'Alamat',
-        'Jenis Koperasi',
-        'Jumlah Anggota',
-        'Asset',
-        'Volume Usaha',
-        'SHU'
-    ];
-    
-    const headerRow = worksheet.getRow(10);
-    styleHeader(headerRow);
-
-    let rowIndex = 11;
-    let no = 1;
-    
-    if (data) {
-        Object.entries(data).forEach(([key, value]) => {
-            const row = worksheet.getRow(rowIndex);
-            row.values = [
-                no++,
-                value['Nama Koperasi'] || '',
-                value['Alamat'] || '',
-                value['Jenis Koperasi'] || '',
-                value['Jumlah Anggota'] || '',
-                value['Asset'] || '',
-                value['Volume Usaha'] || '',
-                value['SHU'] || ''
+                value['Desa'] || '',
+                value['Kelurahan'] || '',
+                value['Kecamatan'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
@@ -6730,7 +6899,7 @@ async function generateKoperasiAktifSheet(worksheet, data) {
 
 // 9. Akses Pasar Online
 async function getAksesPasarOnlineData() {
-    const pasarRef = ref(db, 'Bidang Koperasi/Data Akses Pasar Online');
+    const pasarRef = ref(db, 'Bidang Koperasi/Koperasi Produksi Akses Pasar Online');
     const snapshot = await get(pasarRef);
     return snapshot.val();
 }
@@ -6740,11 +6909,7 @@ async function generateAksesPasarOnlineSheet(worksheet, data) {
         'No',
         'Nama Koperasi',
         'Alamat',
-        'Platform',
-        'Jenis Produk',
-        'Jumlah Produk',
-        'Omzet Online',
-        'Status'
+        'Media Pemasaran'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -6760,11 +6925,7 @@ async function generateAksesPasarOnlineSheet(worksheet, data) {
                 no++,
                 value['Nama Koperasi'] || '',
                 value['Alamat'] || '',
-                value['Platform'] || '',
-                value['Jenis Produk'] || '',
-                value['Jumlah Produk'] || '',
-                value['Omzet Online'] || '',
-                value['Status'] || ''
+                value['Media Pemasaran'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
@@ -6775,7 +6936,7 @@ async function generateAksesPasarOnlineSheet(worksheet, data) {
 
 // 10. Akses Kredit Bank
 async function getAksesKreditBankData() {
-    const kreditRef = ref(db, 'Bidang Koperasi/Data Akses Kredit Bank');
+    const kreditRef = ref(db, 'Bidang Koperasi/Koperasi Akses Kredit Bank');
     const snapshot = await get(kreditRef);
     return snapshot.val();
 }
@@ -6785,11 +6946,7 @@ async function generateAksesKreditBankSheet(worksheet, data) {
         'No',
         'Nama Koperasi',
         'Alamat',
-        'Nama Bank',
-        'Jenis Kredit',
-        'Jumlah Kredit',
-        'Jangka Waktu',
-        'Status'
+        'Bank Pemberi Fasilitas'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -6805,11 +6962,7 @@ async function generateAksesKreditBankSheet(worksheet, data) {
                 no++,
                 value['Nama Koperasi'] || '',
                 value['Alamat'] || '',
-                value['Nama Bank'] || '',
-                value['Jenis Kredit'] || '',
-                value['Jumlah Kredit'] || '',
-                value['Jangka Waktu'] || '',
-                value['Status'] || ''
+                value['Bank Pemberi Fasilitas'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
@@ -6820,7 +6973,7 @@ async function generateAksesKreditBankSheet(worksheet, data) {
 
 // 11. Koperasi Sehat
 async function getKoperasiSehatData() {
-    const sehatRef = ref(db, 'Bidang Koperasi/Data Koperasi Sehat');
+    const sehatRef = ref(db, 'Bidang Koperasi/Jumlah Koperasi Sehat/Triwulan 3');
     const snapshot = await get(sehatRef);
     return snapshot.val();
 }
@@ -6830,11 +6983,8 @@ async function generateKoperasiSehatSheet(worksheet, data) {
         'No',
         'Nama Koperasi',
         'Alamat',
-        'Jenis Koperasi',
-        'Jumlah Anggota',
-        'Klasifikasi',
-        'Nilai',
-        'Predikat'
+        'Hasil',
+        'Tahun Penilaian'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -6850,11 +7000,8 @@ async function generateKoperasiSehatSheet(worksheet, data) {
                 no++,
                 value['Nama Koperasi'] || '',
                 value['Alamat'] || '',
-                value['Jenis Koperasi'] || '',
-                value['Jumlah Anggota'] || '',
-                value['Klasifikasi'] || '',
-                value['Nilai'] || '',
-                value['Predikat'] || ''
+                value['Hasil'] || '',
+                value['Tahun Penilaian'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
