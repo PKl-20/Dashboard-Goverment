@@ -409,6 +409,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
             } else if (currentTable === 'matrikaEkspor') {
                 const newData = {
+                    'Barang Ekspor': document.getElementById('barangEkspor').value,
                     'Perusahaan': document.getElementById('perusahaan').value,
                     'Produksi': {
                         'Kapasitas': document.getElementById('produksiKapasitas').value,
@@ -515,23 +516,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 const kondisiValue = document.querySelector('input[name="kondisi"]:checked').value;
                 
                 const newData = {
-                    namaPasar: document.getElementById('namaPasar').value,
-                    fasilitas: {
-                        arealParkir: document.getElementById('arealParkir').value,
+                    'Nama Pasar': document.getElementById('Nama Pasar').value,
+                    Fasilitas: {
+                        'Areal Parkir': document.getElementById('Areal Parkir').value,
                         TPS: document.getElementById('TPS').value,
                         MCK: document.getElementById('MCK').value,
-                        tempatIbadah: document.getElementById('tempatIbadah').value,
-                        bongkarMuat: document.getElementById('bongkarMuat').value
+                        'Tempat Ibadah': document.getElementById('Tempat Ibadah').value,
+                        'Bongkar Muat': document.getElementById('Bongkar Muat').value
                     },
-                    kondisi: {
-                        baik: kondisiValue === 'baik' ? 'X' : '',
-                        tidakBaik: kondisiValue === 'tidakBaik' ? 'X' : '',
-                        perluPenyempurnaan: kondisiValue === 'perluPenyempurnaan' ? 'X' : ''
+                    Kondisi: {
+                        Baik: kondisiValue === 'baik' ? 'X' : '',
+                        'Tidak Baik': kondisiValue === 'Tidak Baik' ? 'X' : '',
+                        'Perlu Penyempurnaan': kondisiValue === 'Perlu Penyempurnaan' ? 'X' : ''
                     }
                 };
         
                 try {
-                    const refPath = ref(db, 'Bidang Pasar/dataKondisiPasar');
+                    const refPath = ref(db, 'Bidang Pasar/Data Kondisi Pasar');
                     await push(refPath, newData);
                     alert('Data berhasil ditambahkan!');
                     closeAddDataPopup();
@@ -634,7 +635,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
         
                 try {
-                    const refPath = ref(db, 'Bidang Koperasi/Data Pelaku UKM/Triwulan 3');
+                    const refPath = ref(db, 'Bidang Koperasi/Data Pelaku UKM');
                     await push(refPath, newData);
                     alert('Data berhasil ditambahkan!');
                     closeAddDataPopup();
@@ -656,7 +657,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
         
                 try {
-                    const refPath = ref(db, 'Bidang Koperasi/UKM Berijin/Triwulan 3');
+                    const refPath = ref(db, 'Bidang Koperasi/UKM Berijin');
                     await push(refPath, newData);
                     alert('Data berhasil ditambahkan!');
                     closeAddDataPopup();
@@ -677,7 +678,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
         
                 try {
-                    const refPath = ref(db, 'Bidang Koperasi/UKM Akses Perbankan/Triwulan 3');
+                    const refPath = ref(db, 'Bidang Koperasi/UKM Akses Perbankan');
                     await push(refPath, newData);
                     alert('Data berhasil ditambahkan!');
                     closeAddDataPopup();
@@ -697,7 +698,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
         
                 try {
-                    const refPath = ref(db, 'Bidang Koperasi/Masyarakat Wirausaha Bermitra UKM/Triwulan 3');
+                    const refPath = ref(db, 'Bidang Koperasi/Masyarakat Wirausaha Bermitra UKM');
                     await push(refPath, newData);
                     alert('Data berhasil ditambahkan!');
                     closeAddDataPopup();
@@ -717,7 +718,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
         
                 try {
-                    const refPath = ref(db, 'Bidang Koperasi/Masyarakat Akses Modal Usaha/Triwulan 3');
+                    const refPath = ref(db, 'Bidang Koperasi/Masyarakat Akses Modal Usaha');
                     await push(refPath, newData);
                     alert('Data berhasil ditambahkan!');
                     closeAddDataPopup();
@@ -737,7 +738,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
         
                 try {
-                    const refPath = ref(db, 'Bidang Koperasi/Masyarakat Miskin Peserta Pelatihan/Triwulan 3');
+                    const refPath = ref(db, 'Bidang Koperasi/Masyarakat Miskin Peserta Pelatihan');
                     await push(refPath, newData);
                     alert('Data berhasil ditambahkan!');
                     closeAddDataPopup();
@@ -755,7 +756,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
         
                 try {
-                    const refPath = ref(db, 'Bidang Koperasi/Jumlah Koperasi Produksi/Desember');
+                    const refPath = ref(db, 'Bidang Koperasi/Jumlah Koperasi Produksi');
                     await push(refPath, newData);
                     alert('Data berhasil ditambahkan!');
                     closeAddDataPopup();
@@ -832,7 +833,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
         
                 try {
-                    const refPath = ref(db, 'Bidang Koperasi/Jumlah Koperasi Sehat/Triwulan 3');
+                    const refPath = ref(db, 'Bidang Koperasi/Jumlah Koperasi Sehat');
                     await push(refPath, newData);
                     alert('Data berhasil ditambahkan!');
                     closeAddDataPopup();
@@ -1192,21 +1193,15 @@ function loadBidangPerdagangan() {
                     ...value
                 })) : [];
             
-                const komoditasEksporData = data['Komoditas Ekspor'] ? 
-                // Jika data langsung (bukan nested)
-                !Array.isArray(data['Komoditas Ekspor']) ? [{
-                    id: 'single_entry',
-                    ...data['Komoditas Ekspor']
-                }] : 
-                // Jika data dalam bentuk array/object entries
+            const komoditasEksporData = data['Komoditas Ekspor'] ? 
                 Object.entries(data['Komoditas Ekspor']).map(([key, value]) => ({
                     id: key,
                     ...value
                 })) : [];
             
             // Perbaikan untuk Matrika Ekspor
-            const matrikaEksporData = data['Matrika Ekspor']?.['Tembakau'] ? 
-                Object.entries(data['Matrika Ekspor']['Tembakau']).map(([key, value]) => ({
+            const matrikaEksporData = data['Matrika Ekspor'] ? 
+                Object.entries(data['Matrika Ekspor']).map(([key, value]) => ({
                     id: key,
                     ...value
                 })) : [];
@@ -1551,6 +1546,7 @@ function renderMatrikaEksporTable(data) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${no++}</td>
+            <td>${item['Barang'] || ''}</td>
             <td>${item['Perusahaan'] || ''}</td>
             <td>${item['Produksi']?.Kapasitas || ''}</td>
             <td>${item['Produksi']?.Satuan || ''}</td>
@@ -1902,8 +1898,8 @@ window.editDataPerdagangan = function(key, table) {
                     <div class="form-group">
                         <label for="edit_nib">Status</label>
                         <select id="edit_nib" required>
-                            <option value="Aktif" ${data['NOMOR INDUK BERUSAHA'].NIB === 'ADA' ? 'selected' : ''}>ADA</option>
-                            <option value="Tidak Aktif" ${data['NOMOR INDUK BERUSAHA'].NIB === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                            <option value="Ada" ${data['NOMOR INDUK BERUSAHA'].NIB === 'ADA' ? 'selected' : ''}>ADA</option>
+                            <option value="Tidak Ada" ${data['NOMOR INDUK BERUSAHA'].NIB === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
                         </select>
                     </div>
                     <div class="form-section">
@@ -1923,15 +1919,15 @@ window.editDataPerdagangan = function(key, table) {
                     <div class="form-group">
                         <label for="edit_SIUP">Status</label>
                         <select id="edit_SIUP" required>
-                            <option value="Aktif" ${data['PERIZINAN'].SIUP === 'ADA' ? 'selected' : ''}>ADA</option>
-                            <option value="Tidak Aktif" ${data['PERIZINAN'].SIUP === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                            <option value="Ada" ${data['PERIZINAN'].SIUP === 'ADA' ? 'selected' : ''}>ADA</option>
+                            <option value="Tidak Ada" ${data['PERIZINAN'].SIUP === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="edit_TDP">Status</label>
                         <select id="edit_TDP" required>
-                            <option value="Aktif" ${data['PERIZINAN'].TDP === 'ADA' ? 'selected' : ''}>ADA</option>
-                            <option value="Tidak Aktif" ${data['PERIZINAN'].TDP === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                            <option value="Ada" ${data['PERIZINAN'].TDP === 'ADA' ? 'selected' : ''}>ADA</option>
+                            <option value="Tidak Ada" ${data['PERIZINAN'].TDP === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -1991,7 +1987,10 @@ window.editDataPerdagangan = function(key, table) {
                         <h4>NIB</h4>
                         <div class="form-group">
                             <label for="edit_nib">NIB</label>
-                            <input type="text" id="edit_nib" value="${data['NOMOR_INDUK_BERUSAHA_(NIB)']?.NIB || ''}" required>
+                            <select id="edit_nib" required>
+                                <option value="Ada" ${data['NOMOR_INDUK_BERUSAHA_(NIB)'].NIB === 'ADA' ? 'selected' : ''}>ADA</option>
+                                <option value="Tidak Ada" ${data['NOMOR_INDUK_BERUSAHA_(NIB)'].NIB === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="edit_nomor_nib">Nomor</label>
@@ -1999,7 +1998,10 @@ window.editDataPerdagangan = function(key, table) {
                         </div>
                         <div class="form-group">
                             <label for="edit_status_nib">Status</label>
-                            <input type="text" id="edit_status_nib" value="${data['NOMOR_INDUK_BERUSAHA_(NIB)']?.Status || ''}" required>
+                            <select id="edit_status_nib" required>
+                                <option value="Aktif" ${data['NOMOR_INDUK_BERUSAHA_(NIB)'].Status === 'Aktif' ? 'selected' : ''}>Aktif</option>
+                                <option value="Tidak Aktif" ${data['NOMOR_INDUK_BERUSAHA_(NIB)'].Status === 'Tidak Aktif' ? 'selected' : ''}>Tidak Aktif</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -2058,6 +2060,10 @@ window.editDataPerdagangan = function(key, table) {
                 `;
             }  else if (table === 'matrikaEkspor') {
                 form.innerHTML = `
+                    <div class="form-group">
+                        <label for="edit_barang_ekspor">Perusahaan</label>
+                        <input type="text" id="edit_barang_ekspor" value="${data['Barang'] || ''}" required>
+                    </div>
                     <div class="form-group">
                         <label for="edit_perusahaan">Perusahaan</label>
                         <input type="text" id="edit_perusahaan" value="${data['Perusahaan'] || ''}" required>
@@ -2137,19 +2143,31 @@ window.editDataPerdagangan = function(key, table) {
                     </div>
                     <div class="form-group">
                         <label for="edit_nib">NIB</label>
-                        <input type="text" id="edit_nib" value="${data['NOMOR_INDUK_BERUSAHA_(NIB)'] || ''}" required>
+                        <select id="edit_nib" required>
+                            <option value="Ada" ${data['NOMOR_INDUK_BERUSAHA_(NIB)'] === 'Ada' ? 'selected' : ''}>Ada</option>
+                            <option value="Tidak Ada" ${data['NOMOR_INDUK_BERUSAHA_(NIB)'] === 'Tidak Ada' ? 'selected' : ''}>Tidak Ada</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="edit_het">Harga HET</label>
-                        <input type="text" id="edit_het" value="${data['Harga HET'] || ''}" required>
+                        <select id="edit_het" required>
+                            <option value="Ada" ${data['Harga HET'] === 'Ada' ? 'selected' : ''}>Ada</option>
+                            <option value="Tidak Ada" ${data['HARGA HET'] === 'Tidak Ada' ? 'selected' : ''}>Tidak Ada</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="edit_papan_nama">Papan Nama</label>
-                        <input type="text" id="edit_papan_nama" value="${data['Papan Nama'] || ''}" required>
+                        <select id="edit_papan_nama" required>
+                            <option value="Ada" ${data['Papan Nama'] === 'Ada' ? 'selected' : ''}>Ada</option>
+                            <option value="Tidak Ada" ${data['Papan Nama'] === 'Tidak Ada' ? 'selected' : ''}>Tidak Ada</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="edit_spjb">SPJB</label>
-                        <input type="text" id="edit_spjb" value="${data['SPJB'] || ''}" required>
+                        <select id="edit_spjb" required>
+                            <option value="Ada" ${data['SPJB'] === 'Ada' ? 'selected' : ''}>Ada</option>
+                            <option value="Tidak Ada" ${data['SPJB'] === 'Tidak Ada' ? 'selected' : ''}>Tidak Ada</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="edit_kartu_tani">Penyerapan Kartu Tani (%)</label>
@@ -2157,11 +2175,17 @@ window.editDataPerdagangan = function(key, table) {
                     </div>
                     <div class="form-group">
                         <label for="edit_rdkk">RDKK</label>
-                        <input type="text" id="edit_rdkk" value="${data['RDKK'] || ''}" required>
+                        <select id="edit_rdkk" required>
+                            <option value="Ada" ${data['RDKK'] === 'Ada' ? 'selected' : ''}>Ada</option>
+                            <option value="Tidak Ada" ${data['RDKK'] === 'Tidak Ada' ? 'selected' : ''}>Tidak Ada</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="edit_hasil">Hasil</label>
-                        <input type="text" id="edit_hasil" value="${data['Hasil'] || ''}" required>
+                        <select id="edit_hasil" required>
+                            <option value="Memenuhi Syarat" ${data['Hasil'] === 'Memenuhi Syarat' ? 'selected' : ''}>Memenuhi Syarat</option>
+                            <option value="Tidak Memenuhi Syarat" ${data['Hasil'] === 'Tidak Memenuhi Syarat' ? 'selected' : ''}>Tidak Memenuhi Syarat</option>
+                        </select>
                     </div>
                     <button type="submit" class="submit-btn">Simpan Perubahan</button>
                 `;
@@ -2430,21 +2454,22 @@ async function getUpdatedDataByTablePerdagangan(table) {
                'Keterangan': document.getElementById('edit_keterangan').value
            };
         case 'matrikaEkspor':
-           return {
-               'Perusahaan': document.getElementById('edit_perusahaan').value,
-               'Produksi': {
-                   'Kapasitas': document.getElementById('edit_produksi_kapasitas').value,
-                   'Satuan': document.getElementById('edit_produksi_satuan').value
-               },
-               'Ekspor': {
-                   'Kapasitas': document.getElementById('edit_ekspor_kapasitas').value,
-                   'Satuan': document.getElementById('edit_ekspor_satuan').value
-               },
-               'Nilai (usd)': document.getElementById('edit_nilai_usd').value,
-               'Negara Tujuan': document.getElementById('edit_negara_tujuan').value,
-               'Komoditas': document.getElementById('edit_komoditas').value,
-               'Keterangan': document.getElementById('edit_keterangan').value
-           };
+            return {
+                'Barang': document.getElementById('edit_barang_ekspor').value,
+                'Perusahaan': document.getElementById('edit_perusahaan').value,
+                'Produksi': {
+                    'Kapasitas': document.getElementById('edit_produksi_kapasitas').value,
+                    'Satuan': document.getElementById('edit_produksi_satuan').value
+                },
+                'Ekspor': {
+                    'Kapasitas': document.getElementById('edit_ekspor_kapasitas').value,
+                    'Satuan': document.getElementById('edit_ekspor_satuan').value
+                },
+                'Nilai (usd)': document.getElementById('edit_nilai_usd').value,
+                'Negara Tujuan': document.getElementById('edit_negara_tujuan').value,
+                'Komoditas': document.getElementById('edit_komoditas').value,
+                'Keterangan': document.getElementById('edit_keterangan').value
+            };
         case 'disparitasHarga':
                 try {
                     // Fung untuk mengubah string harga ke number
@@ -2553,54 +2578,36 @@ function loadBidangPasar() {
         if (snapshot.exists()) {
             const data = snapshot.val();
             
-            // Konversi data ke array jika diperlukan
-            const kondisiPasarData = data.dataKondisiPasar ? 
-                Array.isArray(data.dataKondisiPasar) ? 
-                    data.dataKondisiPasar : 
-                    Object.values(data.dataKondisiPasar) : 
-                [];
-                
-            const losKiosData = data.jumlahLosKiosPasar?.dataPasar ? 
-                Array.isArray(data.jumlahLosKiosPasar.dataPasar) ? 
-                    data.jumlahLosKiosPasar.dataPasar : 
-                    Object.values(data.jumlahLosKiosPasar.dataPasar) : 
-                [];
-                
-            const profilData = data.matriksProfilPasar?.dataUPT ? 
-                Array.isArray(data.matriksProfilPasar.dataUPT) ? 
-                    data.matriksProfilPasar.dataUPT : 
-                    Object.values(data.matriksProfilPasar.dataUPT) : 
-                [];
+            const kondisiPasarData = data['Data Kondisi Pasar'] ? 
+                Object.entries(data['Data Kondisi Pasar']).map(([key, value]) => ({
+                    id: key,
+                    ...value
+                })) : [];
+            
+            const losKiosData = data['Data Los Kios Pasar'] ? 
+                Object.entries(data['Data Los Kios Pasar']).map(([key, value]) => ({
+                    id: key,
+                    ...value
+                })) : [];
+            
+            const profilData = data['Matriks Profil Pasar'] ? 
+                Object.entries(data['Matriks Profil Pasar']).map(([key, value]) => ({
+                    id: key,
+                    ...value
+                })) : [];
 
             renderKondisiPasarTable(kondisiPasarData);
             renderLosKiosTable(losKiosData);
             renderProfilTable(profilData);
         }
     });
-
-    const profilRef = ref(db, 'Bidang Pasar/matriksProfilPasar/dataUPT');
-    get(profilRef).then((snapshot) => {
-        if (snapshot.exists()) {
-            const data = snapshot.val();
-            window.profilData = Object.values(data); // Simpan data ke variabel global
-            renderProfilTable(window.profilData);
-        }
-    }).catch((error) => {
-        console.error("Error loading profil data:", error);
-    });
 }
 
 function renderKondisiPasarTable(data) {
-    window.kondisiPasarData = data; // Menyimpan data untuk diakses fungsi edit
     const tbody = document.getElementById('kondisiPasarBody');
     if (!tbody) return;
     
     tbody.innerHTML = '';
-    
-    if (!Array.isArray(data)) {
-        console.error('Data bukan array:', data);
-        return;
-    }
 
     let no = 1;
     data.forEach((item, index) => {
@@ -2609,15 +2616,15 @@ function renderKondisiPasarTable(data) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${no++}</td>
-            <td>${item.namaPasar || ''}</td>
-            <td>${item.fasilitas?.arealParkir || ''}</td>
-            <td>${item.fasilitas?.TPS || ''}</td>
-            <td>${item.fasilitas?.MCK || ''}</td>
-            <td>${item.fasilitas?.tempatIbadah || ''}</td>
-            <td>${item.fasilitas?.bongkarMuat || ''}</td>
-            <td>${item.kondisi?.baik || ''}</td>
-            <td>${item.kondisi?.tidakBaik || ''}</td>
-            <td>${item.kondisi?.perluPenyempurnaan || ''}</td>
+            <td>${item['Nama Pasar'] || ''}</td>
+            <td>${item.Fasilitas?.['Areal Parkir'] || ''}</td>
+            <td>${item.Fasilitas?.TPS || ''}</td>
+            <td>${item.Fasilitas?.MCK || ''}</td>
+            <td>${item.Fasilitas?.['Tempat Ibadah'] || ''}</td>
+            <td>${item.Fasilitas?.['Bongkar Muat'] || ''}</td>
+            <td>${item.Kondisi?.Baik || ''}</td>
+            <td>${item.Kondisi?.['Tidak Baik'] || ''}</td>
+            <td>${item.Kondisi?.['Perlu Penyempurnaan'] || ''}</td>
             <td>
                 <div class="action-buttons">
                     <button class="edit-btn" onclick="editKondisiPasar(${index})">
@@ -2633,18 +2640,11 @@ function renderKondisiPasarTable(data) {
     });
 }
 
-function renderLosKiosTable(data) {
-    window.losKiosData = data;
-    
+function renderLosKiosTable(data) {   
     const tbody = document.getElementById('losKiosBody');
     if (!tbody) return;
     
     tbody.innerHTML = '';
-    
-    if (!Array.isArray(data)) {
-        console.error('Data bukan array:', data);
-        return;
-    }
 
     let no = 1;
     data.forEach((item, index) => {
@@ -2653,14 +2653,14 @@ function renderLosKiosTable(data) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${no++}</td>
-            <td>${item.namaPasar || ''}</td>
-            <td>${item.alamatLengkap || ''}</td>
-            <td>${item.jumlahLosKios?.los || 0}</td>
-            <td>${item.jumlahLosKios?.kios || 0}</td>
-            <td>${item.jumlahPedagang?.los || 0}</td>
-            <td>${item.jumlahPedagang?.kios || 0}</td>
-            <td>${item.jumlahTidakTermanfaatkan?.los || 0}</td>
-            <td>${item.jumlahTidakTermanfaatkan?.kios || 0}</td>
+            <td>${item['Nama Pasar'] || ''}</td>
+            <td>${item['Alamat Lengkap'] || ''}</td>
+            <td>${item['Jumlah LosKios']?.los || 0}</td>
+            <td>${item['Jumlah LosKios']?.kios || 0}</td>
+            <td>${item['Jumlah Pedagang']?.los || 0}</td>
+            <td>${item['Jumlah Pedagang']?.kios || 0}</td>
+            <td>${item['Jumlah Tidak Termanfaatkan']?.los || 0}</td>
+            <td>${item['Jumlah Tidak Termanfaatkan']?.kios || 0}</td>
             <td>
                 <div class="action-buttons">
                     <button class="edit-btn" onclick="editLosKios('${index}')">
@@ -2681,11 +2681,6 @@ function renderProfilTable(data) {
     if (!tbody) return;
     
     tbody.innerHTML = '';
-    
-    if (!Array.isArray(data)) {
-        console.error('Data bukan array:', data);
-        return;
-    }
 
     let no = 1;
     data.forEach((upt, uptIndex) => {
@@ -3146,6 +3141,10 @@ function openAddDataPopup(table) {
         `;
     } else if (table === 'matrikaEkspor') {
         form.innerHTML = `
+            <div class="form-group">
+                <label for="barangEkspor">Barang Ekspor</label>
+                <input type="text" id="barangEkspor" required>
+            </div>
             <div class="form-group">
                 <label for="perusahaan">Perusahaan</label>
                 <input type="text" id="perusahaan" required>
@@ -4012,7 +4011,7 @@ window.editKondisiPasar = function(index) {
         };
 
         try {
-            const kondisiPasarRef = ref(db, 'Bidang Pasar/dataKondisiPasar/' + index);
+            const kondisiPasarRef = ref(db, 'Bidang Pasar/' + index);
             await update(kondisiPasarRef, updatedData);
             
             editPopup.style.display = 'none';
@@ -4029,7 +4028,7 @@ window.deleteKondisiPasar = async function(index) {
     if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
         try {
             // Dapatkan referensi ke dataKondisiPasar
-            const kondisiPasarRef = ref(db, 'Bidang Pasar/dataKondisiPasar');
+            const kondisiPasarRef = ref(db, 'Bidang Pasar/');
             
             // Ambil snapshot data saat ini
             const snapshot = await get(kondisiPasarRef);
@@ -4062,9 +4061,6 @@ document.querySelectorAll('.close-popup').forEach(button => {
         this.closest('.add-data-popup, .edit-data-popup').style.display = 'none';
     };
 });
-
-// Menyimpan data kondisi pasar secara global untuk diakses fungsi edit
-window.kondisiPasarData = [];
 
 // Fungsi edit untuk los kios
 window.editLosKios = function(index) {
@@ -4426,17 +4422,17 @@ function loadBidangKoperasi() {
         if (snapshot.exists()) {
             const data = snapshot.val();
             
-            renderPelakuUKMTable(data['Data Pelaku UKM']?.['Triwulan 3'] || {});
-            renderUKMBerijinTable(data['UKM Berijin']?.['Triwulan 3'] || {});
-            renderUKMAksesPerbankanTable(data['UKM Akses Perbankan']?.['Triwulan 3'] || {});
-            renderWirausahaBermitraUKMTable(data['Masyarakat Wirausaha Bermitra UKM']?.['Triwulan 3'] || {});
-            renderAksesModalUsahaTable(data['Masyarakat Akses Modal Usaha']?.['Triwulan 3'] || {});
-            renderMiskinPesertaPelatihanTable(data['Masyarakat Miskin Peserta Pelatihan']?.['Triwulan 3'] || {});
-            renderKoperasiProduksiTable(data['Jumlah Koperasi Produksi']?.['Desember'] || {});
+            renderPelakuUKMTable(data['Data Pelaku UKM'] || {});
+            renderUKMBerijinTable(data['UKM Berijin'] || {});
+            renderUKMAksesPerbankanTable(data['UKM Akses Perbankan'] || {});
+            renderWirausahaBermitraUKMTable(data['Masyarakat Wirausaha Bermitra UKM'] || {});
+            renderAksesModalUsahaTable(data['Masyarakat Akses Modal Usaha'] || {});
+            renderMiskinPesertaPelatihanTable(data['Masyarakat Miskin Peserta Pelatihan'] || {});
+            renderKoperasiProduksiTable(data['Jumlah Koperasi Produksi'] || {});
             renderKoperasiAktifTable(data['Jumlah Koperasi Seluruh Koperasi Aktif'] || {});
             renderAksesPasarOnlineTable(data['Koperasi Produksi Akses Pasar Online'] || {});
             renderAksesKreditBankTable(data['Koperasi Akses Kredit Bank'] || {});
-            renderKoperasiSehatTable(data['Jumlah Koperasi Sehat']?.['Triwulan 3'] || {});
+            renderKoperasiSehatTable(data['Jumlah Koperasi Sehat'] || {});
             renderRekapOmzetTable(data['Rekap Omzet Koperasi'] || {});
         }
     });
@@ -5253,19 +5249,19 @@ window.deleteDataKopeasi = async function(key, table) {
 function getPathByTableKoperasi(table) {
     switch(table) {
         case 'pelakuUKM':
-            return 'Data Pelaku UKM/Triwulan 3';
+            return 'Data Pelaku UKM';
         case 'ukmBerijin':
-            return 'UKM Berijin/Triwulan 3';
+            return 'UKM Berijin';
         case 'ukmAksesPerbankan':
-            return 'UKM Akses Perbankan/Triwulan 3';
+            return 'UKM Akses Perbankan';
         case 'wirausahaBermitraUKM':
-            return 'Masyarakat Wirausaha Bermitra UKM/Triwulan 3';
+            return 'Masyarakat Wirausaha Bermitra UKM';
         case 'aksesModalUsaha':
-            return 'Masyarakat Akses Modal Usaha/Triwulan 3';
+            return 'Masyarakat Akses Modal Usaha';
         case 'miskinPesertaPelatihan':
-            return 'Masyarakat Miskin Peserta Pelatihan/Triwulan 3';
+            return 'Masyarakat Miskin Peserta Pelatihan';
         case 'koperasiProduksi':
-            return 'Jumlah Koperasi Produksi/Desember';
+            return 'Jumlah Koperasi Produksi';
         case 'koperasiAktif':
             return 'Jumlah Koperasi Seluruh Koperasi Aktif';
         case 'aksesPasarOnline':
@@ -5273,7 +5269,7 @@ function getPathByTableKoperasi(table) {
         case 'aksesKreditBank':
             return 'Koperasi Akses Kredit Bank';
         case 'koperasiSehat':
-            return 'Jumlah Koperasi Sehat/Triwulan 3';
+            return 'Jumlah Koperasi Sehat';
         case 'rekapOmzet':
             return 'Rekap Omzet Koperasi';
         default:
@@ -5484,7 +5480,7 @@ async function loadExportData() {
                         lastColumn = 'F'; // No, Nama, Alamat, Jenis Usaha, Status, NIB, Keterangan
                         break;
                     case 'matrikaEkspor':
-                        lastColumn = 'J'; // No, Nama, Alamat, Jenis Usaha, Status, NIB, Keterangan
+                        lastColumn = 'K'; // No, Nama, Alamat, Jenis Usaha, Status, NIB, Keterangan
                         break;    
 
                     // Bidang Pasar
@@ -5795,7 +5791,7 @@ async function generatePelayananTeraSheet(worksheet, data) {
 
 // 2. Tera Kab WSB
 async function getTeraKabWSBData() {
-    const teraKabRef = ref(db, 'Bidang Perdagangan/Data Semua Tera Kab WSB/Triwulan 3');
+    const teraKabRef = ref(db, 'Bidang Perdagangan/Data Semua Tera Kab WSB');
     const snapshot = await get(teraKabRef);
     return snapshot.val();
 }
@@ -6159,19 +6155,36 @@ async function generateTokoModernOSSSheet(worksheet, data) {
         'Alamat Usaha',
         'Nama Pemilik',
         'Alamat Pemilik',
+        'Nomor Induk Berusaha',
+        '',
+        '',
+        'No Telepon',
+        'Komoditi / KBLI',
+        'Jenis Toko'
+    ];
+    worksheet.getRow(11).values = [
+        '',
+        '',
+        '',
+        '',
+        '',
         'NIB',
         'Nomor NIB',
         'Status',
-        'No Telepon',
-        'KBLI',
-        'Jenis Toko'
-        
+        '',
+        '',
+        ''
     ];
+
+    worksheet.mergeCells('F10:H10');
+    worksheet.getCell('F10').value = 'Nomor Induk Berusaha';
     
     const headerRow = worksheet.getRow(10);
     styleHeader(headerRow);
+    const headerRow2 = worksheet.getRow(11);
+    styleHeader(headerRow2);
 
-    let rowIndex = 11;
+    let rowIndex = 12;
     let no = 1;
     
     if (data) {
@@ -6285,21 +6298,42 @@ async function getMatrikaEksporData() {
 async function generateMatrikaEksporSheet(worksheet, data) {
     worksheet.getRow(10).values = [
         'No',
+        'Barang Ekspor',
         'Perusahaan',
-        'Kapasitas',
-        'Satuan',
-        'Kapasitas',
-        'Satuan',
+        'Produksi',
+        '',
+        'Ekspor',
+        '',
         'Nilai (USD)',
         'Negara Tujuan',
         'Komoditas',
         'Keterangan'
     ];
+    worksheet.getRow(11).values = [
+        '',
+        '',
+        '',
+        'Kapasitas',
+        'Satuan',
+        'Kapasitas',
+        'Satuan',
+        '',
+        '',
+        '',
+        '',
+    ];
+
+    worksheet.mergeCells('D10:E10');
+    worksheet.getCell('D10').value = 'Produksi';
+    worksheet.mergeCells('F10:G10');
+    worksheet.getCell('F10').value = 'Ekspor';
     
     const headerRow = worksheet.getRow(10);
     styleHeader(headerRow);
+    const headerRow2 = worksheet.getRow(11);
+    styleHeader(headerRow2);
 
-    let rowIndex = 11;
+    let rowIndex = 12;
     let no = 1;
     
     if (data) {
@@ -6307,11 +6341,15 @@ async function generateMatrikaEksporSheet(worksheet, data) {
             const row = worksheet.getRow(rowIndex);
             row.values = [
                 no++,
-                value['Tahun'] || '',
-                value['Volume'] || '',
-                value['Satuan'] || '',
-                value['Nilai'] || '',
-                value['Pertumbuhan'] || '',
+                value['Barang'] || '',
+                value['Perusahaan'] || '',
+                value['Produksi'].Kapasitas || '',
+                value['Produksi'].Satuan || '',
+                value['Ekspor'].Kapasitas || '',
+                value['Ekspor'].Satuan || '',
+                value['Nilai (usd)'] || '',
+                value['Negara Tujuan'] || '',
+                value['Komoditas'] || '',
                 value['Keterangan'] || ''
             ];
             styleDataRow(row);
@@ -6558,7 +6596,7 @@ async function generateProfilSheet(worksheet, data) {
 
 // 1. Pelaku UKM
 async function getPelakuUKMData() {
-    const ukmRef = ref(db, 'Bidang Koperasi/Data Pelaku UKM/Triwulan 3');
+    const ukmRef = ref(db, 'Bidang Koperasi/Data Pelaku UKM');
     const snapshot = await get(ukmRef);
     return snapshot.val();
 }
@@ -6605,7 +6643,7 @@ async function generatePelakuUKMSheet(worksheet, data) {
 
 // 2. UKM Berijin
 async function getUKMBerijinData() {
-    const ukmRef = ref(db, 'Bidang Koperasi/UKM Berijin/Triwulan 3');
+    const ukmRef = ref(db, 'Bidang Koperasi/UKM Berijin');
     const snapshot = await get(ukmRef);
     return snapshot.val();
 }
@@ -6651,7 +6689,7 @@ async function generateUKMBerijinSheet(worksheet, data) {
 
 // 3. UKM Akses Perbankan
 async function getUKMAksesPerbankanData() {
-    const ukmRef = ref(db, 'Bidang Koperasi/UKM Akses Perbankan/Triwulan 3');
+    const ukmRef = ref(db, 'Bidang Koperasi/UKM Akses Perbankan');
     const snapshot = await get(ukmRef);
     return snapshot.val();
 }
@@ -6694,7 +6732,7 @@ async function generateUKMAksesPerbankanSheet(worksheet, data) {
 
 // 4. Wirausaha Bermitra UKM
 async function getWirausahaBermitraUKMData() {
-    const wirausahaRef = ref(db, 'Bidang Koperasi/Masyarakat Wirausaha Bermitra UKM/Triwulan 3');
+    const wirausahaRef = ref(db, 'Bidang Koperasi/Masyarakat Wirausaha Bermitra UKM');
     const snapshot = await get(wirausahaRef);
     return snapshot.val();
 }
@@ -6735,7 +6773,7 @@ async function generateWirausahaBermitraUKMSheet(worksheet, data) {
 
 // 5. Akses Modal Usaha
 async function getAksesModalUsahaData() {
-    const modalRef = ref(db, 'Bidang Koperasi/Masyarakat Akses Modal Usaha/Triwulan 3');
+    const modalRef = ref(db, 'Bidang Koperasi/Masyarakat Akses Modal Usaha');
     const snapshot = await get(modalRef);
     return snapshot.val();
 }
@@ -6776,7 +6814,7 @@ async function generateAksesModalUsahaSheet(worksheet, data) {
 
 // 6. Miskin Peserta Pelatihan
 async function getMiskinPesertaPelatihanData() {
-    const pelatihanRef = ref(db, 'Bidang Koperasi/Masyarakat Miskin Peserta Pelatihan/Triwulan 3');
+    const pelatihanRef = ref(db, 'Bidang Koperasi/Masyarakat Miskin Peserta Pelatihan');
     const snapshot = await get(pelatihanRef);
     return snapshot.val();
 }
@@ -6817,7 +6855,7 @@ async function generateMiskinPesertaPelatihanSheet(worksheet, data) {
 
 // 7. Koperasi Produksi
 async function getKoperasiProduksiData() {
-    const koperasiRef = ref(db, 'Bidang Koperasi/Jumlah Koperasi Produksi/Desember');
+    const koperasiRef = ref(db, 'Bidang Koperasi/Jumlah Koperasi Produksi');
     const snapshot = await get(koperasiRef);
     return snapshot.val();
 }
@@ -6973,7 +7011,7 @@ async function generateAksesKreditBankSheet(worksheet, data) {
 
 // 11. Koperasi Sehat
 async function getKoperasiSehatData() {
-    const sehatRef = ref(db, 'Bidang Koperasi/Jumlah Koperasi Sehat/Triwulan 3');
+    const sehatRef = ref(db, 'Bidang Koperasi/Jumlah Koperasi Sehat');
     const snapshot = await get(sehatRef);
     return snapshot.val();
 }
