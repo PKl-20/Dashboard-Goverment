@@ -148,7 +148,7 @@
           "Bongkar Muat": "ADA",
           "Tempat Ibadah": "ADA"
         },
-        "kondisi": {
+        "Kondisi": {
           "Baik": "",
           "Perlu Penyempurnaan": "",
           "Tidak Baik": "X"
@@ -198,9 +198,9 @@
         "Fasilitas": {
           "MCK": "ADA",
           "TPS": "ADA",
-          "arealParkir": "ADA",
-          "bongkarMuat": "ADA",
-          "tempatIbadah": "ADA"
+          "Areal Parkir": "ADA",
+          "Bongkar Muat": "ADA",
+          "Tempat Ibadah": "ADA"
         },
         "Jumlah": {
           "dasaran": 2,
@@ -217,6 +217,19 @@
           "bangunan": 2222,
           "lantai": 22,
           "tanah": 1222
+        }
+      },
+      "Jumlah":{
+        "Total Pasar": "1 Pasar",
+        "Jumlah": {
+          "dasaran": 2,
+          "kios": 2,
+          "los": 2
+        },      
+        "Jumlah Pedagang": {
+          "dasaran": 2,
+          "kios": 2,
+          "los": 2
         }
       }
     }

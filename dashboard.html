@@ -505,6 +505,9 @@
                         <tbody id="profilBody">
 
                         </tbody>
+                        <tfoot id="profilFooter">
+
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -543,6 +546,7 @@
                                 <th>Sektor Usaha</th>
                                 <th>Alamat</th>
                                 <th>NIB</th>
+                                <th>Triwulan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -568,6 +572,7 @@
                                 <th>No Telp</th>
                                 <th>Nama Usaha</th>
                                 <th>Jenis Usaha</th>
+                                <th>Triwulan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -592,6 +597,7 @@
                                 <th>Alamat</th>
                                 <th>Bidang Usaha</th>
                                 <th>Bank</th>
+                                <th>Triwulan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -976,7 +982,7 @@
     </div>
     <div class="add-data-popup" id="addDataPopup" style="display: none;">
         <div class="popup-content">
-            <span class="close-popup">&times;</span>
+            <span class="close-popup" onclick="closePopup()">&times;</span>
             <h2>Tambah Data</h2>
             <form id="addDataForm">
                 
@@ -985,7 +991,7 @@
     </div>
     <div class="edit-data-popup" id="editDataPopup" style="display: none;">
         <div class="popup-content">
-            <span class="close-popup">&times;</span>
+            <span class="close-popup" onclick="closePopup()">&times;</span>
             <h2>Edit Data</h2>
             <form id="editDataForm">
 

@@ -37,6 +37,19 @@ bidangPasar.style.display = 'none';
 bidangKoperasi.style.display = 'none';
 exportData.style.display = 'none';
 newDocument.style.display = 'none';
+
+function closePopup() {
+    const editPopup = document.getElementById('editDataPopup');
+    const addPopup = document.getElementById('addDataPopup');
+
+    if (editPopup) {
+        editPopup.style.display = 'none';
+    }
+
+    if (addPopup) {
+        addPopup.style.display = 'none';
+    }
+}
         
 function updateActiveState(activeLink) {
     document.querySelectorAll('.sidebar a').forEach(link => {

@@ -516,18 +516,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 const kondisiValue = document.querySelector('input[name="kondisi"]:checked').value;
                 
                 const newData = {
-                    'Nama Pasar': document.getElementById('Nama Pasar').value,
-                    Fasilitas: {
-                        'Areal Parkir': document.getElementById('Areal Parkir').value,
-                        TPS: document.getElementById('TPS').value,
-                        MCK: document.getElementById('MCK').value,
-                        'Tempat Ibadah': document.getElementById('Tempat Ibadah').value,
-                        'Bongkar Muat': document.getElementById('Bongkar Muat').value
+                    'Nama Pasar': document.getElementById('namaPasar').value,
+                    'Fasilitas': {
+                        'Areal Parkir': document.getElementById('arealParkir').value,
+                        'TPS': document.getElementById('TPS').value,
+                        'MCK': document.getElementById('MCK').value,
+                        'Tempat Ibadah': document.getElementById('tempatIbadah').value,
+                        'Bongkar Muat': document.getElementById('bongkarMuat').value
                     },
-                    Kondisi: {
-                        Baik: kondisiValue === 'baik' ? 'X' : '',
-                        'Tidak Baik': kondisiValue === 'Tidak Baik' ? 'X' : '',
-                        'Perlu Penyempurnaan': kondisiValue === 'Perlu Penyempurnaan' ? 'X' : ''
+                    'kondisi': {
+                        'Baik': kondisiValue === 'baik' ? 'X' : '',
+                        'Tidak Baik': kondisiValue === 'tidakBaik' ? 'X' : '',
+                        'Perlu Penyempurnaan': kondisiValue === 'perluPenyempurnaan' ? 'X' : ''
                     }
                 };
         
@@ -543,25 +543,54 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } else if (currentTable === 'losKios') {
                 const newData = {
-                    namaPasar: document.getElementById('namaPasar').value,
-                    alamatLengkap: document.getElementById('alamatLengkap').value,
-                    jumlahLosKios: {
+                    'Nama Pasar': document.getElementById('namaPasar').value,
+                    'Alamat Lengkap': document.getElementById('alamatLengkap').value,
+                    'Jumlah LosKios': {
                         los: parseInt(document.getElementById('jumlahLosKios_los').value),
                         kios: parseInt(document.getElementById('jumlahLosKios_kios').value)
                     },
-                    jumlahPedagang: {
+                    'Jumlah Pedagang': {
                         los: parseInt(document.getElementById('jumlahPedagang_los').value),
                         kios: parseInt(document.getElementById('jumlahPedagang_kios').value)
                     },
-                    jumlahTidakTermanfaatkan: {
+                    'Jumlah Tidak Termanfaatkan': {
                         los: parseInt(document.getElementById('jumlahTidakTermanfaatkan_los').value),
                         kios: parseInt(document.getElementById('jumlahTidakTermanfaatkan_kios').value)
                     }
                 };
-        
+            
                 try {
-                    const refPath = ref(db, 'Bidang Pasar/jumlahLosKiosPasar/dataPasar');
+                    // Tambah data baru
+                    const refPath = ref(db, 'Bidang Pasar/Data Los Kios Pasar');
                     await push(refPath, newData);
+            
+                    // Update total/summary
+                    const snapshot = await get(refPath);
+                    if (snapshot.exists()) {
+                        const data = snapshot.val();
+                        let summary = {
+                            'Jumlah LosKios': { los: 0, kios: 0 },
+                            'Jumlah Pedagang': { los: 0, kios: 0 },
+                            'Jumlah Tidak Termanfaatkan': { los: 0, kios: 0 }
+                        };
+            
+                        // Hitung total dari semua data
+                        Object.entries(data).forEach(([key, value]) => {
+                            if (key !== 'Jumlah') {
+                                summary['Jumlah LosKios'].los += parseInt(value['Jumlah LosKios']?.los || 0);
+                                summary['Jumlah LosKios'].kios += parseInt(value['Jumlah LosKios']?.kios || 0);
+                                summary['Jumlah Pedagang'].los += parseInt(value['Jumlah Pedagang']?.los || 0);
+                                summary['Jumlah Pedagang'].kios += parseInt(value['Jumlah Pedagang']?.kios || 0);
+                                summary['Jumlah Tidak Termanfaatkan'].los += parseInt(value['Jumlah Tidak Termanfaatkan']?.los || 0);
+                                summary['Jumlah Tidak Termanfaatkan'].kios += parseInt(value['Jumlah Tidak Termanfaatkan']?.kios || 0);
+                            }
+                        });
+            
+                        // Update summary di database
+                        const summaryRef = ref(db, 'Bidang Pasar/Data Los Kios Pasar/Jumlah');
+                        await update(summaryRef, summary);
+                    }
+            
                     alert('Data berhasil ditambahkan!');
                     closeAddDataPopup();
                     loadBidangPasar();
@@ -573,41 +602,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 const keteranganValue = document.querySelector('input[name="keterangan"]:checked').value;
                 
                 const newData = {
-                    UPT: document.getElementById('UPT').value,
-                    dataPasar: [{
-                        namaPasar: document.getElementById('namaPasar').value,
-                        jumlahPaguyubanPedagang: parseInt(document.getElementById('jumlahPaguyubanPedagang').value),
-                        alamat: document.getElementById('alamat').value,
-                        tahunBerdiri: document.getElementById('tahunBerdiri').value,
-                        luas: {
-                            tanah: parseInt(document.getElementById('luas_tanah').value),
-                            bangunan: parseInt(document.getElementById('luas_bangunan').value),
-                            lantai: parseInt(document.getElementById('luas_lantai').value)
-                        },
-                        jumlah: {
-                            los: parseInt(document.getElementById('jumlah_los').value),
-                            kios: parseInt(document.getElementById('jumlah_kios').value),
-                            dasaran: parseInt(document.getElementById('jumlah_dasaran').value)
-                        },
-                        jumlahPedagang: {
-                            los: parseInt(document.getElementById('pedagang_los').value),
-                            kios: parseInt(document.getElementById('pedagang_kios').value),
-                            dasaran: parseInt(document.getElementById('pedagang_dasaran').value)
-                        },
-                        fasilitasTersedia: {
-                            arealParkir: document.getElementById('arealParkir').value,
-                            TPS: document.getElementById('TPS').value,
-                            MCK: document.getElementById('MCK').value,
-                            tempatIbadah: document.getElementById('tempatIbadah').value,
-                            bongkarMuat: document.getElementById('bongkarMuat').value
-                        },
-                        keterangan: keteranganValue
-                    }]
+                    'UPT': document.getElementById('UPT').value,
+                    'Nama Pasar': document.getElementById('namaPasar').value,
+                    'Jumlah Paguyuban Pedagang': parseInt(document.getElementById('jumlahPaguyubanPedagang').value),
+                    'Alamat': document.getElementById('alamat').value,
+                    'Tahun Berdiri': document.getElementById('tahunBerdiri').value,
+                    'Luas': {
+                        tanah: parseInt(document.getElementById('luas_tanah').value),
+                        bangunan: parseInt(document.getElementById('luas_bangunan').value),
+                        lantai: parseInt(document.getElementById('luas_lantai').value)
+                    },
+                    'Jumlah': {
+                        los: parseInt(document.getElementById('jumlah_los').value),
+                        kios: parseInt(document.getElementById('jumlah_kios').value),
+                        dasaran: parseInt(document.getElementById('jumlah_dasaran').value)
+                    },
+                    'Jumlah Pedagang': {
+                        los: parseInt(document.getElementById('pedagang_los').value),
+                        kios: parseInt(document.getElementById('pedagang_kios').value),
+                        dasaran: parseInt(document.getElementById('pedagang_dasaran').value)
+                    },
+                    'Fasilitas': {
+                        'Areal Parkir': document.getElementById('Areal Parkir').value,
+                        'TPS': document.getElementById('TPS').value,
+                        'MCK': document.getElementById('MCK').value,
+                        'Tempat Ibadah': document.getElementById('Tempat Ibadah').value,
+                        'Bongkar Muat': document.getElementById('Bongkar Muat').value
+                    },
+                    'Keterangan': keteranganValue
                 };
         
                 try {
-                    const refPath = ref(db, 'Bidang Pasar/matriksProfilPasar/dataUPT');
+                    const refPath = ref(db, 'Bidang Pasar/Matriks Profil Pasar');
                     await push(refPath, newData);
+                    await updateProfilSummary();
                     alert('Data berhasil ditambahkan!');
                     closeAddDataPopup();
                     loadBidangPasar();
@@ -627,11 +655,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     NAMA: document.getElementById('nama').value,
                     GENDER: document.getElementById('gender').value,
                     NIK: document.getElementById('nik').value,
-                    NO_TELP: document.getElementById('noTelp').value,
-                    ALAMAT_EMAIL: document.getElementById('email').value,
-                    SEKTOR_USAHA: document.getElementById('sektorUsaha').value,
+                    'NO TELP': document.getElementById('noTelp').value,
+                    'ALAMAT EMAIL': document.getElementById('email').value,
+                    'SEKTOR USAHA': document.getElementById('sektorUsaha').value,
                     ALAMAT: document.getElementById('alamat').value,
-                    'NOMOR_INDUK_BERUSAHA_(NIB)': document.getElementById('nib').value
+                    'NOMOR_INDUK_BERUSAHA_(NIB)': document.getElementById('nib').value,
+                    TRIWULAN: document.getElementById('triwulan').value
                 };
         
                 try {
@@ -647,13 +676,14 @@ document.addEventListener('DOMContentLoaded', function() {
         
             } else if (currentTable === 'ukmBerijin') {
                 const newData = {
-                    NAMA: document.getElementById('nama').value,
+                    Nama: document.getElementById('nama').value,
                     Gender: document.getElementById('gender').value,
                     NIK: document.getElementById('nik').value,
                     Alamat: document.getElementById('alamat').value,
                     'No Telp': document.getElementById('noHp').value,
                     'Nama Usaha': document.getElementById('namaUsaha').value,
-                    'Jenis Usaha': document.getElementById('jenisUsaha').value
+                    'Jenis Usaha': document.getElementById('jenisUsaha').value,
+                    Triwulan: document.getElementById('triwulan').value
                 };
         
                 try {
@@ -670,11 +700,12 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (currentTable === 'ukmAksesPerbankan') {
                 const newData = {
                     NIK: document.getElementById('nik').value,
-                    NAMA: document.getElementById('nama').value,
+                    Nama: document.getElementById('nama').value,
                     Gender: document.getElementById('gender').value,
                     Alamat: document.getElementById('alamat').value,
                     'Bidang Usaha': document.getElementById('bidangUsaha').value,
-                    Bank: document.getElementById('bank').value
+                    Bank: document.getElementById('bank').value,
+                    Triwulan: document.getElementById('triwulan').value
                 };
         
                 try {
@@ -890,13 +921,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const logoutButton = document.getElementById('logout-button');
     if (logoutButton) {
         logoutButton.addEventListener('click', logoutUser);
-    }
-
-    const closePopup = document.querySelector('.close-popup');
-    if (closePopup) {
-        closePopup.addEventListener('click', function() {
-            document.getElementById('addDataPopup').style.display = 'none';
-        });
     }
 });
 
@@ -2578,27 +2602,33 @@ function loadBidangPasar() {
         if (snapshot.exists()) {
             const data = snapshot.val();
             
+            // Ambil data kondisi pasar
             const kondisiPasarData = data['Data Kondisi Pasar'] ? 
                 Object.entries(data['Data Kondisi Pasar']).map(([key, value]) => ({
                     id: key,
                     ...value
                 })) : [];
-            
+
+            // Ambil data los kios pasar
             const losKiosData = data['Data Los Kios Pasar'] ? 
-                Object.entries(data['Data Los Kios Pasar']).map(([key, value]) => ({
-                    id: key,
-                    ...value
-                })) : [];
-            
+                Object.entries(data['Data Los Kios Pasar'])
+                    .filter(([key]) => key !== 'Jumlah')
+                    .map(([key, value]) => ({
+                        id: key,
+                        ...value
+                    })) : [];
+
             const profilData = data['Matriks Profil Pasar'] ? 
-                Object.entries(data['Matriks Profil Pasar']).map(([key, value]) => ({
-                    id: key,
-                    ...value
-                })) : [];
+                Object.entries(data['Matriks Profil Pasar'])
+                    .filter(([key]) => key !== 'Jumlah')  // Filter out summary data
+                    .map(([key, value]) => ({
+                        id: key,
+                        ...value
+                    })) : [];
 
             renderKondisiPasarTable(kondisiPasarData);
-            renderLosKiosTable(losKiosData);
-            renderProfilTable(profilData);
+            renderLosKiosTable(losKiosData, data['Data Los Kios Pasar']?.Jumlah);
+            renderProfilTable(profilData, data['Matriks Profil Pasar']?.Jumlah);
         }
     });
 }
@@ -2608,11 +2638,9 @@ function renderKondisiPasarTable(data) {
     if (!tbody) return;
     
     tbody.innerHTML = '';
-
     let no = 1;
-    data.forEach((item, index) => {
-        if (!item) return;
-        
+
+    data.forEach(item => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${no++}</td>
@@ -2622,15 +2650,15 @@ function renderKondisiPasarTable(data) {
             <td>${item.Fasilitas?.MCK || ''}</td>
             <td>${item.Fasilitas?.['Tempat Ibadah'] || ''}</td>
             <td>${item.Fasilitas?.['Bongkar Muat'] || ''}</td>
-            <td>${item.Kondisi?.Baik || ''}</td>
-            <td>${item.Kondisi?.['Tidak Baik'] || ''}</td>
-            <td>${item.Kondisi?.['Perlu Penyempurnaan'] || ''}</td>
+            <td>${item.kondisi?.Baik || ''}</td>
+            <td>${item.kondisi?.['Tidak Baik'] || ''}</td>
+            <td>${item.kondisi?.['Perlu Penyempurnaan'] || ''}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editKondisiPasar(${index})">
+                    <button onclick="editDataPasar('${item.id}', 'kondisiPasar')" class="edit-btn">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteKondisiPasar(${index})">
+                    <button onclick="deleteDataPasar('${item.id}', 'kondisiPasar')" class="delete-btn">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -2640,16 +2668,15 @@ function renderKondisiPasarTable(data) {
     });
 }
 
-function renderLosKiosTable(data) {   
+function renderLosKiosTable(data, summary) {
     const tbody = document.getElementById('losKiosBody');
-    if (!tbody) return;
+    const tfoot = document.getElementById('losKiosFooter');
+    if (!tbody || !tfoot) return;
     
     tbody.innerHTML = '';
-
     let no = 1;
-    data.forEach((item, index) => {
-        if (!item) return;
-        
+
+    data.forEach(item => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${no++}</td>
@@ -2663,10 +2690,10 @@ function renderLosKiosTable(data) {
             <td>${item['Jumlah Tidak Termanfaatkan']?.kios || 0}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" onclick="editLosKios('${index}')">
+                    <button onclick="editDataPasar('${item.id}', 'losKios')" class="edit-btn">
                         <span class="material-icons-sharp">edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteLosKios('${index}')">
+                    <button onclick="deleteDataPasar('${item.id}', 'losKios')" class="delete-btn">
                         <span class="material-icons-sharp">delete</span>
                     </button>
                 </div>
@@ -2674,58 +2701,86 @@ function renderLosKiosTable(data) {
         `;
         tbody.appendChild(row);
     });
+    if (summary) {
+        tfoot.innerHTML = `
+            <tr>
+                <td colspan="3">Total</td>
+                <td>${summary['Jumlah LosKios']?.los || 0}</td>
+                <td>${summary['Jumlah LosKios']?.kios || 0}</td>
+                <td>${summary['Jumlah Pedagang']?.los || 0}</td>
+                <td>${summary['Jumlah Pedagang']?.kios || 0}</td>
+                <td>${summary['Jumlah Tidak Termanfaatkan']?.los || 0}</td>
+                <td>${summary['Jumlah Tidak Termanfaatkan']?.kios || 0}</td>
+                <td></td>
+            </tr>
+        `;
+    }
 }
 
-function renderProfilTable(data) {
+function renderProfilTable(data, summary) {
     const tbody = document.getElementById('profilBody');
-    if (!tbody) return;
+    const tfoot = document.getElementById('profilFooter');
+    if (!tbody || !tfoot) return;
     
     tbody.innerHTML = '';
-
     let no = 1;
-    data.forEach((upt, uptIndex) => {
-        if (!upt || !Array.isArray(upt.dataPasar)) return;
-        
-        upt.dataPasar.forEach((item, pasarIndex) => {
-            if (!item) return;
-            
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${no++}</td>
-                <td>${upt.UPT || ''}</td>
-                <td>${item.namaPasar || ''}</td>
-                <td>${item.jumlahPaguyubanPedagang || 0}</td>
-                <td>${item.alamat || ''}</td>
-                <td>${item.tahunBerdiri || ''}</td>
-                <td>${item.luas?.tanah || 0}</td>
-                <td>${item.luas?.bangunan || 0}</td>
-                <td>${item.luas?.lantai || 0}</td>
-                <td>${item.jumlah?.los || 0}</td>
-                <td>${item.jumlah?.kios || 0}</td>
-                <td>${item.jumlah?.dasaran || 0}</td>
-                <td>${item.jumlahPedagang?.los || 0}</td>
-                <td>${item.jumlahPedagang?.kios || 0}</td>
-                <td>${item.jumlahPedagang?.dasaran || 0}</td>
-                <td>${item.fasilitasTersedia?.arealParkir || ''}</td>
-                <td>${item.fasilitasTersedia?.TPS || ''}</td>
-                <td>${item.fasilitasTersedia?.MCK || ''}</td>
-                <td>${item.fasilitasTersedia?.tempatIbadah || ''}</td>
-                <td>${item.fasilitasTersedia?.bongkarMuat || ''}</td>
-                <td>${item.keterangan || ''}</td>
-                <td>
-                    <div class="action-buttons">
-                        <button class="edit-btn" onclick="editProfil('${uptIndex}', ${pasarIndex})">
-                            <span class="material-icons-sharp">edit</span>
-                        </button>
-                        <button class="delete-btn" onclick="deleteProfil('${uptIndex}', ${pasarIndex})">
-                            <span class="material-icons-sharp">delete</span>
-                        </button>
-                    </div>
-                </td>
-            `;
-            tbody.appendChild(row);
-        });
+
+    // Filter data untuk memisahkan data utama dengan data jumlah
+    const mainData = data.filter(item => item.id !== 'Jumlah');
+    
+    mainData.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${no++}</td>
+            <td>${item['UPT'] || ''}</td>
+            <td>${item['Nama Pasar'] || ''}</td>
+            <td>${item['Jumlah Paguyuban Pedagang'] || 0}</td>
+            <td>${item['Alamat'] || ''}</td>
+            <td>${item['Tahun Berdiri'] || ''}</td>
+            <td>${item['Luas']?.tanah || 0}</td>
+            <td>${item['Luas']?.bangunan || 0}</td>
+            <td>${item['Luas']?.lantai || 0}</td>
+            <td>${item['Jumlah']?.los || 0}</td>
+            <td>${item['Jumlah']?.kios || 0}</td>
+            <td>${item['Jumlah']?.dasaran || 0}</td>
+            <td>${item['Jumlah Pedagang']?.los || 0}</td>
+            <td>${item['Jumlah Pedagang']?.kios || 0}</td>
+            <td>${item['Jumlah Pedagang']?.dasaran || 0}</td>
+            <td>${item['Fasilitas']?.['Areal Parkir'] || '-'}</td>
+            <td>${item['Fasilitas']?.TPS || '-'}</td>
+            <td>${item['Fasilitas']?.MCK || '-'}</td>
+            <td>${item['Fasilitas']?.['Tempat Ibadah'] || '-'}</td>
+            <td>${item['Fasilitas']?.['Bongkar Muat'] || '-'}</td>
+            <td>${item['Keterangan'] || ''}</td>
+            <td>
+                <div class="action-buttons">
+                    <button onclick="editDataPasar('${item.id}', 'profil')" class="edit-btn">
+                        <span class="material-icons-sharp">edit</span>
+                    </button>
+                    <button onclick="deleteDataPasar('${item.id}', 'profil')" class="delete-btn">
+                        <span class="material-icons-sharp">delete</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
     });
+
+    if (summary) {
+        tfoot.innerHTML = `
+            <tr>
+                <td colspan="2">Jumlah</td>
+                <td colspan="7">${summary['Total Pasar'] || 'Total'}</td>
+                <td>${summary['Jumlah']?.los || 0}</td>
+                <td>${summary['Jumlah']?.kios || 0}</td>
+                <td>${summary['Jumlah']?.dasaran || 0}</td>
+                <td>${summary['Jumlah Pedagang']?.los || 0}</td>
+                <td>${summary['Jumlah Pedagang']?.kios || 0}</td>
+                <td>${summary['Jumlah Pedagang']?.dasaran || 0}</td>
+                <td colspan="7"></td>
+            </tr>
+        `;
+    }
 }
 
 let currentTable = '';
@@ -3483,7 +3538,7 @@ function openAddDataPopup(table) {
                 <h3>Fasilitas Tersedia</h3>
                 <div class="form-group">
                     <label>Areal Parkir:</label>
-                    <select id="arealParkir" required>
+                    <select id="Areal Parkir" required>
                         <option value="ADA">ADA</option>
                         <option value="TIDAK ADA">TIDAK ADA</option>
                     </select>
@@ -3504,14 +3559,14 @@ function openAddDataPopup(table) {
                 </div>
                 <div class="form-group">
                     <label>Tempat Ibadah:</label>
-                    <select id="tempatIbadah" required>
+                    <select id="Tempat Ibadah" required>
                         <option value="ADA">ADA</option>
                         <option value="TIDAK ADA">TIDAK ADA</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Bongkar Muat:</label>
-                    <select id="bongkarMuat" required>
+                    <select id="Bongkar Muat" required>
                         <option value="ADA">ADA</option>
                         <option value="TIDAK ADA">TIDAK ADA</option>
                     </select>
@@ -3575,6 +3630,15 @@ function openAddDataPopup(table) {
                 <label for="nib">NIB</label>
                 <input type="text" id="nib">
             </div>
+            <div class="form-group">
+                <label for="triwulan">Triwulan</label>
+                <select id="triwulan" required>
+                    <option value="Triwulan 1">Triwulan 1</option>
+                    <option value="Triwulan 2">Triwulan 2</option>
+                    <option value="Triwulan 3">Triwulan 3</option>
+                    <option value="Triwulan 4">Triwulan 4</option>
+                </select>
+            </div>
             <button type="submit">Tambah Data</button>
         `;
     } else if (table === 'ukmBerijin') {
@@ -3610,6 +3674,15 @@ function openAddDataPopup(table) {
                 <label for="jenisUsaha">Jenis Usaha</label>
                 <input type="text" id="jenisUsaha" required>
             </div>
+            <div class="form-group">
+                <label for="triwulan">Triwulan</label>
+                <select id="triwulan" required>
+                    <option value="Triwulan 1">Triwulan 1</option>
+                    <option value="Triwulan 2">Triwulan 2</option>
+                    <option value="Triwulan 3">Triwulan 3</option>
+                    <option value="Triwulan 4">Triwulan 4</option>
+                </select>
+            </div>
             <button type="submit">Tambah Data</button>
         `;
     } else if (table === 'ukmAksesPerbankan') {
@@ -3640,6 +3713,15 @@ function openAddDataPopup(table) {
             <div class="form-group">
                 <label for="bank">Bank</label>
                 <input type="text" id="bank" required>
+            </div>
+            <div class="form-group">
+                <label for="triwulan">Triwulan</label>
+                <select id="triwulan" required>
+                    <option value="Triwulan 1">Triwulan 1</option>
+                    <option value="Triwulan 2">Triwulan 2</option>
+                    <option value="Triwulan 3">Triwulan 3</option>
+                    <option value="Triwulan 4">Triwulan 4</option>
+                </select>
             </div>
             <button type="submit">Tambah Data</button>
         `;
@@ -3932,388 +4014,291 @@ function closeAddDataPopup() {
     document.getElementById('addDataPopup').style.display = 'none';
 }
 
-window.editKondisiPasar = function(index) {
+// Fungsi edit untuk kondisi pasar
+window.editDataPasar = function(key, table) {
     const editPopup = document.getElementById('editDataPopup');
     const form = document.getElementById('editDataForm');
-    const data = window.kondisiPasarData[index];
-
+    
+    const path = getPathByTablePasar(table);
+    if (!path) {
+        console.error('Path tidak valid untuk table:', table);
+        return;
+    }
+    
+    const dataRef = ref(db, `Bidang Pasar/${path}/${key}`);
+    get(dataRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            form.setAttribute('data-key', key);
+            form.setAttribute('data-table', table);
+            
+            if (table === 'kondisiPasar') {
                 form.innerHTML = `
                     <div class="form-group">
-            <input type="text" id="edit_namaPasar" placeholder="Nama Pasar" value="${data.namaPasar || ''}" required>
+                        <label for="edit_namaPasar">Nama Pasar</label>
+                        <input type="text" id="edit_namaPasar" value="${data['Nama Pasar'] || ''}" required>
                     </div>
-                    
                     <div class="form-group">
                         <label>Fasilitas:</label>
                         <select id="edit_arealParkir" required>
-                <option value="">Pilih Areal Parkir</option>
-                <option value="ADA" ${data.fasilitas?.arealParkir === 'ADA' ? 'selected' : ''}>ADA</option>
-                <option value="TIDAK ADA" ${data.fasilitas?.arealParkir === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                            <option value="">Pilih Areal Parkir</option>
+                            <option value="ADA" ${data.Fasilitas?.['Areal Parkir'] === 'ADA' ? 'selected' : ''}>ADA</option>
+                            <option value="TIDAK ADA" ${data.Fasilitas?.['Areal Parkir'] === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
                         </select>
                         <select id="edit_TPS" required>
-                <option value="">Pilih TPS</option>
-                <option value="ADA" ${data.fasilitas?.TPS === 'ADA' ? 'selected' : ''}>ADA</option>
-                <option value="TIDAK ADA" ${data.fasilitas?.TPS === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                            <option value="">Pilih TPS</option>
+                            <option value="ADA" ${data.Fasilitas?.TPS === 'ADA' ? 'selected' : ''}>ADA</option>
+                            <option value="TIDAK ADA" ${data.Fasilitas?.TPS === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
                         </select>
                         <select id="edit_MCK" required>
-                <option value="">Pilih MCK</option>
-                <option value="ADA" ${data.fasilitas?.MCK === 'ADA' ? 'selected' : ''}>ADA</option>
-                <option value="TIDAK ADA" ${data.fasilitas?.MCK === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                            <option value="">Pilih MCK</option>
+                            <option value="ADA" ${data.Fasilitas?.MCK === 'ADA' ? 'selected' : ''}>ADA</option>
+                            <option value="TIDAK ADA" ${data.Fasilitas?.MCK === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
                         </select>
                         <select id="edit_tempatIbadah" required>
-                <option value="">Pilih Tempat Ibadah</option>
-                <option value="ADA" ${data.fasilitas?.tempatIbadah === 'ADA' ? 'selected' : ''}>ADA</option>
-                <option value="TIDAK ADA" ${data.fasilitas?.tempatIbadah === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                            <option value="">Pilih Tempat Ibadah</option>
+                            <option value="ADA" ${data.Fasilitas?.['Tempat Ibadah'] === 'ADA' ? 'selected' : ''}>ADA</option>
+                            <option value="TIDAK ADA" ${data.Fasilitas?.['Tempat Ibadah'] === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
                         </select>
                         <select id="edit_bongkarMuat" required>
-                <option value="">Pilih Bongkar Muat</option>
-                <option value="ADA" ${data.fasilitas?.bongkarMuat === 'ADA' ? 'selected' : ''}>ADA</option>
-                <option value="TIDAK ADA" ${data.fasilitas?.bongkarMuat === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                            <option value="">Pilih Bongkar Muat</option>
+                            <option value="ADA" ${data.Fasilitas?.['Bongkar Muat'] === 'ADA' ? 'selected' : ''}>ADA</option>
+                            <option value="TIDAK ADA" ${data.Fasilitas?.['Bongkar Muat'] === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label>Kondisi:</label>
                         <div class="radio-group">
                             <label>
-                    <input type="radio" name="edit_kondisi" value="baik" ${data.kondisi?.baik ? 'checked' : ''} required> Baik
+                                <input type="radio" name="edit_kondisi" value="Baik" ${data.kondisi?.Baik === 'X' ? 'checked' : ''} required> Baik
                             </label>
                             <label>
-                    <input type="radio" name="edit_kondisi" value="tidakBaik" ${data.kondisi?.tidakBaik ? 'checked' : ''}> Tidak Baik
+                                <input type="radio" name="edit_kondisi" value="Tidak Baik" ${data.kondisi?.['Tidak Baik'] === 'X' ? 'checked' : ''}> Tidak Baik
                             </label>
                             <label>
-                    <input type="radio" name="edit_kondisi" value="perluPenyempurnaan" ${data.kondisi?.perluPenyempurnaan ? 'checked' : ''}> Perlu Penyempurnaan
+                                <input type="radio" name="edit_kondisi" value="Perlu Penyempurnaan" ${data.kondisi?.['Perlu Penyempurnaan'] === 'X' ? 'checked' : ''}> Perlu Penyempurnaan
                             </label>
+                        </div>
+                    </div>
+                    <button type="submit">Simpan Perubahan</button>
+                `;
+
+                form.onsubmit = async (e) => {
+                    e.preventDefault();
+                    const kondisi = document.querySelector('input[name="edit_kondisi"]:checked').value;
+                    
+                    const updatedData = {
+                        'Nama Pasar': document.getElementById('edit_namaPasar').value,
+                        'Fasilitas': {
+                            'Areal Parkir': document.getElementById('edit_arealParkir').value,
+                            'TPS': document.getElementById('edit_TPS').value,
+                            'MCK': document.getElementById('edit_MCK').value,
+                            'Tempat Ibadah': document.getElementById('edit_tempatIbadah').value,
+                            'Bongkar Muat': document.getElementById('edit_bongkarMuat').value
+                        },
+                        'kondisi': {
+                            'Baik': kondisi === 'Baik' ? 'X' : '',
+                            'Tidak Baik': kondisi === 'Tidak Baik' ? 'X' : '',
+                            'Perlu Penyempurnaan': kondisi === 'Perlu Penyempurnaan' ? 'X' : ''
+                        }
+                    };
+
+                    try {
+                        await update(dataRef, updatedData);
+                        editPopup.style.display = 'none';
+                        loadBidangPasar();
+                        alert('Data berhasil diperbarui!');
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat memperbarui data!');
+                    }
+                };
+            } else if (table === 'losKios') {
+                form.innerHTML = `
+                    <div class="form-group">
+                        <label for="edit_namaPasar">Nama Pasar</label>
+                        <input type="text" id="edit_namaPasar" value="${data['Nama Pasar'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_alamatLengkap">Alamat Lengkap</label>
+                        <input type="text" id="edit_alamatLengkap" value="${data['Alamat Lengkap'] || ''}" required>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Jumlah Los Kios</h3>
+                        <div class="form-group">
+                            <label for="edit_jumlahLos">Los</label>
+                            <input type="number" id="edit_jumlahLos" value="${data['Jumlah LosKios']?.los || 0}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_jumlahKios">Kios</label>
+                            <input type="number" id="edit_jumlahKios" value="${data['Jumlah LosKios']?.kios || 0}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Jumlah Pedagang</h3>
+                        <div class="form-group">
+                            <label for="edit_pedagangLos">Los</label>
+                            <input type="number" id="edit_pedagangLos" value="${data['Jumlah Pedagang']?.los || 0}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_pedagangKios">Kios</label>
+                            <input type="number" id="edit_pedagangKios" value="${data['Jumlah Pedagang']?.kios || 0}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Jumlah Tidak Termanfaatkan</h3>
+                        <div class="form-group">
+                            <label for="edit_tidakTermanfaatkanLos">Los</label>
+                            <input type="number" id="edit_tidakTermanfaatkanLos" value="${data['Jumlah Tidak Termanfaatkan']?.los || 0}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_tidakTermanfaatkanKios">Kios</label>
+                            <input type="number" id="edit_tidakTermanfaatkanKios" value="${data['Jumlah Tidak Termanfaatkan']?.kios || 0}" required>
                         </div>
                     </div>
 
                     <button type="submit">Simpan Perubahan</button>
                 `;
 
-    editPopup.style.display = 'block';
+                form.onsubmit = async (e) => {
+                    e.preventDefault();
+                    const updatedData = {
+                        'Nama Pasar': document.getElementById('edit_namaPasar').value,
+                        'Alamat Lengkap': document.getElementById('edit_alamatLengkap').value,
+                        'Jumlah LosKios': {
+                            los: parseInt(document.getElementById('edit_jumlahLos').value),
+                            kios: parseInt(document.getElementById('edit_jumlahKios').value)
+                        },
+                        'Jumlah Pedagang': {
+                            los: parseInt(document.getElementById('edit_pedagangLos').value),
+                            kios: parseInt(document.getElementById('edit_pedagangKios').value)
+                        },
+                        'Jumlah Tidak Termanfaatkan': {
+                            los: parseInt(document.getElementById('edit_tidakTermanfaatkanLos').value),
+                            kios: parseInt(document.getElementById('edit_tidakTermanfaatkanKios').value)
+                        }
+                    };
 
-    form.onsubmit = async (e) => {
-        e.preventDefault();
-        
-        const updatedData = {
-            namaPasar: document.getElementById('edit_namaPasar').value,
-            fasilitas: {
-                arealParkir: document.getElementById('edit_arealParkir').value,
-                TPS: document.getElementById('edit_TPS').value,
-                MCK: document.getElementById('edit_MCK').value,
-                tempatIbadah: document.getElementById('edit_tempatIbadah').value,
-                bongkarMuat: document.getElementById('edit_bongkarMuat').value
-            },
-            kondisi: {
-                baik: document.querySelector('input[name="edit_kondisi"][value="baik"]').checked ? 'X' : '',
-                tidakBaik: document.querySelector('input[name="edit_kondisi"][value="tidakBaik"]').checked ? 'X' : '',
-                perluPenyempurnaan: document.querySelector('input[name="edit_kondisi"][value="perluPenyempurnaan"]').checked ? 'X' : ''
-            }
-        };
-
-        try {
-            const kondisiPasarRef = ref(db, 'Bidang Pasar/' + index);
-            await update(kondisiPasarRef, updatedData);
-            
-            editPopup.style.display = 'none';
-            loadBidangPasar();
-            alert('Data berhasil diperbarui!');
-        } catch (error) {
-            console.error('Error updating data:', error);
-            alert('Terjadi kesalahan saat memperbarui data');
-        }
-    };
-};
-
-window.deleteKondisiPasar = async function(index) {
-    if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-        try {
-            // Dapatkan referensi ke dataKondisiPasar
-            const kondisiPasarRef = ref(db, 'Bidang Pasar/');
-            
-            // Ambil snapshot data saat ini
-            const snapshot = await get(kondisiPasarRef);
-            
-            if (snapshot.exists()) {
-                // Konversi data ke array
-                const currentData = Object.entries(snapshot.val());
-                
-                // Dapatkan key dari data yang akan dihapus
-                const [key, _] = currentData[index];
-                
-                // Hapus data berdasarkan key
-                const deleteRef = ref(db, `Bidang Pasar/dataKondisiPasar/${key}`);
-                await remove(deleteRef);
-                
-                alert('Data berhasil dihapus!');
-                loadBidangPasar();
-            } else {
-                throw new Error('Data tidak ditemukan');
-            }
-        } catch (error) {
-            console.error('Error menghapus data:', error);
-            alert('Terjadi kesalahan saat menghapus data: ' + error.message);
-        }
-    }
-};
-
-document.querySelectorAll('.close-popup').forEach(button => {
-    button.onclick = function() {
-        this.closest('.add-data-popup, .edit-data-popup').style.display = 'none';
-    };
-});
-
-// Fungsi edit untuk los kios
-window.editLosKios = function(index) {
-    const editPopup = document.getElementById('editDataPopup');
-    const form = document.getElementById('editDataForm');
-    const data = window.losKiosData[parseInt(index)]; // Konversi index ke number
-
-    if (!data) {
-        console.error('Data tidak ditemukan untuk index:', index);
-        alert('Terjadi kesalahan saat memuat data');
-        return;
-    }
-
+                    try {
+                        await update(dataRef, updatedData);
+                        await updateLosKiosSummary();
+                        editPopup.style.display = 'none';
+                        loadBidangPasar();
+                        alert('Data berhasil diperbarui!');
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat memperbarui data!');
+                    }
+                };
+            } else if (table === 'profil') {
                 form.innerHTML = `
                     <div class="form-group">
-                        <label for="edit_namaPasar">Nama Pasar</label>
-            <input type="text" id="edit_namaPasar" placeholder="Masukkan nama pasar" value="${data.namaPasar || ''}" required>
+                        <label for="edit_upt">UPT</label>
+                        <input type="text" id="edit_upt" value="${data.UPT || ''}" required>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="edit_alamatLengkap">Alamat Lengkap</label>
-            <input type="text" id="edit_alamatLengkap" placeholder="Masukkan alamat lengkap" value="${data.alamatLengkap || ''}" required>
-                    </div>
-                    
-                    <div class="form-section">
-                        <h3>Jumlah Los & Kios</h3>
-                        <div class="form-group">
-                            <label for="edit_jumlahLosKios_los">Jumlah Los</label>
-                <input type="number" id="edit_jumlahLosKios_los" placeholder="Jumlah los" min="0" value="${data.jumlahLosKios?.los || 0}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_jumlahLosKios_kios">Jumlah Kios</label>
-                <input type="number" id="edit_jumlahLosKios_kios" placeholder="Jumlah kios" min="0" value="${data.jumlahLosKios?.kios || 0}" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <h3>Jumlah Pedagang</h3>
-                        <div class="form-group">
-                            <label for="edit_jumlahPedagang_los">Jumlah Pedagang Los</label>
-                <input type="number" id="edit_jumlahPedagang_los" placeholder="Jumlah pedagang los" min="0" value="${data.jumlahPedagang?.los || 0}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_jumlahPedagang_kios">Jumlah Pedagang Kios</label>
-                <input type="number" id="edit_jumlahPedagang_kios" placeholder="Jumlah pedagang kios" min="0" value="${data.jumlahPedagang?.kios || 0}" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <h3>Jumlah Tidak Termanfaatkan</h3>
-                        <div class="form-group">
-                            <label for="edit_jumlahTidakTermanfaatkan_los">Los Tidak Termanfaatkan</label>
-                <input type="number" id="edit_jumlahTidakTermanfaatkan_los" placeholder="Jumlah los tidak termanfaatkan" min="0" value="${data.jumlahTidakTermanfaatkan?.los || 0}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_jumlahTidakTermanfaatkan_kios">Kios Tidak Termanfaatkan</label>
-                <input type="number" id="edit_jumlahTidakTermanfaatkan_kios" placeholder="Jumlah kios tidak termanfaatkan" min="0" value="${data.jumlahTidakTermanfaatkan?.kios || 0}" required>
-                        </div>
-                    </div>
-            
-        <button type="submit">Simpan Perubahan</button>
-    `;
-
-    editPopup.style.display = 'block';
-
-    form.onsubmit = async (e) => {
-        e.preventDefault();
-        
-        const updatedData = {
-            namaPasar: document.getElementById('edit_namaPasar').value,
-            alamatLengkap: document.getElementById('edit_alamatLengkap').value,
-            jumlahLosKios: {
-                los: parseInt(document.getElementById('edit_jumlahLosKios_los').value),
-                kios: parseInt(document.getElementById('edit_jumlahLosKios_kios').value)
-            },
-            jumlahPedagang: {
-                los: parseInt(document.getElementById('edit_jumlahPedagang_los').value),
-                kios: parseInt(document.getElementById('edit_jumlahPedagang_kios').value)
-            },
-            jumlahTidakTermanfaatkan: {
-                los: parseInt(document.getElementById('edit_jumlahTidakTermanfaatkan_los').value),
-                kios: parseInt(document.getElementById('edit_jumlahTidakTermanfaatkan_kios').value)
-            }
-        };
-
-        try {
-            const losKiosRef = ref(db, 'Bidang Pasar/jumlahLosKiosPasar/dataPasar/' + index);
-            await update(losKiosRef, updatedData);
-            
-            editPopup.style.display = 'none';
-            loadBidangPasar();
-            alert('Data berhasil diperbarui!');
-        } catch (error) {
-            console.error('Error updating data:', error);
-            alert('Terjadi kesalahan saat memperbarui data');
-        }
-    };
-};
-
-window.deleteLosKios = async function(index) {
-    if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-        try {
-            // Dapatkan referensi ke dataPasar
-            const losKiosRef = ref(db, 'Bidang Pasar/jumlahLosKiosPasar/dataPasar');
-            
-            // Ambil snapshot data saat ini
-            const snapshot = await get(losKiosRef);
-            
-            if (snapshot.exists()) {
-                // Konversi data ke array
-                const currentData = Object.entries(snapshot.val());
-                
-                // Dapatkan key dari data yang akan dihapus
-                const [key, _] = currentData[index];
-                
-                // Hapus data berdasarkan key
-                const deleteRef = ref(db, `Bidang Pasar/jumlahLosKiosPasar/dataPasar/${key}`);
-                await remove(deleteRef);
-                
-                alert('Data berhasil dihapus!');
-                loadBidangPasar();
-            } else {
-                throw new Error('Data tidak ditemukan');
-            }
-        } catch (error) {
-            console.error('Error menghapus data:', error);
-            alert('Terjadi kesalahan saat menghapus data: ' + error.message);
-        }
-    }
-};
-
-window.editProfil = function(uptIndex, pasarIndex) {
-    const editPopup = document.getElementById('editDataPopup');
-    const form = document.getElementById('editDataForm');
-    const data = window.profilData[uptIndex];
-
-    if (!data || !data.dataPasar || !data.dataPasar[pasarIndex]) {
-        console.error('Data tidak ditemukan untuk UPT index:', uptIndex, 'dan Pasar index:', pasarIndex);
-        alert('Terjadi kesalahan saat memuat data');
-        return;
-    }
-
-    const pasarData = data.dataPasar[pasarIndex];
-    
-                form.innerHTML = `
-                    <div class="form-group">
-                        <label for="edit_UPT">UPT</label>
-            <input type="text" id="edit_UPT" placeholder="Masukkan UPT" value="${data.UPT || ''}" required>
-                    </div>
-
                     <div class="form-group">
                         <label for="edit_namaPasar">Nama Pasar</label>
-            <input type="text" id="edit_namaPasar" placeholder="Masukkan nama pasar" value="${pasarData.namaPasar || ''}" required>
+                        <input type="text" id="edit_namaPasar" value="${data['Nama Pasar'] || ''}" required>
                     </div>
-
                     <div class="form-group">
-                        <label for="edit_jumlahPaguyubanPedagang">Jumlah Paguyuban Pedagang</label>
-            <input type="number" id="edit_jumlahPaguyubanPedagang" placeholder="Masukkan jumlah paguyuban" value="${pasarData.jumlahPaguyubanPedagang || 0}" required>
+                        <label for="edit_jumlahPaguyuban">Jumlah Paguyuban Pedagang</label>
+                        <input type="number" id="edit_jumlahPaguyuban" value="${data['Jumlah Paguyuban Pedagang'] || 0}" required>
                     </div>
-
                     <div class="form-group">
                         <label for="edit_alamat">Alamat</label>
-            <input type="text" id="edit_alamat" placeholder="Masukkan alamat" value="${pasarData.alamat || ''}" required>
+                        <input type="text" id="edit_alamat" value="${data.Alamat || ''}" required>
                     </div>
-
                     <div class="form-group">
                         <label for="edit_tahunBerdiri">Tahun Berdiri</label>
-            <input type="text" id="edit_tahunBerdiri" placeholder="Masukkan tahun berdiri" value="${pasarData.tahunBerdiri || ''}" required>
+                        <input type="text" id="edit_tahunBerdiri" value="${data['Tahun Berdiri'] || ''}" required>
                     </div>
 
                     <div class="form-section">
                         <h3>Luas</h3>
                         <div class="form-group">
-                <label for="edit_luas_tanah">Luas Tanah</label>
-                <input type="number" id="edit_luas_tanah" placeholder="Luas tanah" value="${pasarData.luas?.tanah || 0}" required>
+                            <label for="edit_luasTanah">Tanah</label>
+                            <input type="number" id="edit_luasTanah" value="${data.Luas?.tanah || 0}" required>
                         </div>
                         <div class="form-group">
-                <label for="edit_luas_bangunan">Luas Bangunan</label>
-                <input type="number" id="edit_luas_bangunan" placeholder="Luas bangunan" value="${pasarData.luas?.bangunan || 0}" required>
+                            <label for="edit_luasBangunan">Bangunan</label>
+                            <input type="number" id="edit_luasBangunan" value="${data.Luas?.bangunan || 0}" required>
                         </div>
                         <div class="form-group">
-                <label for="edit_luas_lantai">Luas Lantai</label>
-                <input type="number" id="edit_luas_lantai" placeholder="Luas lantai" value="${pasarData.luas?.lantai || 0}" required>
+                            <label for="edit_luasLantai">Lantai</label>
+                            <input type="number" id="edit_luasLantai" value="${data.Luas?.lantai || 0}" required>
                         </div>
                     </div>
 
                     <div class="form-section">
                         <h3>Jumlah</h3>
                         <div class="form-group">
-                <label for="edit_jumlah_los">Jumlah Los</label>
-                <input type="number" id="edit_jumlah_los" placeholder="Jumlah los" value="${pasarData.jumlah?.los || 0}" required>
+                            <label for="edit_jumlahLos">Los</label>
+                            <input type="number" id="edit_jumlahLos" value="${data.Jumlah?.los || 0}" required>
                         </div>
                         <div class="form-group">
-                <label for="edit_jumlah_kios">Jumlah Kios</label>
-                <input type="number" id="edit_jumlah_kios" placeholder="Jumlah kios" value="${pasarData.jumlah?.kios || 0}" required>
+                            <label for="edit_jumlahKios">Kios</label>
+                            <input type="number" id="edit_jumlahKios" value="${data.Jumlah?.kios || 0}" required>
                         </div>
                         <div class="form-group">
-                <label for="edit_jumlah_dasaran">Jumlah Dasaran</label>
-                <input type="number" id="edit_jumlah_dasaran" placeholder="Jumlah dasaran" value="${pasarData.jumlah?.dasaran || 0}" required>
+                            <label for="edit_jumlahDasaran">Dasaran</label>
+                            <input type="number" id="edit_jumlahDasaran" value="${data.Jumlah?.dasaran || 0}" required>
                         </div>
                     </div>
 
                     <div class="form-section">
                         <h3>Jumlah Pedagang</h3>
                         <div class="form-group">
-                <label for="edit_pedagang_los">Jumlah Pedagang Los</label>
-                <input type="number" id="edit_pedagang_los" placeholder="Jumlah pedagang los" value="${pasarData.jumlahPedagang?.los || 0}" required>
+                            <label for="edit_pedagangLos">Los</label>
+                            <input type="number" id="edit_pedagangLos" value="${data['Jumlah Pedagang']?.los || 0}" required>
                         </div>
                         <div class="form-group">
-                <label for="edit_pedagang_kios">Jumlah Pedagang Kios</label>
-                <input type="number" id="edit_pedagang_kios" placeholder="Jumlah pedagang kios" value="${pasarData.jumlahPedagang?.kios || 0}" required>
+                            <label for="edit_pedagangKios">Kios</label>
+                            <input type="number" id="edit_pedagangKios" value="${data['Jumlah Pedagang']?.kios || 0}" required>
                         </div>
                         <div class="form-group">
-                <label for="edit_pedagang_dasaran">Jumlah Pedagang Dasaran</label>
-                <input type="number" id="edit_pedagang_dasaran" placeholder="Jumlah pedagang dasaran" value="${pasarData.jumlahPedagang?.dasaran || 0}" required>
+                            <label for="edit_pedagangDasaran">Dasaran</label>
+                            <input type="number" id="edit_pedagangDasaran" value="${data['Jumlah Pedagang']?.dasaran || 0}" required>
                         </div>
                     </div>
 
                     <div class="form-section">
-                        <h3>Fasilitas Tersedia</h3>
+                        <h3>Fasilitas</h3>
                         <div class="form-group">
                             <label>Areal Parkir:</label>
                             <select id="edit_arealParkir" required>
-                    <option value="ADA" ${pasarData.fasilitasTersedia?.arealParkir === 'ADA' ? 'selected' : ''}>ADA</option>
-                    <option value="TIDAK ADA" ${pasarData.fasilitasTersedia?.arealParkir === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                                <option value="ADA" ${data.Fasilitas?.arealParkir === 'ADA' ? 'selected' : ''}>ADA</option>
+                                <option value="TIDAK ADA" ${data.Fasilitas?.arealParkir === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>TPS:</label>
                             <select id="edit_TPS" required>
-                    <option value="ADA" ${pasarData.fasilitasTersedia?.TPS === 'ADA' ? 'selected' : ''}>ADA</option>
-                    <option value="TIDAK ADA" ${pasarData.fasilitasTersedia?.TPS === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                                <option value="ADA" ${data.Fasilitas?.TPS === 'ADA' ? 'selected' : ''}>ADA</option>
+                                <option value="TIDAK ADA" ${data.Fasilitas?.TPS === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>MCK:</label>
                             <select id="edit_MCK" required>
-                    <option value="ADA" ${pasarData.fasilitasTersedia?.MCK === 'ADA' ? 'selected' : ''}>ADA</option>
-                    <option value="TIDAK ADA" ${pasarData.fasilitasTersedia?.MCK === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                                <option value="ADA" ${data.Fasilitas?.MCK === 'ADA' ? 'selected' : ''}>ADA</option>
+                                <option value="TIDAK ADA" ${data.Fasilitas?.MCK === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Tempat Ibadah:</label>
                             <select id="edit_tempatIbadah" required>
-                    <option value="ADA" ${pasarData.fasilitasTersedia?.tempatIbadah === 'ADA' ? 'selected' : ''}>ADA</option>
-                    <option value="TIDAK ADA" ${pasarData.fasilitasTersedia?.tempatIbadah === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                                <option value="ADA" ${data.Fasilitas?.tempatIbadah === 'ADA' ? 'selected' : ''}>ADA</option>
+                                <option value="TIDAK ADA" ${data.Fasilitas?.tempatIbadah === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Bongkar Muat:</label>
                             <select id="edit_bongkarMuat" required>
-                    <option value="ADA" ${pasarData.fasilitasTersedia?.bongkarMuat === 'ADA' ? 'selected' : ''}>ADA</option>
-                    <option value="TIDAK ADA" ${pasarData.fasilitasTersedia?.bongkarMuat === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
+                                <option value="ADA" ${data.Fasilitas?.bongkarMuat === 'ADA' ? 'selected' : ''}>ADA</option>
+                                <option value="TIDAK ADA" ${data.Fasilitas?.bongkarMuat === 'TIDAK ADA' ? 'selected' : ''}>TIDAK ADA</option>
                             </select>
                         </div>
                     </div>
@@ -4322,98 +4307,170 @@ window.editProfil = function(uptIndex, pasarIndex) {
                         <label>Keterangan:</label>
                         <div class="radio-group">
                             <label>
-                    <input type="radio" name="edit_keterangan" value="Baik" ${pasarData.keterangan === 'Baik' ? 'checked' : ''} required> Baik
+                                <input type="radio" name="edit_keterangan" value="Baik" ${data.Keterangan === 'Baik' ? 'checked' : ''} required> Baik
                             </label>
                             <label>
-                    <input type="radio" name="edit_keterangan" value="Perlu Rehab" ${pasarData.keterangan === 'Perlu Rehab' ? 'checked' : ''}> Perlu Rehab
+                                <input type="radio" name="edit_keterangan" value="Perlu Rehab" ${data.Keterangan === 'Perlu Rehab' ? 'checked' : ''}> Perlu Rehab
                             </label>
                             <label>
-                    <input type="radio" name="edit_keterangan" value="Perlu Penyempurnaan" ${pasarData.keterangan === 'Perlu Penyempurnaan' ? 'checked' : ''}> Perlu Penyempurnaan
+                                <input type="radio" name="edit_keterangan" value="Perlu Penyempurnaan" ${data.Keterangan === 'Perlu Penyempurnaan' ? 'checked' : ''}> Perlu Penyempurnaan
                             </label>
                         </div>
                     </div>
 
-        <button type="submit">Simpan Perubahan</button>
-    `;
+                    <button type="submit">Simpan Perubahan</button>
+                `;
 
-    editPopup.style.display = 'block';
+                form.onsubmit = async (e) => {
+                    e.preventDefault();
+                    const keterangan = document.querySelector('input[name="edit_keterangan"]:checked').value;
+                    
+                    const updatedData = {
+                        'UPT': document.getElementById('edit_upt').value,
+                        'Nama Pasar': document.getElementById('edit_namaPasar').value,
+                        'Jumlah Paguyuban Pedagang': parseInt(document.getElementById('edit_jumlahPaguyuban').value),
+                        'Alamat': document.getElementById('edit_alamat').value,
+                        'Tahun Berdiri': document.getElementById('edit_tahunBerdiri').value,
+                        'Luas': {
+                            tanah: parseInt(document.getElementById('edit_luasTanah').value),
+                            bangunan: parseInt(document.getElementById('edit_luasBangunan').value),
+                            lantai: parseInt(document.getElementById('edit_luasLantai').value)
+                        },
+                        'Jumlah': {
+                            los: parseInt(document.getElementById('edit_jumlahLos').value),
+                            kios: parseInt(document.getElementById('edit_jumlahKios').value),
+                            dasaran: parseInt(document.getElementById('edit_jumlahDasaran').value)
+                        },
+                        'Jumlah Pedagang': {
+                            los: parseInt(document.getElementById('edit_pedagangLos').value),
+                            kios: parseInt(document.getElementById('edit_pedagangKios').value),
+                            dasaran: parseInt(document.getElementById('edit_pedagangDasaran').value)
+                        },
+                        'Fasilitas': {
+                            arealParkir: document.getElementById('edit_arealParkir').value,
+                            TPS: document.getElementById('edit_TPS').value,
+                            MCK: document.getElementById('edit_MCK').value,
+                            tempatIbadah: document.getElementById('edit_tempatIbadah').value,
+                            bongkarMuat: document.getElementById('edit_bongkarMuat').value
+                        },
+                        'Keterangan': keterangan
+                    };
 
-    form.onsubmit = async (e) => {
-        e.preventDefault();
-        
-        const updatedData = {
-            UPT: document.getElementById('edit_UPT').value,
-            dataPasar: [{
-                namaPasar: document.getElementById('edit_namaPasar').value,
-                jumlahPaguyubanPedagang: parseInt(document.getElementById('edit_jumlahPaguyubanPedagang').value),
-                alamat: document.getElementById('edit_alamat').value,
-                tahunBerdiri: document.getElementById('edit_tahunBerdiri').value,
-                luas: {
-                    tanah: parseInt(document.getElementById('edit_luas_tanah').value),
-                    bangunan: parseInt(document.getElementById('edit_luas_bangunan').value),
-                    lantai: parseInt(document.getElementById('edit_luas_lantai').value)
-                },
-                jumlah: {
-                    los: parseInt(document.getElementById('edit_jumlah_los').value),
-                    kios: parseInt(document.getElementById('edit_jumlah_kios').value),
-                    dasaran: parseInt(document.getElementById('edit_jumlah_dasaran').value)
-                },
-                jumlahPedagang: {
-                    los: parseInt(document.getElementById('edit_pedagang_los').value),
-                    kios: parseInt(document.getElementById('edit_pedagang_kios').value),
-                    dasaran: parseInt(document.getElementById('edit_pedagang_dasaran').value)
-                },
-                fasilitasTersedia: {
-                    arealParkir: document.getElementById('edit_arealParkir').value,
-                    TPS: document.getElementById('edit_TPS').value,
-                    MCK: document.getElementById('edit_MCK').value,
-                    tempatIbadah: document.getElementById('edit_tempatIbadah').value,
-                    bongkarMuat: document.getElementById('edit_bongkarMuat').value
-                },
-                keterangan: document.querySelector('input[name="edit_keterangan"]:checked').value
-            }]
-        };
-
-        try {
-            const profilRef = ref(db, `Bidang Pasar/matriksProfilPasar/dataUPT/${uptIndex}/dataPasar/${pasarIndex}`);
-            await update(profilRef, updatedData);
-            
-            editPopup.style.display = 'none';
-            loadBidangPasar();
-            alert('Data berhasil diperbarui!');
-        } catch (error) {
-            console.error('Error updating data:', error);
-            alert('Terjadi kesalahan saat memperbarui data');
+                    try {
+                        await update(dataRef, updatedData);
+                        await updateProfilSummary();
+                        editPopup.style.display = 'none';
+                        loadBidangPasar();
+                        alert('Data berhasil diperbarui!');
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat memperbarui data!');
+                    }
+                };
+            }
         }
-    };
+    });
+    editPopup.style.display = 'block';
 };
 
-window.deleteProfil = async function(uptIndex, pasarIndex) {
+
+function getPathByTablePasar(table) {
+    const paths = {
+        kondisiPasar: 'Data Kondisi Pasar',
+        losKios: 'Data Los Kios Pasar',
+        profil: 'Matriks Profil Pasar'
+    };
+    return paths[table];
+}
+
+window.deleteDataPasar = async function(key, table) {
     if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
         try {
-            const profilRef = ref(db, `Bidang Pasar/matriksProfilPasar/dataUPT/${uptIndex}/dataPasar/${pasarIndex}`);
-            await remove(profilRef);
-            
-            // Cek jika ini adalah data pasar terakhir di UPT tersebut
-            const uptRef = ref(db, `Bidang Pasar/matriksProfilPasar/dataUPT/${uptIndex}`);
-            const snapshot = await get(uptRef);
-            
-            if (snapshot.exists()) {
-                const uptData = snapshot.val();
-                if (!uptData.dataPasar || uptData.dataPasar.length === 0) {
-                    // Jika tidak ada data pasar lagi, hapus UPT
-                    await remove(uptRef);
-                }
+            const path = getPathByTablePasar(table);
+            if (!path) throw new Error('Invalid table path');
+
+            const deleteRef = ref(db, `Bidang Pasar/${path}/${key}`);
+            await remove(deleteRef);
+            if (table === 'losKios') {
+                await updateLosKiosSummary();
+            } else if (table === 'profil') {
+                await updateProfilSummary();
             }
-            
             alert('Data berhasil dihapus!');
             loadBidangPasar();
         } catch (error) {
-            console.error('Error menghapus data:', error);
-            alert('Terjadi kesalahan saat menghapus data: ' + error.message);
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat menghapus data!');
         }
     }
 };
+
+async function updateLosKiosSummary() {
+    const losKiosRef = ref(db, 'Bidang Pasar/Data Los Kios Pasar');
+    const snapshot = await get(losKiosRef);
+    
+    if (snapshot.exists()) {
+        const data = snapshot.val();
+        let summary = {
+            'Jumlah LosKios': { los: 0, kios: 0 },
+            'Jumlah Pedagang': { los: 0, kios: 0 },
+            'Jumlah Tidak Termanfaatkan': { los: 0, kios: 0 }
+        };
+
+        Object.entries(data).forEach(([key, value]) => {
+            if (key !== 'Jumlah') {
+                summary['Jumlah LosKios'].los += parseInt(value['Jumlah LosKios']?.los || 0);
+                summary['Jumlah LosKios'].kios += parseInt(value['Jumlah LosKios']?.kios || 0);
+                summary['Jumlah Pedagang'].los += parseInt(value['Jumlah Pedagang']?.los || 0);
+                summary['Jumlah Pedagang'].kios += parseInt(value['Jumlah Pedagang']?.kios || 0);
+                summary['Jumlah Tidak Termanfaatkan'].los += parseInt(value['Jumlah Tidak Termanfaatkan']?.los || 0);
+                summary['Jumlah Tidak Termanfaatkan'].kios += parseInt(value['Jumlah Tidak Termanfaatkan']?.kios || 0);
+            }
+        });
+
+        const summaryRef = ref(db, 'Bidang Pasar/Data Los Kios Pasar/Jumlah');
+        await update(summaryRef, summary);
+    }
+}
+
+async function updateProfilSummary() {
+    const profilRef = ref(db, 'Bidang Pasar/Matriks Profil Pasar');
+    const snapshot = await get(profilRef);
+    
+    if (snapshot.exists()) {
+        const data = snapshot.val();
+        let summary = {
+            'Total Pasar': '0 Pasar',
+            'Jumlah': { 
+                los: 0, 
+                kios: 0, 
+                dasaran: 0 
+            },
+            'Jumlah Pedagang': { 
+                los: 0, 
+                kios: 0, 
+                dasaran: 0 
+            }
+        };
+
+        let totalPasar = 0;
+        Object.entries(data).forEach(([key, value]) => {
+            if (key !== 'Jumlah') {
+                totalPasar++;
+                summary['Jumlah'].los += parseInt(value['Jumlah']?.los || 0);
+                summary['Jumlah'].kios += parseInt(value['Jumlah']?.kios || 0);
+                summary['Jumlah'].dasaran += parseInt(value['Jumlah']?.dasaran || 0);
+                summary['Jumlah Pedagang'].los += parseInt(value['Jumlah Pedagang']?.los || 0);
+                summary['Jumlah Pedagang'].kios += parseInt(value['Jumlah Pedagang']?.kios || 0);
+                summary['Jumlah Pedagang'].dasaran += parseInt(value['Jumlah Pedagang']?.dasaran || 0);
+            }
+        });
+
+        summary['Total Pasar'] = `${totalPasar} Pasar`;
+        const summaryRef = ref(db, 'Bidang Pasar/Matriks Profil Pasar/Jumlah');
+        await update(summaryRef, summary);
+    }
+}
 
 function loadBidangKoperasi() {
     const koperasiRef = ref(db, 'Bidang Koperasi');
@@ -4451,11 +4508,12 @@ function renderPelakuUKMTable(data) {
             <td>${value.NAMA || '-'}</td>
             <td>${value.GENDER || '-'}</td>
             <td>${value.NIK || '-'}</td>
-            <td>${value.NO_TELP || '-'}</td>
-            <td>${value.ALAMAT_EMAIL || '-'}</td>
-            <td>${value.SEKTOR_USAHA || '-'}</td>
+            <td>${value['NO TELP'] || '-'}</td>
+            <td>${value['ALAMAT EMAIL'] || '-'}</td>
+            <td>${value['SEKTOR USAHA'] || '-'}</td>
             <td>${value.ALAMAT || '-'}</td>
             <td>${value['NOMOR_INDUK_BERUSAHA_(NIB)'] || '-'}</td>
+            <td>${value.TRIWULAN || '-'}</td>
             <td>
                 <div class="action-buttons">
                     <button class="edit-btn" onclick="editDataKoperasi('${key}', 'pelakuUKM')">
@@ -4488,6 +4546,7 @@ function renderUKMBerijinTable(data) {
             <td>${value['No Telp'] || '-'}</td>
             <td>${value['Nama Usaha'] || '-'}</td>
             <td>${value['Jenis Usaha'] || '-'}</td>
+            <td>${value.Triwulan || '-'}</td>
             <td>
                 <div class="action-buttons">
                     <button class="edit-btn" onclick="editDataKoperasi('${key}', 'ukmBerijin')">
@@ -4518,6 +4577,7 @@ function renderUKMAksesPerbankanTable(data) {
             <td>${value.Alamat || '-'}</td>
             <td>${value['Bidang Usaha'] || '-'}</td>
             <td>${value.Bank || '-'}</td>
+            <td>${value.Triwulan || '-'}</td>
             <td>
                 <div class="action-buttons">
                     <button class="edit-btn" onclick="editDataKoperasi('${key}', 'ukmAksesPerbankan')">
@@ -4838,15 +4898,15 @@ window.editDataKoperasi = function(key, table) {
                     </div>
                     <div class="form-group">
                         <label for="edit_noTelp">No. Telepon</label>
-                        <input type="text" id="edit_noTelp" value="${data.NO_TELP || ''}" required>
+                        <input type="text" id="edit_noTelp" value="${data['NO TELP'] || ''}" required>
                     </div>
                     <div class="form-group">
                         <label for="edit_email">Email</label>
-                        <input type="email" id="edit_email" value="${data.ALAMAT_EMAIL || ''}" required>
+                        <input type="email" id="edit_email" value="${data['ALAMAT EMAIL'] || ''}" required>
                     </div>
                     <div class="form-group">
                         <label for="edit_sektorUsaha">Sektor Usaha</label>
-                        <input type="text" id="edit_sektorUsaha" value="${data.SEKTOR_USAHA || ''}" required>
+                        <input type="text" id="edit_sektorUsaha" value="${data['SEKTOR USAHA'] || ''}" required>
                     </div>
                     <div class="form-group">
                         <label for="edit_alamat">Alamat</label>
@@ -4855,6 +4915,15 @@ window.editDataKoperasi = function(key, table) {
                     <div class="form-group">
                         <label for="edit_nib">NIB</label>
                         <input type="text" id="edit_nib" value="${data['NOMOR_INDUK_BERUSAHA_(NIB)'] || ''}">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_triwulan">Triwulan</label>
+                        <select id="edit_triwulan" required>
+                            <option value="Triwulan 1" ${data.TRIWULAN === 'Triwulan 1' ? 'selected' : ''}>Triwulan 1</option>
+                            <option value="Triwulan 2" ${data.TRIWULAN === 'Triwulan 2' ? 'selected' : ''}>Triwulan 2</option>
+                            <option value="Triwulan 3" ${data.TRIWULAN === 'Triwulan 3' ? 'selected' : ''}>Triwulan 3</option>
+                            <option value="Triwulan 4" ${data.TRIWULAN === 'Triwulan 4' ? 'selected' : ''}>Triwulan 4</option>
+                        </select>
                     </div>
                     <button type="submit">Simpan Perubahan</button>
                 `;
@@ -4891,6 +4960,15 @@ window.editDataKoperasi = function(key, table) {
                         <label for="edit_jenisUsaha">Jenis Usaha</label>
                         <input type="text" id="edit_jenisUsaha" value="${data['Jenis Usaha'] || ''}" required>
                     </div>
+                    <div class="form-group">
+                        <label for="edit_triwulan">Triwulan</label>
+                        <select id="edit_triwulan" required>
+                            <option value="Triwulan 1" ${data.Triwulan === 'Triwulan 1' ? 'selected' : ''}>Triwulan 1</option>
+                            <option value="Triwulan 2" ${data.Triwulan === 'Triwulan 2' ? 'selected' : ''}>Triwulan 2</option>
+                            <option value="Triwulan 3" ${data.Triwulan === 'Triwulan 3' ? 'selected' : ''}>Triwulan 3</option>
+                            <option value="Triwulan 4" ${data.Triwulan === 'Triwulan 4' ? 'selected' : ''}>Triwulan 4</option>
+                        </select>
+                    </div>
                     <button type="submit">Simpan Perubahan</button>
                 `;
             } else if (table === 'ukmAksesPerbankan') {
@@ -4921,6 +4999,15 @@ window.editDataKoperasi = function(key, table) {
                     <div class="form-group">
                         <label for="edit_bank">Bank</label>
                         <input type="text" id="edit_bank" value="${data.Bank || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_triwulan">Triwulan</label>
+                        <select id="edit_triwulan" required>
+                            <option value="Triwulan 1" ${data.Triwulan === 'Triwulan 1' ? 'selected' : ''}>Triwulan 1</option>
+                            <option value="Triwulan 2" ${data.Triwulan === 'Triwulan 2' ? 'selected' : ''}>Triwulan 2</option>
+                            <option value="Triwulan 3" ${data.Triwulan === 'Triwulan 3' ? 'selected' : ''}>Triwulan 3</option>
+                            <option value="Triwulan 4" ${data.Triwulan === 'Triwulan 4' ? 'selected' : ''}>Triwulan 4</option>
+                        </select>
                     </div>
                     <button type="submit">Simpan Perubahan</button>
                 `;
@@ -5283,11 +5370,13 @@ function getUpdatedDataByTable(table) {
             NAMA: document.getElementById('edit_nama').value,
             GENDER: document.getElementById('edit_gender').value,
             NIK: document.getElementById('edit_nik').value,
-            NO_TELP: document.getElementById('edit_noTelp').value,
-            ALAMAT_EMAIL: document.getElementById('edit_email').value,
-            SEKTOR_USAHA: document.getElementById('edit_sektorUsaha').value,
+            'NO TELP': document.getElementById('edit_noTelp').value,
+            'ALAMAT EMAIL': document.getElementById('edit_email').value,
+            'SEKTOR USAHA': document.getElementById('edit_sektorUsaha').value,
             ALAMAT: document.getElementById('edit_alamat').value,
-            'NOMOR_INDUK_BERUSAHA_(NIB)': document.getElementById('edit_nib').value
+            'NOMOR_INDUK_BERUSAHA_(NIB)': document.getElementById('edit_nib').value,
+            TRIWULAN: document.getElementById('edit_triwulan').value
+
         };
     } else if (table === 'ukmBerijin') {
         return {
@@ -5297,7 +5386,8 @@ function getUpdatedDataByTable(table) {
             Alamat: document.getElementById('edit_alamat').value,
             'No Telp': document.getElementById('edit_noHp').value,
             'Nama Usaha': document.getElementById('edit_namaUsaha').value,
-            'Jenis Usaha': document.getElementById('edit_jenisUsaha').value
+            'Jenis Usaha': document.getElementById('edit_jenisUsaha').value,
+            Triwulan: document.getElementById('edit_triwulan').value
         };
     } else if (table === 'ukmAksesPerbankan') {
         return {
@@ -5306,7 +5396,8 @@ function getUpdatedDataByTable(table) {
             Gender: document.getElementById('edit_gender').value,
             Alamat: document.getElementById('edit_alamat').value,
             'Bidang Usaha': document.getElementById('edit_bidangUsaha').value,
-            Bank: document.getElementById('edit_bank').value
+            Bank: document.getElementById('edit_bank').value,
+            Triwulan: document.getElementById('edit_triwulan').value
         };
     } else if (table === 'wirausahaBermitraUKM') {
         return {
@@ -5484,22 +5575,22 @@ async function loadExportData() {
                         break;    
 
                     // Bidang Pasar
-                    case 'pedagangPasar':
+                    case 'kondisiPasar':
                         lastColumn = 'J'; // No, Nama, NIK, Alamat, No Los/Kios, Jenis Dagangan, Status, Keterangan
                         break;
-                    case 'pasarRakyat':
-                        lastColumn = 'H'; // No, Nama Pasar, Alamat, Kecamatan, Kelurahan, Luas, Status
+                    case 'losKios':
+                        lastColumn = 'I'; // No, Nama Pasar, Alamat, Kecamatan, Kelurahan, Luas, Status
                         break;
-                    case 'kiosKantin':
+                    case 'profil':
                         lastColumn = 'H'; // No, Nama Kios, Alamat, Pemilik, Status, Jenis Dagangan, Keterangan
                         break;
 
                     // Bidang Koperasi
                     case 'pelakuUKM':
-                        lastColumn = 'I'; // No, NIK, Nama, Gender, No Telp, Email, Sektor Usaha, Alamat
+                        lastColumn = 'J'; // No, NIK, Nama, Gender, No Telp, Email, Sektor Usaha, Alamat
                         break;
                     case 'ukmBerijin':
-                        lastColumn = 'H'; // No, NIK, Nama, Alamat, Jenis Usaha, No NIB, Tanggal NIB
+                        lastColumn = 'I'; // No, NIK, Nama, Alamat, Jenis Usaha, No NIB, Tanggal NIB
                         break;
                     case 'ukmAksesPerbankan':
                         lastColumn = 'G'; // No, NIK, Nama, Alamat, Bank, Jenis Kredit, Nominal
@@ -5770,7 +5861,12 @@ async function generatePelayananTeraSheet(worksheet, data) {
             totalData['Triwulan 3'] || totalTriwulan3,
             totalData['Triwulan 4'] || totalTriwulan4
         ];
+        // Gabungkan 2 kolom pertama untuk Total
+        worksheet.mergeCells(`A${rowIndex}:B${rowIndex}`);
+        worksheet.getCell(`A${rowIndex}`).value = 'Total';
+        worksheet.getCell(`A${rowIndex}`).alignment = { horizontal: 'center' };
         styleDataRow(totalRow);
+        totalRow.font = { bold: true };
         rowIndex++;
 
         const totalLayananRow = worksheet.getRow(rowIndex);
@@ -5782,9 +5878,17 @@ async function generatePelayananTeraSheet(worksheet, data) {
             '',
             '' 
         ];
+        // Gabungkan 2 kolom pertama untuk Total Semua Layanan
+        worksheet.mergeCells(`A${rowIndex}:B${rowIndex}`);
+        worksheet.getCell(`A${rowIndex}`).value = 'Total Semua Layanan';
+        worksheet.getCell(`A${rowIndex}`).alignment = { horizontal: 'center' };
+        // Gabungkan 4 kolom terakhir
+        worksheet.mergeCells(`C${rowIndex}:F${rowIndex}`);
+        worksheet.getCell(`C${rowIndex}`).value = totalSemuaLayanan || '';
+        worksheet.getCell(`C${rowIndex}`).alignment = { horizontal: 'center' };
         styleDataRow(totalLayananRow);
+        totalLayananRow.font = { bold: true };
     }
-
     autoFitColumns(worksheet);
 }
 
@@ -6455,7 +6559,7 @@ async function generateHasilPengawasanSheet(worksheet, data) {
 
 // 1. Kondisi Pasar
 async function getKondisiPasarData() {
-    const pasarRef = ref(db, 'Bidang Pasar/dataKondisiPasar');
+    const pasarRef = ref(db, 'Bidang Pasar/Data Kondisi Pasar');
     const snapshot = await get(pasarRef);
     return snapshot.val();
 }
@@ -6464,6 +6568,18 @@ async function generateKondisiPasarSheet(worksheet, data) {
     worksheet.getRow(10).values = [
         'No',
         'Nama Pasar',
+        'Fasilitas Tersedia',
+        '',
+        '',
+        '',
+        '',
+        'Keterangan',
+        '',
+        ''
+    ];
+    worksheet.getRow(11).values = [
+        '',
+        '',
         'Areal Parkir',
         'TPS',
         'MCK',
@@ -6474,10 +6590,17 @@ async function generateKondisiPasarSheet(worksheet, data) {
         'Perlu Penyempurnaan'
     ];
     
+    worksheet.mergeCells('C10:G10');
+    worksheet.getCell('C10').value = 'Fasilitas Tersedia';
+    worksheet.mergeCells('H10:J10');
+    worksheet.getCell('H10').value = 'Keterangan';
+
     const headerRow = worksheet.getRow(10);
     styleHeader(headerRow);
+    const headerRow2 = worksheet.getRow(11);
+    styleHeader(headerRow2);
 
-    let rowIndex = 11;
+    let rowIndex = 12;
     let no = 1;
     
     if (data) {
@@ -6485,15 +6608,15 @@ async function generateKondisiPasarSheet(worksheet, data) {
             const row = worksheet.getRow(rowIndex);
             row.values = [
                 no++,
-                value['namaPasar'] || '',
-                value['fasilitas'].arealParkir || '',
-                value['fasilitas'].TPS || '',
-                value['fasilitas'].MCK || '',
-                value['fasilitas'].tempatIbadah || '',
-                value['fasilitas'].bongkarMuat || '',
-                value['kondisi'].baik || '',
-                value['kondisi'].perluPenyempurnaan || '',
-                value['kondisi'].tidakBaik || ''
+                value['Nama Pasar'] || '',
+                value['Fasilitas']?.['Areal Parkir'] || '',
+                value['Fasilitas'].TPS || '',
+                value['Fasilitas'].MCK || '',
+                value['Fasilitas']?.['Tempat Ibadah'] || '',
+                value['Fasilitas']?.['Bongkar Muat'] || '',
+                value['Kondisi'].Baik || '',
+                value['Kondisi']?.['Perlu Penyempurnaan'] || '',
+                value['Kondisi']?.['Tidak Baik'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
@@ -6504,7 +6627,7 @@ async function generateKondisiPasarSheet(worksheet, data) {
 
 // 2. Los & Kios
 async function getLosKiosData() {
-    const losKiosRef = ref(db, 'Bidang Pasar/jumlahLosKiosPasar/dataPasar');
+    const losKiosRef = ref(db, 'Bidang Pasar/Data Los Kios Pasar');
     const snapshot = await get(losKiosRef);
     return snapshot.val();
 }
@@ -6513,43 +6636,88 @@ async function generateLosKiosSheet(worksheet, data) {
     worksheet.getRow(10).values = [
         'No',
         'Nama Pasar',
-        'Jumlah Los',
-        'Jumlah Kios',
-        'Los Terpakai',
-        'Kios Terpakai',
-        'Los Kosong',
-        'Kios Kosong'
+        'Alamat Lengkap',
+        'Jumlah Los/Kios',
+        '',
+        'Jumlah Pedagang Los/Kios',
+        '',
+        'Jumlah yang Tidak Termanfaatkan',
+        ''
+    ];
+    worksheet.getRow(11).values = [
+        '',
+        '',
+        '',
+        'Los',
+        'Kios',
+        'Los',
+        'Kios',
+        'Los',
+        'Kios'
     ];
     
+    worksheet.mergeCells('D10:E10');
+    worksheet.getCell('D10').value = 'Jumlah Los/Kios';
+    worksheet.mergeCells('F10:G10');
+    worksheet.getCell('F10').value = 'Jumlah Pedagang Los/Kios';
+    worksheet.mergeCells('H10:I10');
+    worksheet.getCell('H10').value = 'Jumlah yang Tidak Termanfaatkan';
+
     const headerRow = worksheet.getRow(10);
     styleHeader(headerRow);
+    const headerRow2 = worksheet.getRow(11);
+    styleHeader(headerRow2);
 
-    let rowIndex = 11;
+    let rowIndex = 12;
     let no = 1;
     
     if (data) {
         Object.entries(data).forEach(([key, value]) => {
-            const row = worksheet.getRow(rowIndex);
-            row.values = [
-                no++,
-                value['namaPasar'] || '',
-                value['Jumlah Los'] || '',
-                value['Jumlah Kios'] || '',
-                value['Los Terpakai'] || '',
-                value['Kios Terpakai'] || '',
-                value['Los Kosong'] || '',
-                value['Kios Kosong'] || ''
-            ];
-            styleDataRow(row);
-            rowIndex++;
+            if (key !== 'Jumlah') {
+                const row = worksheet.getRow(rowIndex);
+                row.values = [
+                    no++,
+                    value['Nama Pasar'] || '',
+                    value['Alamat Lengkap'] || '',
+                    value['Jumlah LosKios']?.los || 0,
+                    value['Jumlah LosKios']?.kios || 0,
+                    value['Jumlah Pedagang']?.los || 0,
+                    value['Jumlah Pedagang']?.kios || 0,
+                    value['Jumlah Tidak Termanfaatkan']?.los || 0,
+                    value['Jumlah Tidak Termanfaatkan']?.kios || 0
+                ];
+                styleDataRow(row);
+                rowIndex++;
+            }
         });
+
+        const jumlahData = data['Jumlah'];
+        const totalRow = worksheet.getRow(rowIndex);
+        totalRow.values = [
+            '',
+            'JUMLAH',
+            '',
+            jumlahData['Jumlah LosKios']?.los || 0,
+            jumlahData['Jumlah LosKios']?.kios || 0,
+            jumlahData['Jumlah Pedagang']?.los || 0,
+            jumlahData['Jumlah Pedagang']?.kios || 0,
+            jumlahData['Jumlah Tidak Termanfaatkan']?.los || 0,
+            jumlahData['Jumlah Tidak Termanfaatkan']?.kios || 0
+        ];
+
+        worksheet.mergeCells(`A${rowIndex}:C${rowIndex}`);
+        worksheet.getCell(`A${rowIndex}`).value = 'JUMLAH';
+        worksheet.getCell(`A${rowIndex}`).alignment = { horizontal: 'center' };
+
+        styleDataRow(totalRow);
+        totalRow.font = { bold: true };
     }
     autoFitColumns(worksheet);
 }
 
 // 3. Profil Pasar
 async function getProfilData() {
-    const profilRef = ref(db, 'Bidang Pasar/matriksProfilPasar');
+    const profilRef = ref(db, 'Bidang Pasar/Matriks Profil Pasar');
     const snapshot = await get(profilRef);
     return snapshot.val();
 }
@@ -6557,19 +6725,66 @@ async function getProfilData() {
 async function generateProfilSheet(worksheet, data) {
     worksheet.getRow(10).values = [
         'No',
+        'UPT',
         'Nama Pasar',
-        'Luas Lahan',
-        'Luas Bangunan',
+        'Jumlah Paguyuban Pedagang',
+        'Alamat',
+        'Tahun Berdiri',
+        'Luas',
+        '',
+        '',
+        'Jumlah',
+        '',
+        '',
         'Jumlah Pedagang',
-        'Status Lahan',
-        'Potensi Retribusi',
+        '',
+        '',
+        'Fasilitas Tersedia',
+        '',
+        '',
+        '',
+        '',
         'Keterangan'
     ];
-    
+    worksheet.getRow(11).values = [
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        'Tanah',
+        'Bangunan',
+        'Jumlah Lantai',
+        'Los',
+        'Kios',
+        'Dasaran',
+        'Los',
+        'Kios',
+        'Dasaran',
+        'Areal Parkir',
+        'TPS',
+        'MCK',
+        'Tempat Ibadah',
+        'Bongkar Muat',
+        ''
+    ];
+
+    worksheet.mergeCells('G10:I10');
+    worksheet.getCell('G10').value = 'Luas';
+    worksheet.mergeCells('J10:L10');
+    worksheet.getCell('J10').value = 'Jumlah';
+    worksheet.mergeCells('M10:O10');
+    worksheet.getCell('H10').value = 'Jumlah Pedagang';
+    worksheet.mergeCells('P10:T10');
+    worksheet.getCell('P10').value = 'Fasilitas Tersedia';
+
     const headerRow = worksheet.getRow(10);
     styleHeader(headerRow);
+    const headerRow2 = worksheet.getRow(11);
+    styleHeader(headerRow2);
 
-    let rowIndex = 11;
+    let rowIndex = 12;
     let no = 1;
     
     if (data) {
@@ -6577,12 +6792,25 @@ async function generateProfilSheet(worksheet, data) {
             const row = worksheet.getRow(rowIndex);
             row.values = [
                 no++,
-                value['namaPasar'] || '',
-                value['Luas Lahan'] || '',
-                value['Luas Bangunan'] || '',
-                value['Jumlah Pedagang'] || '',
-                value['Status Lahan'] || '',
-                value['Potensi Retribusi'] || '',
+                value['UPT'] || '',
+                value['Nama Pasar'] || '',
+                value['Jumlah Paguyuban Pedagang'] || '',
+                value['Alamat'] || '',
+                value['Tahun Berdiri'] || '',
+                value['Luas'].tanah || '',
+                value['Luas'].bangunan || '',
+                value['Luas'].lantai || '',
+                value['Jumlah'].los || '',
+                value['Jumlah'].kios || '',
+                value['Jumlah'].dasaran || '',
+                value['Jumlah Pedagang'].los || '',
+                value['Jumlah Pedagang'].kios || '',
+                value['Jumlah Pedagang'].dasaran || '',
+                value['Fasilitas']?.['Areal Parkir'] || '',
+                value['Fasilitas'].TPS || '',
+                value['Fasilitas'].MCK || '',
+                value['Fasilitas']?.['Tempat Ibadah'] || '',
+                value['Fasilitas']?.['Bongkar Muat'] || '',
                 value['Keterangan'] || ''
             ];
             styleDataRow(row);
@@ -6611,7 +6839,8 @@ async function generatePelakuUKMSheet(worksheet, data) {
         'Email',
         'Sektor Usaha',
         'Alamat',
-        'NIB'
+        'NIB',
+        'Triwulan'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -6633,6 +6862,7 @@ async function generatePelakuUKMSheet(worksheet, data) {
                 value['SEKTOR USAHA'] || '',
                 value['ALAMAT'] || '',
                 value['NIB'] || '-',
+                value['TRIWULAN'] || '-'
             ];
             styleDataRow(row);
             rowIndex++;
@@ -6658,6 +6888,7 @@ async function generateUKMBerijinSheet(worksheet, data) {
         'No Telepon',
         'Nama Usaha',
         'Jenis Usaha',
+        'Triwulan'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -6678,7 +6909,8 @@ async function generateUKMBerijinSheet(worksheet, data) {
                 value['Alamat'] || '',
                 value['No Telp'] || '',
                 value['Nama Usaha'] || '',
-                value['Jenis Usaha'] || ''
+                value['Jenis Usaha'] || '',
+                value['Triwulan'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
@@ -6702,7 +6934,8 @@ async function generateUKMAksesPerbankanSheet(worksheet, data) {
         'Gender',
         'Alamat',
         'Bidang Usaha',
-        'Bank'
+        'Bank',
+        'Triwulan'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -6721,7 +6954,8 @@ async function generateUKMAksesPerbankanSheet(worksheet, data) {
                 value['Gender'] || '',
                 value['Alamat'] || '',
                 value['Bidang Usaha'] || '',
-                value['Bank'] || ''
+                value['Bank'] || '',
+                value['Triwulan'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
