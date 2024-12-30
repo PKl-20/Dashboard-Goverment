@@ -3,65 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExcelJS Example</title>
+    <title>Excel to Firebase</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-</head>
-<body>
-    <button id="downloadBtn">Download Excel</button>
-    <script>
-        // Inisialisasi workbook dan worksheet
-        const workbook = new ExcelJS.Workbook();
-        const worksheet = workbook.addWorksheet('Sheet 1');
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
 
-        // Mengisi baris pertama (baris 10)
-        worksheet.getRow(10).values = [
-            'No',
-            'Nama Marketplace',
-            'Tahun n-1',
-            'Tahun n-2',
-            'Tahun n',
-            '',
-            '',
-            '',
-            'Keterangan'
-        ];
+        // Konfigurasi Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAvS4WWQxexKc50hhUTiOK7-pbbgW-ohGg",
+            authDomain: "dashboard-goverment.firebaseapp.com",
+            databaseURL: "https://dashboard-goverment-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "dashboard-goverment",
+            storageBucket: "dashboard-goverment.firebasestorage.app",
+            messagingSenderId: "158779726573",
+            appId: "1:158779726573:web:2292616126be60375f8ae4",
+            measurementId: "G-25PXSR89RC"
+        };
 
-        // Mengisi baris kedua (baris 11)
-        worksheet.getRow(11).values = [
-            '',
-            '',
-            '',
-            '',
-            'Triwuan 1',
-            'Triwuan 2',
-            'Triwuan 3',
-            'Triwuan 4',
-            ''
-        ];
+        // Inisialisasi Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
 
-        // Menggabungkan sel (contoh)
-        worksheet.mergeCells('A10:A11'); // Menggabungkan A10 dan A11
-        worksheet.mergeCells('B10:B11'); // Menggabungkan B10 dan B11
-        worksheet.mergeCells('C10:C11'); // Menggabungkan C10 dan C11
+        // Tunggu DOM ter-load
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput = document.getElementById('file-input');
+            const uploadButton = document.getElementById('upload-button');
 
-        // Mengisi teks pada sel pertama setelah penggabungan
-        worksheet.getCell('A10').value = 'No';  // Ini akan terlihat di sel A10 dan A11 karena mereka digabung
-        worksheet.getCell('B10').value = 'Marketplace';  // Ini akan terlihat di B10 dan B11
-        worksheet.getCell('C10').value = 'Year n';  // Ini akan terlihat di C10 dan C11
+            uploadButton.addEventListener('click', async () => {
+                if (fileInput.files.length === 0) {
+                    alert("Pilih file Excel terlebih dahulu!");
+                    return;
+                }
 
-        // Menambahkan style header untuk baris 10
-        const headerRow = worksheet.getRow(10);
-        headerRow.font = { bold: true };  // Mengatur font header menjadi tebal
-        headerRow.alignment = { horizontal: 'center' };  // Mengatur rata tengah
+                const file = fileInput.files[0];
+                const workbook = new ExcelJS.Workbook();
 
-        // Fungsi untuk mendownload file
-        document.getElementById('downloadBtn').addEventListener('click', function () {
-            workbook.xlsx.writeBuffer().then(function (buffer) {
-                const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-                saveAs(blob, 'example.xlsx');
+                try {
+                    // Load file Excel
+                    await workbook.xlsx.load(file);
+
+                    // Ambil worksheet berdasarkan nama
+                    const worksheet = workbook.getWorksheet("Data Pelaku UKM");
+
+                    if (!worksheet) {
+                        alert("Worksheet 'Data Pelaku UKM' tidak ditemukan!");
+                        return;
+                    }
+
+                    // Baca data dari worksheet
+                    const data = [];
+                    worksheet.eachRow((row, rowNumber) => {
+                        if (rowNumber === 1) return; // Lewati header
+                        const rowData = {
+                            no: row.getCell(1).value,
+                            nama: row.getCell(2).value,
+                            gender: row.getCell(3).value,
+                            nik: row.getCell(4).value,
+                            telepon: row.getCell(5).value,
+                            email: row.getCell(6).value,
+                            sektorUsaha: row.getCell(7).value,
+                            alamat: row.getCell(8).value,
+                            nib: row.getCell(9).value,
+                            triwulan: row.getCell(10).value
+                        };
+                        data.push(rowData);
+                    });
+
+                    console.log("Data dari Excel:", data);
+
+                    // Simpan data ke Firebase
+                    const refPath = ref(database, "data_pelaku_ukm");
+                    await set(refPath, data);
+
+                    alert("Data berhasil diunggah!");
+                } catch (error) {
+                    console.error("Gagal membaca file Excel:", error);
+                    alert("Terjadi kesalahan saat membaca file Excel!");
+                }
             });
         });
     </script>
+</head>
+<body>
+    <h2>Unggah Excel ke Firebase</h2>
+    <input type="file" id="file-input" accept=".xlsx, .xls">
+    <button id="upload-button">Unggah ke Firebase</button>
 </body>
 </html>

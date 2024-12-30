@@ -23,6 +23,7 @@ const bidangPerdaganganLink = document.getElementById('perdagangan-link');
 const bidangPasarLink = document.getElementById('pasar-link');
 const bidangKoperasiLink = document.getElementById('koperasi-link');
 const exportDataLink = document.getElementById('data-link');
+const importDataLink = document.getElementById('import-link');
 const newDocumentLink = document.getElementById('document-link');
 
 const Dashboard = document.getElementById('Dashboard');
@@ -30,12 +31,14 @@ const bidangPerdagangan = document.getElementById('Bidang-Perdagangan');
 const bidangPasar = document.getElementById('Bidang-Pasar');
 const bidangKoperasi = document.getElementById('Bidang-Koperasi');
 const exportData = document.getElementById('Export-Data');
+const importData = document.getElementById('Import-Data');
 const newDocument = document.getElementById('New-Document');
 
 bidangPerdagangan.style.display = 'none';
 bidangPasar.style.display = 'none';
 bidangKoperasi.style.display = 'none';
 exportData.style.display = 'none';
+importData.style.display = 'none';
 newDocument.style.display = 'none';
 
 function closePopup() {
@@ -70,10 +73,8 @@ if (dashboardLink) {
         bidangPasar.style.display = 'none';
         bidangKoperasi.style.display = 'none';
         exportData.style.display = 'none';
+        importData.style.display = 'none';
         newDocument.style.display = 'none';
-        subMenuPerdagangan = 'none';
-        subMenuPasar = 'none';
-        subMenuKoperasi = 'none';
         updateActiveState(this);
     });
 }
@@ -85,10 +86,8 @@ if (bidangPerdaganganLink) {
         bidangPasar.style.display = 'none';
         bidangKoperasi.style.display = 'none';
         exportData.style.display = 'none';
+        importData.style.display = 'none';
         newDocument.style.display = 'none';
-        subMenuPerdagangan = 'block';
-        subMenuPasar = 'none';
-        subMenuKoperasi = 'none';
         updateActiveState(this);
     });
 }
@@ -100,10 +99,8 @@ if (bidangPasarLink) {
         bidangPasar.style.display = 'block';
         bidangKoperasi.style.display = 'none';
         exportData.style.display = 'none';
+        importData.style.display = 'none';
         newDocument.style.display = 'none';
-        subMenuPerdagangan = 'none';
-        subMenuPasar = 'block';
-        subMenuKoperasi = 'none';
         updateActiveState(this);
     });
 }
@@ -115,10 +112,8 @@ if (bidangKoperasiLink) {
         bidangPasar.style.display = 'none';
         bidangKoperasi.style.display = 'block';
         exportData.style.display = 'none';
+        importData.style.display = 'none';
         newDocument.style.display = 'none';
-        subMenuPerdagangan = 'none';
-        subMenuPasar = 'none';
-        subMenuKoperasi = 'block';
         updateActiveState(this);
     });
 }
@@ -130,6 +125,7 @@ if (exportDataLink) {
         bidangPasar.style.display = 'none';
         bidangKoperasi.style.display = 'none';
         exportData.style.display = 'block';
+        importData.style.display = 'none';
         newDocument.style.display = 'none';
         updateActiveState(this);
     });
@@ -142,7 +138,21 @@ if (newDocumentLink) {
         bidangPasar.style.display = 'none';
         bidangKoperasi.style.display = 'none';
         exportData.style.display = 'none';
+        importData.style.display = 'none';
         newDocument.style.display = 'block';
+        updateActiveState(this);
+    });
+}
+
+if (importDataLink) {
+    importDataLink.addEventListener('click', function() {
+        Dashboard.style.display = 'none';
+        bidangPerdagangan.style.display = 'none';
+        bidangPasar.style.display = 'none';
+        bidangKoperasi.style.display = 'none';
+        exportData.style.display = 'none';
+        importData.style.display = 'block';
+        newDocument.style.display = 'none';
         updateActiveState(this);
     });
 }

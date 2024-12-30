@@ -721,11 +721,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
             } else if (currentTable === 'wirausahaBermitraUKM') {
                 const newData = {
-                    NAMA: document.getElementById('nama').value,
+                    Nama: document.getElementById('nama').value,
                     Gender: document.getElementById('gender').value,
                     Alamat: document.getElementById('alamat').value,
                     'Bidang Usaha': document.getElementById('bidangUsaha').value,
-                    'No Telp': document.getElementById('noHp').value
+                    'No Telp': document.getElementById('noHp').value,
+                    Triwulan: document.getElementById('triwulan').value
                 };
         
                 try {
@@ -741,11 +742,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
             } else if (currentTable === 'aksesModalUsaha') {
                 const newData = {
-                    NAMA: document.getElementById('nama').value,
+                    Nama: document.getElementById('nama').value,
                     Gender: document.getElementById('gender').value,
                     Alamat: document.getElementById('alamat').value,
                     'Bidang Usaha': document.getElementById('bidangUsaha').value,
-                    'No Telp': document.getElementById('noHp').value
+                    'No Telp': document.getElementById('noHp').value,
+                    Triwulan: document.getElementById('triwulan').value
                 };
         
                 try {
@@ -761,11 +763,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
             } else if (currentTable === 'miskinPesertaPelatihan') {
                 const newData = {
-                    NAMA: document.getElementById('nama').value,
+                    Nama: document.getElementById('nama').value,
                     Gender: document.getElementById('gender').value,
                     Alamat: document.getElementById('alamat').value,
                     'Bidang Usaha': document.getElementById('bidangUsaha').value,
-                    'No Telp': document.getElementById('noHp').value
+                    'No Telp': document.getElementById('noHp').value,
+                    Triwulan: document.getElementById('triwulan').value
                 };
         
                 try {
@@ -3751,6 +3754,15 @@ function openAddDataPopup(table) {
                 <label for="noHp">No. HP</label>
                 <input type="text" id="noHp" required>
             </div>
+            <div class="form-group">
+                <label for="triwulan">Triwulan</label>
+                <select id="triwulan" required>
+                    <option value="Triwulan 1">Triwulan 1</option>
+                    <option value="Triwulan 2">Triwulan 2</option>
+                    <option value="Triwulan 3">Triwulan 3</option>
+                    <option value="Triwulan 4">Triwulan 4</option>
+                </select>
+            </div>
             <button type="submit">Tambah Data</button>
         `;
     } else if (table === 'aksesModalUsaha') {
@@ -3778,6 +3790,15 @@ function openAddDataPopup(table) {
                 <label for="noHp">No. HP</label>
                 <input type="text" id="noHp" required>
             </div>
+            <div class="form-group">
+                <label for="triwulan">Triwulan</label>
+                <select id="triwulan" required>
+                    <option value="Triwulan 1">Triwulan 1</option>
+                    <option value="Triwulan 2">Triwulan 2</option>
+                    <option value="Triwulan 3">Triwulan 3</option>
+                    <option value="Triwulan 4">Triwulan 4</option>
+                </select>
+            </div>
             <button type="submit">Tambah Data</button>
         `;
     } else if (table === 'miskinPesertaPelatihan') {
@@ -3804,6 +3825,15 @@ function openAddDataPopup(table) {
             <div class="form-group">
                 <label for="noHp">No. HP</label>
                 <input type="text" id="noHp" required>
+            </div>
+            <div class="form-group">
+                <label for="triwulan">Triwulan</label>
+                <select id="triwulan" required>
+                    <option value="Triwulan 1">Triwulan 1</option>
+                    <option value="Triwulan 2">Triwulan 2</option>
+                    <option value="Triwulan 3">Triwulan 3</option>
+                    <option value="Triwulan 4">Triwulan 4</option>
+                </select>
             </div>
             <button type="submit">Tambah Data</button>
         `;
@@ -4603,11 +4633,12 @@ function renderWirausahaBermitraUKMTable(data) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${no++}</td>
-            <td>${value.NAMA || '-'}</td>
+            <td>${value.Nama || '-'}</td>
             <td>${value.Gender || '-'}</td>
             <td>${value.Alamat || '-'}</td>
             <td>${value['Bidang Usaha'] || '-'}</td>
             <td>${value['No Telp'] || '-'}</td>
+            <td>${value.Triwulan || '-'}</td>
             <td>
                 <div class="action-buttons">
                     <button class="edit-btn" onclick="editDataKoperasi('${key}', 'wirausahaBermitraUKM')">
@@ -4633,11 +4664,12 @@ function renderAksesModalUsahaTable(data) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${no++}</td>
-            <td>${value.NAMA || '-'}</td>
+            <td>${value.Nama || '-'}</td>
             <td>${value.Gender || '-'}</td>
             <td>${value.Alamat || '-'}</td>
             <td>${value['Bidang Usaha'] || '-'}</td>
             <td>${value['No Telp'] || '-'}</td>
+            <td>${value.Triwulan || '-'}</td>
             <td>
                 <div class="action-buttons">
                     <button class="edit-btn" onclick="editDataKoperasi('${key}', 'aksesModalUsaha')">
@@ -4663,11 +4695,12 @@ function renderMiskinPesertaPelatihanTable(data) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${no++}</td>
-            <td>${value.NAMA || '-'}</td>
+            <td>${value.Nama || '-'}</td>
             <td>${value.Gender || '-'}</td>
             <td>${value.Alamat || '-'}</td>
             <td>${value['Bidang Usaha'] || '-'}</td>
             <td>${value['No Telp'] || '-'}</td>
+            <td>${value.Triwulan || '-'}</td>
             <td>
                 <div class="action-buttons">
                     <button class="edit-btn" onclick="editDataKoperasi('${key}', 'miskinPesertaPelatihan')">
@@ -5015,7 +5048,7 @@ window.editDataKoperasi = function(key, table) {
                 form.innerHTML = `
                     <div class="form-group">
                         <label for="edit_nama">Nama</label>
-                        <input type="text" id="edit_nama" value="${data.NAMA || ''}" required>
+                        <input type="text" id="edit_nama" value="${data.Nama || ''}" required>
                     </div>
                     <div class="form-group">
                         <label for="edit_gender">Gender</label>
@@ -5035,6 +5068,15 @@ window.editDataKoperasi = function(key, table) {
                     <div class="form-group">
                         <label for="edit_noHp">No. HP</label>
                         <input type="text" id="edit_noHp" value="${data['No Telp'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_triwulan">Triwulan</label>
+                        <select id="edit_triwulan" required>
+                            <option value="Triwulan 1" ${data.Triwulan === 'Triwulan 1' ? 'selected' : ''}>Triwulan 1</option>
+                            <option value="Triwulan 2" ${data.Triwulan === 'Triwulan 2' ? 'selected' : ''}>Triwulan 2</option>
+                            <option value="Triwulan 3" ${data.Triwulan === 'Triwulan 3' ? 'selected' : ''}>Triwulan 3</option>
+                            <option value="Triwulan 4" ${data.Triwulan === 'Triwulan 4' ? 'selected' : ''}>Triwulan 4</option>
+                        </select>
                     </div>
                     <button type="submit">Simpan Perubahan</button>
                 `;
@@ -5042,7 +5084,7 @@ window.editDataKoperasi = function(key, table) {
                 form.innerHTML = `
                     <div class="form-group">
                         <label for="edit_nama">Nama</label>
-                        <input type="text" id="edit_nama" value="${data.NAMA || ''}" required>
+                        <input type="text" id="edit_nama" value="${data.Nama || ''}" required>
                     </div>
                     <div class="form-group">
                         <label for="edit_gender">Gender</label>
@@ -5062,6 +5104,15 @@ window.editDataKoperasi = function(key, table) {
                     <div class="form-group">
                         <label for="edit_noHp">No. HP</label>
                         <input type="text" id="edit_noHp" value="${data['No Telp'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_triwulan">Triwulan</label>
+                        <select id="edit_triwulan" required>
+                            <option value="Triwulan 1" ${data.Triwulan === 'Triwulan 1' ? 'selected' : ''}>Triwulan 1</option>
+                            <option value="Triwulan 2" ${data.Triwulan === 'Triwulan 2' ? 'selected' : ''}>Triwulan 2</option>
+                            <option value="Triwulan 3" ${data.Triwulan === 'Triwulan 3' ? 'selected' : ''}>Triwulan 3</option>
+                            <option value="Triwulan 4" ${data.Triwulan === 'Triwulan 4' ? 'selected' : ''}>Triwulan 4</option>
+                        </select>
                     </div>
                     <button type="submit">Simpan Perubahan</button>
                 `;
@@ -5085,7 +5136,7 @@ window.editDataKoperasi = function(key, table) {
                 form.innerHTML = `
                     <div class="form-group">
                         <label for="edit_nama">Nama</label>
-                        <input type="text" id="edit_nama" value="${data.NAMA || ''}" required>
+                        <input type="text" id="edit_nama" value="${data.Nama || ''}" required>
                     </div>
                     <div class="form-group">
                         <label for="edit_gender">Gender</label>
@@ -5113,6 +5164,15 @@ window.editDataKoperasi = function(key, table) {
                     <div class="form-group">
                         <label for="edit_tahunPelatihan">Tahun Pelatihan</label>
                         <input type="text" id="edit_tahunPelatihan" value="${data['Tahun Pelatihan'] || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_triwulan">Triwulan</label>
+                        <select id="edit_triwulan" required>
+                            <option value="Triwulan 1" ${data.Triwulan === 'Triwulan 1' ? 'selected' : ''}>Triwulan 1</option>
+                            <option value="Triwulan 2" ${data.Triwulan === 'Triwulan 2' ? 'selected' : ''}>Triwulan 2</option>
+                            <option value="Triwulan 3" ${data.Triwulan === 'Triwulan 3' ? 'selected' : ''}>Triwulan 3</option>
+                            <option value="Triwulan 4" ${data.Triwulan === 'Triwulan 4' ? 'selected' : ''}>Triwulan 4</option>
+                        </select>
                     </div>
                     <button type="submit">Simpan Perubahan</button>
                 `;
@@ -5401,11 +5461,12 @@ function getUpdatedDataByTable(table) {
         };
     } else if (table === 'wirausahaBermitraUKM') {
         return {
-            NAMA: document.getElementById('edit_nama').value,
+            Nama: document.getElementById('edit_nama').value,
             Gender: document.getElementById('edit_gender').value,
             Alamat: document.getElementById('edit_alamat').value,
             'Bidang Usaha': document.getElementById('edit_bidangUsaha').value,
-            'No Telp': document.getElementById('edit_noHp').value
+            'No Telp': document.getElementById('edit_noHp').value,
+            Triwulan: document.getElementById('edit_triwulan').value
         };
     } else if (table === 'aksesModalUsaha') {
         return {
@@ -5413,7 +5474,8 @@ function getUpdatedDataByTable(table) {
             Gender: document.getElementById('edit_gender').value,
             Alamat: document.getElementById('edit_alamat').value,
             'Bidang Usaha': document.getElementById('edit_bidangUsaha').value,
-            'No Telp': document.getElementById('edit_noHp').value
+            'No Telp': document.getElementById('edit_noHp').value,
+            Triwulan: document.getElementById('edit_triwulan').value
         };
     } else if (table === 'koperasiProduksi') {
         return {
@@ -5428,8 +5490,9 @@ function getUpdatedDataByTable(table) {
             NIK: document.getElementById('edit_nik').value,
             Alamat: document.getElementById('edit_alamat').value,
             'No Telp': document.getElementById('edit_noHp').value,
-        'Jenis Pelatihan': document.getElementById('edit_jenisPelatihan').value,
-        'Tahun Pelatihan': document.getElementById('edit_tahunPelatihan').value
+            'Jenis Pelatihan': document.getElementById('edit_jenisPelatihan').value,
+            'Tahun Pelatihan': document.getElementById('edit_tahunPelatihan').value,
+            Triwulan: document.getElementById('edit_triwulan').value
         };
     } else if (table === 'koperasiAktif') {
         return {
@@ -5596,13 +5659,13 @@ async function loadExportData() {
                         lastColumn = 'G'; // No, NIK, Nama, Alamat, Bank, Jenis Kredit, Nominal
                         break;
                     case 'wirausahaBermitraUKM':
-                        lastColumn = 'F'; // No, NIK, Nama, Alamat, Jenis Usaha, Mitra, Bentuk Kemitraan
+                        lastColumn = 'G'; // No, NIK, Nama, Alamat, Jenis Usaha, Mitra, Bentuk Kemitraan
                         break;
                     case 'aksesModalUsaha':
-                        lastColumn = 'F'; // No, NIK, Nama, Alamat, Sumber Modal, Nominal, Tanggal
+                        lastColumn = 'G'; // No, NIK, Nama, Alamat, Sumber Modal, Nominal, Tanggal
                         break;
                     case 'miskinPesertaPelatihan':
-                        lastColumn = 'F'; // No, NIK, Nama, Alamat, Jenis Pelatihan, Tanggal Pelatihan, Status
+                        lastColumn = 'G'; // No, NIK, Nama, Alamat, Jenis Pelatihan, Tanggal Pelatihan, Status
                         break;
                     case 'koperasiProduksi':
                         lastColumn = 'E'; // No, Nama Koperasi, Alamat, Produk, Bulan
@@ -6978,7 +7041,8 @@ async function generateWirausahaBermitraUKMSheet(worksheet, data) {
         'Gender',
         'Alamat',
         'Bidang Usaha',
-        'No Telp'
+        'No Telp',
+        'Triwulan'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -6996,7 +7060,8 @@ async function generateWirausahaBermitraUKMSheet(worksheet, data) {
                 value['Gender'] || '',
                 value['Alamat'] || '',
                 value['Bidang Usaha'] || '',
-                value['No Telp'] || ''
+                value['No Telp'] || '',
+                value['Triwulan'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
@@ -7019,7 +7084,8 @@ async function generateAksesModalUsahaSheet(worksheet, data) {
         'Gender',
         'Alamat',
         'Bidang Usaha',
-        'No Telp'
+        'No Telp',
+        'Triwulan'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -7037,7 +7103,8 @@ async function generateAksesModalUsahaSheet(worksheet, data) {
                 value['Gender'] || '',
                 value['Alamat'] || '',
                 value['Bidang Usaha'] || '',
-                value['No Telp'] || ''
+                value['No Telp'] || '',
+                value['Triwulan'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
@@ -7060,7 +7127,8 @@ async function generateMiskinPesertaPelatihanSheet(worksheet, data) {
         'Gender',
         'Alamat',
         'Bidang Usaha',
-        'No Telp'
+        'No Telp',
+        'Triwulan'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -7078,7 +7146,8 @@ async function generateMiskinPesertaPelatihanSheet(worksheet, data) {
                 value['Gender'] || '',
                 value['Alamat'] || '',
                 value['Bidang Usaha'] || '',
-                value['No Telp'] || ''
+                value['No Telp'] || '',
+                value['Triwulan'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
