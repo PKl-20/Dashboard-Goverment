@@ -2,22 +2,22 @@
   "Bidang Koperasi": {
     "Data Pelaku UKM": {
       "po1": {
-        "TRIWULAN": "Triwulan 3",
         "ALAMAT": "Jalan Dieng km 3.5 Krasak Mojotengah Wonosobo",
         "ALAMAT EMAIL": "miftahudin.yusufdoa@gmail.com",
         "GENDER": "L",
         "NAMA": "MIFTAHUDIN",
         "NIK": "3307113007320001",
         "NO TELP": "085227588572",
-        "SEKTOR USAHA": "Industri Makanan"
+        "SEKTOR USAHA": "Industri Makanan",
+        "TRIWULAN": "Triwulan 3"
       }
     },
     "Jumlah Koperasi Produksi": {
       "sfbsr76": {
         "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
+        "Bulan": "Desember",
         "Nama Koperasi": "Koperasi S",
-        "Produk": "Kuliner",
-        "Bulan": "Desember"
+        "Produk": "Kuliner"
       }
     },
     "Jumlah Koperasi Sehat": {
@@ -29,7 +29,7 @@
         "Triwulan": "Triwulan 3"
       }
     },
-    "Jumlah Koperasi Seluruh Koperasi Aktif": {
+    "Jumlah Seluruh Koperasi Aktif": {
       "sbebrgerg7657": {
         "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
         "Desa": "Wonosobo",
@@ -85,6 +85,33 @@
       }
     },
     "Rekap Omzet Koperasi": {
+      "Jumlah": {
+        "Anggota": {
+          "Aktif": 10,
+          "Jumlah Anggota": 10,
+          "Tidak Aktif": 0
+        },
+        "Karyawan": {
+          "Aktif": 4,
+          "Jumlah": 4,
+          "Tidak Aktif": 0
+        },
+        "Koperasi": {
+          "Aktif": 10,
+          "Jumlah Koperasi": 10,
+          "Tidak Aktif": 0
+        },
+        "Manajer": {
+          "Aktif": 4,
+          "Jumlah": 4,
+          "Tidak Aktif": 0
+        },
+        "Modal Luar": "Rp. 10000000",
+        "Modal Sendiri": "Rp. 10000000",
+        "RAT Unit": 4,
+        "SHU": "Rp. 10000000",
+        "Volume Usaha": "Rp. 10000000"
+      },
       "vgweiwih187412": {
         "Anggota": {
           "Aktif": 10,
@@ -120,8 +147,8 @@
         "Bank": "BSI",
         "Bidang Usaha": "Kuliner",
         "Gender": "P",
-        "Nama": "Numa Liza Kumala Sari",
         "NIK": "3307094704890001",
+        "Nama": "Numa Liza Kumala Sari",
         "Triwulan": "Triwulan 3"
       }
     },
@@ -130,8 +157,8 @@
         "Alamat": "Singkir rt09 rw04 jaraksari wonosobo",
         "Gender": "P",
         "Jenis Usaha": "Kuliner",
-        "Nama": "Numa Liza Kumala Sari",
         "NIK": "3307094704890001",
+        "Nama": "Numa Liza Kumala Sari",
         "Nama Usaha": "Albaikitchen",
         "No Telp": "083238780009",
         "Triwulan": "Triwulan 3"
@@ -140,12 +167,12 @@
   },
   "Bidang Pasar": {
     "Data Kondisi Pasar": {
-      "nf023f031fncl":{
+      "nf023f031fncl": {
         "Fasilitas": {
-          "MCK": "ADA",
-          "TPS": "ADA",
           "Areal Parkir": "ADA",
           "Bongkar Muat": "ADA",
+          "MCK": "ADA",
+          "TPS": "ADA",
           "Tempat Ibadah": "ADA"
         },
         "Kondisi": {
@@ -157,7 +184,21 @@
       }
     },
     "Data Los Kios Pasar": {
-      "nc02dn12ed":{
+      "Jumlah": {
+        "Jumlah LosKios": {
+          "kios": 321,
+          "los": 4142
+        },
+        "Jumlah Pedagang": {
+          "kios": 321,
+          "los": 4082
+        },
+        "Jumlah Tidak Termanfaatkan": {
+          "kios": 0,
+          "los": 60
+        }
+      },
+      "nc02dn12ed": {
         "Alamat Lengkap": "Kec. Wonosobo",
         "Jumlah LosKios": {
           "kios": 321,
@@ -172,41 +213,24 @@
           "los": 60
         },
         "Nama Pasar": "PASAR INDUK"
-      },
-      "Jumlah":{
-        "Jumlah LosKios": {
-          "kios": 321,
-          "los": 4142
-        },
-        "Jumlah Pedagang": {
-          "kios": 321,
-          "los": 4082
-        },
-        "Jumlah Tidak Termanfaatkan": {
-          "kios": 0,
-          "los": 60
-        }
       }
     },
     "Matriks Profil Pasar": {
       "-ODskztImFbrJIoU727_": {
-        "UPT": "UPT PASAR INDUK",
-        "Nama Pasar": "PASAR WONOSOBO",
-        "Jumlah Paguyuban Pedagang": 4,
         "Alamat": "Kec. Wonosobo",
-        "Tahun Berdiri": "1810",
         "Fasilitas": {
-          "MCK": "ADA",
-          "TPS": "ADA",
           "Areal Parkir": "ADA",
           "Bongkar Muat": "ADA",
+          "MCK": "ADA",
+          "TPS": "ADA",
           "Tempat Ibadah": "ADA"
         },
         "Jumlah": {
           "dasaran": 2,
           "kios": 2,
           "los": 2
-        },      
+        },
+        "Jumlah Paguyuban Pedagang": 4,
         "Jumlah Pedagang": {
           "dasaran": 2,
           "kios": 2,
@@ -217,20 +241,23 @@
           "bangunan": 2222,
           "lantai": 22,
           "tanah": 1222
-        }
+        },
+        "Nama Pasar": "PASAR WONOSOBO",
+        "Tahun Berdiri": "1810",
+        "UPT": "UPT PASAR INDUK"
       },
-      "Jumlah":{
-        "Total Pasar": "1 Pasar",
+      "Jumlah": {
         "Jumlah": {
           "dasaran": 2,
           "kios": 2,
           "los": 2
-        },      
+        },
         "Jumlah Pedagang": {
           "dasaran": 2,
           "kios": 2,
           "los": 2
-        }
+        },
+        "Total Pasar": "1 Pasar"
       }
     }
   },
@@ -249,129 +276,87 @@
         "Tahun n-2": "RP. 100000000"
       }
     },
+    "Data Pelayanan Tera": {
+      "-OEHXxjEXGmFiVe0Mglx": {
+        "Triwulan 1": "32",
+        "Triwulan 2": "52",
+        "Triwulan 3": "213",
+        "Triwulan 4": "312",
+        "UTTP": "Neraca"
+      },
+      "Total": {
+        "Triwulan 1": "64",
+        "Triwulan 2": "77",
+        "Triwulan 3": "447",
+        "Triwulan 4": "434"
+      },
+      "Total Semua Layanan": "1022",
+      "ceuinvuiwe08": {
+        "Triwulan 1": "32",
+        "Triwulan 2": "25",
+        "Triwulan 3": "234",
+        "Triwulan 4": "122",
+        "UTTP": "Meteran"
+      }
+    },
     "Data Semua Tera Kab WSB": {
       "-OEHX4JTbJp49xaLFEvB": {
-        "DETAIL": [
-          {
-            "pasar kertek": {
-              "ANAK TIMBANGAN": {
-                "Biasa": {
-                  "1 < atb ≤ 5 kg": "-",
-                  "5 < atb ≤ 20 kg": "-",
-                  "atb ≤ 1 kg": "-"
-                },
-                "Halus": {
-                  "1 < atb ≤ 5 kg": "-",
-                  "5 < atb ≤ 20 kg": "-",
-                  "atb ≤ 1 kg": "-"
-                }
-              },
-              "Alat Ukur Tinggi Orang": "-",
-              "Jumlah Total UTTP": "-",
-              "TAK": {
-                "5 l ≤  tb ≤ 25 l": "-",
-                "tb > 2 l": "-"
-              },
-              "TEB 1000 KG": "-",
-              "TIMBANGAN": {
-                "BOBOT INGSUT": {
-                  "25 kg < TBI ≤ 150 kg": "-",
-                  "TBI ≤ 25 kg": "-"
-                },
-                "DACIN LOGAM": {
-                  "DL > 25 kg": "-",
-                  "DL ≤ 25 kg": "-"
-                },
-                "MEJA": "-",
-                "NERACA": "-",
-                "PEGAS": {
-                  "TP > 25 kg": "-",
-                  "TP ≤ 25 kg": "-"
-                },
-                "SENTISIMAL": {
-                  "150 kg < S ≤ 500 kg": "-",
-                  "S ≤ 150 kg": "-"
-                },
-                "TE (II)": {
-                  "TE > 1 kg": "-",
-                  "TE ≤ 1 kg": "-"
-                },
-                "TE (III & IV)": {
-                  "25 < kg TE ≤ 150 kg": "-",
-                  "25 < kg TE ≤ 25 kg": "-",
-                  "25 < kg TE ≤ 500 kg": "-"
-                }
-              },
-              "UP": {
-                "1 m ≤ up ≤ 2 m": "-",
-                "up ≤ 1 m": "-"
-              }
-            }
+        "ANAK TIMBANGAN": {
+          "Biasa": {
+            "1 < atb ≤ 5 kg": "-",
+            "5 < atb ≤ 20 kg": "-",
+            "atb ≤ 1 kg": "-"
+          },
+          "Halus": {
+            "1 < atb ≤ 5 kg": "-",
+            "5 < atb ≤ 20 kg": "-",
+            "atb ≤ 1 kg": "-"
           }
-        ],
-        "LOKASI": "kec kertek"
+        },
+        "Alat Ukur Tinggi Orang": "-",
+        "Jumlah Total UTTP": "11",
+        "Kecamatan": "Kecamatan Kertek",
+        "Lokasi": "Pasar Kertek",
+        "TAK": {
+          "5 l ≤  tb ≤ 25 l": "-",
+          "tb > 2 l": "5"
+        },
+        "TEB 1000 KG": "-",
+        "TIMBANGAN": {
+          "BOBOT INGSUT": {
+            "25 kg < TBI ≤ 150 kg": "-",
+            "TBI ≤ 25 kg": "-"
+          },
+          "DACIN LOGAM": {
+            "DL > 25 kg": "-",
+            "DL ≤ 25 kg": "-"
+          },
+          "MEJA": "-",
+          "NERACA": "-",
+          "PEGAS": {
+            "TP > 25 kg": "-",
+            "TP ≤ 25 kg": "-"
+          },
+          "SENTISIMAL": {
+            "150 kg < S ≤ 500 kg": "-",
+            "S ≤ 150 kg": "-"
+          },
+          "TE (II)": {
+            "TE > 1 kg": "-",
+            "TE ≤ 1 kg": "-"
+          },
+          "TE (III & IV)": {
+            "25 < kg TE ≤ 150 kg": "-",
+            "25 < kg TE ≤ 25 kg": "-",
+            "25 < kg TE ≤ 500 kg": "-"
+          }
+        },
+        "UP": {
+          "1 m ≤ up ≤ 2 m": "2",
+          "up ≤ 1 m": "4"
+        }
       },
-      "-OEHnUYtV7-dX_ZjO7MS": {
-        "DETAIL": [
-          {
-            "Pasar Senen": {
-              "ANAK TIMBANGAN": {
-                "Biasa": {
-                  "1 < atb ≤ 5 kg": "-",
-                  "5 < atb ≤ 20 kg": "-",
-                  "atb ≤ 1 kg": "-"
-                },
-                "Halus": {
-                  "1 < atb ≤ 5 kg": "-",
-                  "5 < atb ≤ 20 kg": "21",
-                  "atb ≤ 1 kg": "-"
-                }
-              },
-              "Alat Ukur Tinggi Orang": "2",
-              "Jumlah Total UTTP": "88",
-              "TAK": {
-                "5 l ≤  tb ≤ 25 l": "-",
-                "tb > 2 l": "21"
-              },
-              "TEB 1000 KG": "1",
-              "TIMBANGAN": {
-                "BOBOT INGSUT": {
-                  "25 kg < TBI ≤ 150 kg": "-",
-                  "TBI ≤ 25 kg": "23"
-                },
-                "DACIN LOGAM": {
-                  "DL > 25 kg": "-",
-                  "DL ≤ 25 kg": "-"
-                },
-                "MEJA": "-",
-                "NERACA": "-",
-                "PEGAS": {
-                  "TP > 25 kg": "-",
-                  "TP ≤ 25 kg": "-"
-                },
-                "SENTISIMAL": {
-                  "150 kg < S ≤ 500 kg": "-",
-                  "S ≤ 150 kg": "-"
-                },
-                "TE (II)": {
-                  "TE > 1 kg": "-",
-                  "TE ≤ 1 kg": "-"
-                },
-                "TE (III & IV)": {
-                  "25 < kg TE ≤ 150 kg": "-",
-                  "25 < kg TE ≤ 25 kg": "12",
-                  "25 < kg TE ≤ 500 kg": "1"
-                }
-              },
-              "UP": {
-                "1 m ≤ up ≤ 2 m": "3",
-                "up ≤ 1 m": "4"
-              }
-            }
-          }
-        ],
-        "LOKASI": "Kecamatan Wonosobo"
-      }
+      "Jumlah Keseluruhan": "11"
     },
     "Data Toko Modern": {
       "qofh38913": {
@@ -473,31 +458,8 @@
         "Wilayah": "Kaliwiro"
       }
     },
-    "Data Pelayanan Tera": {
-      "-OEHXxjEXGmFiVe0Mglx": {
-          "Triwulan 1": "32",
-          "Triwulan 2": "52",
-          "Triwulan 3": "213",
-          "Triwulan 4": "312",
-          "UTTP": "Neraca"
-        },
-        "Total": {
-          "Triwulan 1": "64",
-          "Triwulan 2": "77",
-          "Triwulan 3": "447",
-          "Triwulan 4": "434"
-        },
-        "Total Semua Layanan": "1022",
-        "ceuinvuiwe08": {
-          "Triwulan 1": "32",
-          "Triwulan 2": "25",
-          "Triwulan 3": "234",
-          "Triwulan 4": "122",
-          "UTTP": "Meteran"
-        }
-    },
     "Komoditas Ekspor": {
-      "Mwvw0392r232":{
+      "Mwvw0392r232": {
         "Alamat": "Jln. Madura",
         "Keterangan": "Mamalia",
         "Komoditas": "Arang",

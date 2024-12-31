@@ -233,70 +233,80 @@ document.addEventListener('DOMContentLoaded', function() {
                     };
             
                     const newData = {
-                        LOKASI: document.getElementById('lokasi').value,
-                        DETAIL: [
-                            {
-                                [document.getElementById('namaPasar').value]: {
-                                    UP: {
-                                        '1 m ≤ up ≤ 2 m': document.getElementById('up1').value || '-',
-                                        'up ≤ 1 m': document.getElementById('up2').value || '-'
-                                    },
-                                    TAK: {
-                                        '5 l ≤  tb ≤ 25 l': document.getElementById('tak1').value || '-',
-                                        'tb > 2 l': document.getElementById('tak2').value || '-'
-                                    },
-                                    'ANAK TIMBANGAN': {
-                                        'Biasa': {
-                                            'atb ≤ 1 kg': document.getElementById('atb1').value || '-',
-                                            '1 < atb ≤ 5 kg': document.getElementById('atb2').value || '-',
-                                            '5 < atb ≤ 20 kg': document.getElementById('atb3').value || '-'
-                                        },
-                                        'Halus': {
-                                            'atb ≤ 1 kg': document.getElementById('atbh1').value || '-',
-                                            '1 < atb ≤ 5 kg': document.getElementById('atbh2').value || '-',
-                                            '5 < atb ≤ 20 kg': document.getElementById('atbh3').value || '-'
-                                        }
-                                    },
-                                    'TIMBANGAN': {
-                                        'DACIN LOGAM': {
-                                            'DL ≤ 25 kg': document.getElementById('dl1').value || '-',
-                                            'DL > 25 kg': document.getElementById('dl2').value || '-'
-                                        },
-                                        'SENTISIMAL': {
-                                            'S ≤ 150 kg': document.getElementById('s1').value || '-',
-                                            '150 kg < S ≤ 500 kg': document.getElementById('s2').value || '-'
-                                        },
-                                        'BOBOT INGSUT': {
-                                            'TBI ≤ 25 kg': document.getElementById('tbi1').value || '-',
-                                            '25 kg < TBI ≤ 150 kg': document.getElementById('tbi2').value || '-'
-                                        },
-                                        'PEGAS': {
-                                            'TP ≤ 25 kg': document.getElementById('tp1').value || '-',
-                                            'TP > 25 kg': document.getElementById('tp2').value || '-'
-                                        },
-                                        'MEJA': document.getElementById('meja').value || '-',
-                                        'NERACA': document.getElementById('neraca').value || '-',
-                                        'TE (II)': {
-                                            'TE ≤ 1 kg': document.getElementById('te2_1').value || '-',
-                                            'TE > 1 kg': document.getElementById('te2_2').value || '-'
-                                        },
-                                        'TE (III & IV)': {
-                                            '25 < kg TE ≤ 25 kg': document.getElementById('te34_1').value || '-',
-                                            '25 < kg TE ≤ 150 kg': document.getElementById('te34_2').value || '-',
-                                            '25 < kg TE ≤ 500 kg': document.getElementById('te34_3').value || '-'
-                                        }
-                                    },
-                                    'Alat Ukur Tinggi Orang': document.getElementById('alatUkur').value || '-',
-                                    'TEB 1000 KG': document.getElementById('teb').value || '-',
-                                    'Jumlah Total UTTP': calculateTotal().toString()
-                                }
+                        Kecamatan: document.getElementById('kecamatan').value,
+                        Lokasi: document.getElementById('lokasi').value,
+                        UP: {
+                            '1 m ≤ up ≤ 2 m': document.getElementById('up1').value || '-',
+                            'up ≤ 1 m': document.getElementById('up2').value || '-'
+                        },
+                        TAK: {
+                            '5 l ≤  tb ≤ 25 l': document.getElementById('tak1').value || '-',
+                            'tb > 2 l': document.getElementById('tak2').value || '-'
+                        },
+                        'ANAK TIMBANGAN': {
+                            'Biasa': {
+                                'atb ≤ 1 kg': document.getElementById('atb1').value || '-',
+                                '1 < atb ≤ 5 kg': document.getElementById('atb2').value || '-',
+                                '5 < atb ≤ 20 kg': document.getElementById('atb3').value || '-'
+                            },
+                            'Halus': {
+                                'atb ≤ 1 kg': document.getElementById('atbh1').value || '-',
+                                '1 < atb ≤ 5 kg': document.getElementById('atbh2').value || '-',
+                                '5 < atb ≤ 20 kg': document.getElementById('atbh3').value || '-'
                             }
-                        ]
+                        },
+                        'TIMBANGAN': {
+                            'DACIN LOGAM': {
+                                'DL ≤ 25 kg': document.getElementById('dl1').value || '-',
+                                'DL > 25 kg': document.getElementById('dl2').value || '-'
+                            },
+                            'SENTISIMAL': {
+                                'S ≤ 150 kg': document.getElementById('s1').value || '-',
+                                '150 kg < S ≤ 500 kg': document.getElementById('s2').value || '-'
+                            },
+                            'BOBOT INGSUT': {
+                                'TBI ≤ 25 kg': document.getElementById('tbi1').value || '-',
+                                '25 kg < TBI ≤ 150 kg': document.getElementById('tbi2').value || '-'
+                            },
+                            'PEGAS': {
+                                'TP ≤ 25 kg': document.getElementById('tp1').value || '-',
+                                'TP > 25 kg': document.getElementById('tp2').value || '-'
+                            },
+                            'MEJA': document.getElementById('meja').value || '-',
+                            'NERACA': document.getElementById('neraca').value || '-',
+                            'TE (II)': {
+                                'TE ≤ 1 kg': document.getElementById('te2_1').value || '-',
+                                'TE > 1 kg': document.getElementById('te2_2').value || '-'
+                            },
+                            'TE (III & IV)': {
+                                '25 < kg TE ≤ 25 kg': document.getElementById('te34_1').value || '-',
+                                '25 < kg TE ≤ 150 kg': document.getElementById('te34_2').value || '-',
+                                '25 < kg TE ≤ 500 kg': document.getElementById('te34_3').value || '-'
+                            }
+                        },
+                        'Alat Ukur Tinggi Orang': document.getElementById('alatUkur').value || '-',
+                        'TEB 1000 KG': document.getElementById('teb').value || '-',
+                        'Jumlah Total UTTP': calculateTotal().toString()
                     };
             
                     try {
                         const refPath = ref(db, 'Bidang Perdagangan/Data Semua Tera Kab WSB');
                         await push(refPath, newData);
+                        
+                        // Hitung dan update Jumlah Keseluruhan
+                        const snapshot = await get(refPath);
+                        if (snapshot.exists()) {
+                            let totalKeseluruhan = 0;
+                            Object.values(snapshot.val()).forEach(item => {
+                                if (item['Jumlah Total UTTP'] && item['Jumlah Total UTTP'] !== '-') {
+                                    totalKeseluruhan += parseInt(item['Jumlah Total UTTP']);
+                                }
+                            });
+                            
+                            const summaryRef = ref(db, 'Bidang Perdagangan/Data Semua Tera Kab WSB/Jumlah Keseluruhan');
+                            await set(summaryRef, totalKeseluruhan.toString());
+                        }
+            
                         alert('Data berhasil ditambahkan!');
                         closeAddDataPopup();
                         loadBidangPerdagangan();
@@ -786,7 +796,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const newData = {
                     'Nama Koperasi': document.getElementById('namaKoperasi').value,
                     Alamat: document.getElementById('alamat').value,
-                    Produk: document.getElementById('produk').value
+                    Produk: document.getElementById('produk').value,
+                    Bulan: document.getElementById('bulan').value
                 };
         
                 try {
@@ -812,7 +823,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
         
                 try {
-                    const refPath = ref(db, 'Bidang Koperasi/Jumlah Koperasi Seluruh Koperasi Aktif/Desember');
+                    const refPath = ref(db, 'Bidang Koperasi/Jumlah Seluruh Koperasi Aktif/Desember');
                     await push(refPath, newData);
                     alert('Data berhasil ditambahkan!');
                     closeAddDataPopup();
@@ -910,6 +921,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 try {
                     const refPath = ref(db, 'Bidang Koperasi/Rekap Omzet Koperasi');
                     await push(refPath, newData);
+                    await updateRekapOmzetSummary();
                     alert('Data berhasil ditambahkan!');
                     closeAddDataPopup();
                     loadBidangKoperasi();
@@ -1181,20 +1193,19 @@ function loadBidangPerdagangan() {
                     }) : [];
             
             const teraKabWSBData = data['Data Semua Tera Kab WSB'] ? 
-                Object.entries(data['Data Semua Tera Kab WSB']).map(([key, value]) => ({
-                    id: key,
-                    ...value
-                })) : [];
+                Object.entries(data['Data Semua Tera Kab WSB'])
+                    .map(([key, value]) => ({
+                        id: key,
+                        ...value
+                    }))
+                    .filter(item => item.id !== 'Jumlah Keseluruhan') : [];
 
-                const totalIndex = pelayananTeraData.findIndex(item => item.id === 'Total Semua Layanan');
-                if (totalIndex === -1) {
-                    pelayananTeraData.push({
-                        id: 'Total Semua Layanan',
-                        value: totalSemuaLayanan.toString()
-                    });
-                } else {
-                    pelayananTeraData[totalIndex].value = totalSemuaLayanan.toString();
-                }
+            const jumlahKeseluruhan = data['Data Semua Tera Kab WSB']?.['Jumlah Keseluruhan'] || '0';
+
+            teraKabWSBData.push({
+                id: 'Jumlah Keseluruhan',
+                value: jumlahKeseluruhan
+            });
             
             const marketplaceData = data['Data Marketplace Lokal'] ? 
                 Object.entries(data['Data Marketplace Lokal']).map(([key, value]) => ({
@@ -1318,65 +1329,72 @@ function renderPelayananTeraTable(data) {
 
 function renderTeraKabWSBTable(data) {
     const tbody = document.getElementById('teraKabWSBBody');
-    if (!tbody) return;
+    const tfoot = document.getElementById('teraKabWSBFooter');
+    if (!tbody || !tfoot) return;
     
     tbody.innerHTML = '';
+    tfoot.innerHTML = '';
     let no = 1;
     
     data.forEach(item => {
-        if (!item) return;
+        if (!item || item.id === 'Jumlah Keseluruhan') return;
         
-        item.DETAIL.forEach((detail) => {
-            const pasarName = Object.keys(detail)[0];
-            const pasarData = detail[pasarName];
-            
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${no++}</td>
-                <td>${item.LOKASI || ''}</td>
-                <td>${pasarData.UP?.['1 m ≤ up ≤ 2 m'] || '-'}</td>
-                <td>${pasarData.UP?.['up ≤ 1 m'] || '-'}</td>
-                <td>${pasarData.TAK?.['5 l ≤  tb ≤ 25 l'] || '-'}</td>
-                <td>${pasarData.TAK?.['tb > 2 l'] || '-'}</td>
-                <td>${pasarData['ANAK TIMBANGAN']?.Biasa?.['atb ≤ 1 kg'] || '-'}</td>
-                <td>${pasarData['ANAK TIMBANGAN']?.Biasa?.['1 < atb ≤ 5 kg'] || '-'}</td>
-                <td>${pasarData['ANAK TIMBANGAN']?.Biasa?.['5 < atb ≤ 20 kg'] || '-'}</td>
-                <td>${pasarData['ANAK TIMBANGAN']?.Halus?.['atb ≤ 1 kg'] || '-'}</td>
-                <td>${pasarData['ANAK TIMBANGAN']?.Halus?.['1 < atb ≤ 5 kg'] || '-'}</td>
-                <td>${pasarData['ANAK TIMBANGAN']?.Halus?.['5 < atb ≤ 20 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.['DACIN LOGAM']?.['DL ≤ 25 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.['DACIN LOGAM']?.['DL > 25 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.SENTISIMAL?.['S ≤ 150 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.SENTISIMAL?.['150 kg < S ≤ 500 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.['BOBOT INGSUT']?.['TBI ≤ 25 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.['BOBOT INGSUT']?.['25 kg < TBI ≤ 150 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.PEGAS?.['TP ≤ 25 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.PEGAS?.['TP > 25 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.MEJA || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.NERACA || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.['TE (II)']?.['TE ≤ 1 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.['TE (II)']?.['TE > 1 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.['TE (III & IV)']?.['25 < kg TE ≤ 25 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.['TE (III & IV)']?.['25 < kg TE ≤ 150 kg'] || '-'}</td>
-                <td>${pasarData['TIMBANGAN']?.['TE (III & IV)']?.['25 < kg TE ≤ 500 kg'] || '-'}</td>
-                <td>${pasarData['Alat Ukur Tinggi Orang'] || '-'}</td>
-                <td>${pasarData['TEB 1000 KG'] || '-'}</td>
-                <td>${pasarData['Jumlah Total UTTP'] || '-'}</td>
-                <td>
-                    <div class="action-buttons">
-                        <button onclick="editDataPerdagangan('${item.id}', 'teraKabWSB')" class="edit-btn">
-                            <span class="material-icons-sharp">edit</span>
-                        </button>
-                        <button onclick="deleteDataPerdagangan('${item.id}', 'teraKabWSB')" class="delete-btn">
-                            <span class="material-icons-sharp">delete</span>
-                        </button>
-                    </div>
-                </td>
-            `;
-            tbody.appendChild(row);
-        });
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${no++}</td>
+            <td>${item.Kecamatan || ''}</td>
+            <td>${item.Lokasi || ''}</td>
+            <td>${item.UP?.['1 m ≤ up ≤ 2 m'] || '-'}</td>
+            <td>${item.UP?.['up ≤ 1 m'] || '-'}</td>
+            <td>${item.TAK?.['5 l ≤  tb ≤ 25 l'] || '-'}</td>
+            <td>${item.TAK?.['tb > 2 l'] || '-'}</td>
+            <td>${item['ANAK TIMBANGAN']?.Biasa?.['atb ≤ 1 kg'] || '-'}</td>
+            <td>${item['ANAK TIMBANGAN']?.Biasa?.['1 < atb ≤ 5 kg'] || '-'}</td>
+            <td>${item['ANAK TIMBANGAN']?.Biasa?.['5 < atb ≤ 20 kg'] || '-'}</td>
+            <td>${item['ANAK TIMBANGAN']?.Halus?.['atb ≤ 1 kg'] || '-'}</td>
+            <td>${item['ANAK TIMBANGAN']?.Halus?.['1 < atb ≤ 5 kg'] || '-'}</td>
+            <td>${item['ANAK TIMBANGAN']?.Halus?.['5 < atb ≤ 20 kg'] || '-'}</td>
+            <td>${item.TIMBANGAN?.['DACIN LOGAM']?.['DL ≤ 25 kg'] || '-'}</td>
+            <td>${item.TIMBANGAN?.['DACIN LOGAM']?.['DL > 25 kg'] || '-'}</td>
+            <td>${item.TIMBANGAN?.SENTISIMAL?.['S ≤ 150 kg'] || '-'}</td>
+            <td>${item.TIMBANGAN?.SENTISIMAL?.['150 kg < S ≤ 500 kg'] || '-'}</td>
+            <td>${item.TIMBANGAN?.['BOBOT INGSUT']?.['TBI ≤ 25 kg'] || '-'}</td>
+            <td>${item.TIMBANGAN?.['BOBOT INGSUT']?.['25 kg < TBI ≤ 150 kg'] || '-'}</td>
+            <td>${item.TIMBANGAN?.PEGAS?.['TP ≤ 25 kg'] || '-'}</td>
+            <td>${item.TIMBANGAN?.PEGAS?.['TP > 25 kg'] || '-'}</td>
+            <td>${item.TIMBANGAN?.MEJA || '-'}</td>
+            <td>${item.TIMBANGAN?.NERACA || '-'}</td>
+            <td>${item.TIMBANGAN?.['TE (II)']?.['TE ≤ 1 kg'] || '-'}</td>
+            <td>${item.TIMBANGAN?.['TE (II)']?.['TE > 1 kg'] || '-'}</td>
+            <td>${item.TIMBANGAN?.['TE (III & IV)']?.['25 < kg TE ≤ 25 kg'] || '-'}</td>
+            <td>${item.TIMBANGAN?.['TE (III & IV)']?.['25 < kg TE ≤ 150 kg'] || '-'}</td>
+            <td>${item.TIMBANGAN?.['TE (III & IV)']?.['25 < kg TE ≤ 500 kg'] || '-'}</td>
+            <td>${item['Alat Ukur Tinggi Orang'] || '-'}</td>
+            <td>${item['TEB 1000 KG'] || '-'}</td>
+            <td>${item['Jumlah Total UTTP'] || '-'}</td>
+            <td>
+                <div class="action-buttons">
+                    <button onclick="editDataPerdagangan('${item.id}', 'teraKabWSB')" class="edit-btn">
+                        <span class="material-icons-sharp">edit</span>
+                    </button>
+                    <button onclick="deleteDataPerdagangan('${item.id}', 'teraKabWSB')" class="delete-btn">
+                        <span class="material-icons-sharp">delete</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
     });
-} 
+
+    // Render footer dengan total keseluruhan
+    const footerRow = document.createElement('tr');
+    footerRow.innerHTML = `
+        <td colspan="30" style="text-align: right; font-weight: bold;">Jumlah Keseluruhan:</td>
+        <td style="font-weight: bold;">${data.find(item => item.id === 'Jumlah Keseluruhan')?.value || '0'}</td>
+        <td></td>
+    `;
+    tfoot.appendChild(footerRow);
+}
 
 function renderMarketplaceTable(data) {
     const tbody = document.getElementById('marketplaceBody');
@@ -1714,147 +1732,147 @@ window.editDataPerdagangan = function(key, table) {
             } else if (table === 'teraKabWSB') {
                 form.innerHTML = `
                     <div class="form-group">
-                        <label for="edit_lokasi">Lokasi</label>
-                        <input type="text" id="edit_lokasi" value="${data.LOKASI || ''}" required>
+                        <label for="edit_kecamatan">Kecamatan</label>
+                        <input type="text" id="edit_kecamatan" value="${data.Kecamatan || ''}" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_nama_pasar">Nama Pasar</label>
-                        <input type="text" id="edit_nama_pasar" value="${Object.keys(data.DETAIL[0])[0] || ''}" required>
+                        <label for="edit_lokasi">Lokasi</label>
+                        <input type="text" id="edit_lokasi" value="${data.Lokasi || ''}" required>
                     </div>
                     <div class="form-section">
                         <h4>UP</h4>
                         <div class="form-group">
-                            <label for="edit_up12 m</label>
-                           <input type="text" id="edit_up1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].UP?.['1 m ≤ up ≤ 2 m'] || '-'}" required>
-                       </div>
-                       <div class="form-group">
-                           <label for="edit_up2">up ≤ 1 m</label>
-                           <input type="text" id="edit_up2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].UP?.['up ≤ 1 m'] || '-'}" required>
-                       </div>
-                   </div>
-                   <div class="form-section">
-                       <h4>TAK</h4>
-                       <div class="form-group">
-                           <label for="edit_tak1">5 l ≤ tb ≤ 25 l</label>
-                           <input type="text" id="edit_tak1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TAK?.['5 l ≤  tb ≤ 25 l'] || '-'}" required>
-                       </div>
-                       <div class="form-group">
-                           <label for="edit_tak2">tb > 2 l</label>
-                           <input type="text" id="edit_tak2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TAK?.['tb > 2 l'] || '-'}" required>
-                       </div>
-                   </div>
-                   <div class="form-section">
-                       <h4>ANAK TIMBANGAN</h4>
-                       <h5>Biasa</h5>
-                       <div class="form-group">
-                           <label for="edit_atb1">atb ≤ 1 kg</label>
-                           <input type="text" id="edit_atb1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]]['ANAK TIMBANGAN']?.Biasa?.['atb ≤ 1 kg'] || '-'}" required>
-                       </div>
-                       <div class="form-group">
-                           <label for="edit_atb2">1 < atb ≤ 5 kg</label>
-                           <input type="text" id="edit_atb2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]]['ANAK TIMBANGAN']?.Biasa?.['1 < atb ≤ 5 kg'] || '-'}" required>
-                       </div>
-                       <div class="form-group">
-                           <label for="edit_atb3">5 < atb ≤ 20 kg</label>
-                           <input type="text" id="edit_atb3" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]]['ANAK TIMBANGAN']?.Biasa?.['5 < atb ≤ 20 kg'] || '-'}" required>
-                       </div>
-                       <h5>Halus</h5>
-                       <div class="form-group">
-                           <label for="edit_atbh1">atb ≤ 1 kg</label>
-                           <input type="text" id="edit_atbh1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]]['ANAK TIMBANGAN']?.Halus?.['atb ≤ 1 kg'] || '-'}" required>
-                       </div>
-                       <div class="form-group">
-                           <label for="edit_atbh2">1 < atb ≤ 5 kg</label>
-                           <input type="text" id="edit_atbh2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]]['ANAK TIMBANGAN']?.Halus?.['1 < atb ≤ 5 kg'] || '-'}" required>
-                       </div>
-                       <div class="form-group">
-                           <label for="edit_atbh3">5 < atb ≤ 20 kg</label>
-                           <input type="text" id="edit_atbh3" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]]['ANAK TIMBANGAN']?.Halus?.['5 < atb ≤ 20 kg'] || '-'}" required>
-                       </div>
-                   </div>
-                   <div class="form-section">
-                       <h4>TIMBANGAN</h4>
-                       <h5>DACIN LOGAM</h5>
-                       <div class="form-group">
-                           <label for="edit_dl1">DL ≤ 25 kg</label>
-                           <input type="text" id="edit_dl1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['DACIN LOGAM']?.['DL ≤ 25 kg'] || '-'}" required>
-                       </div>
-                       <div class="form-group">
-                           <label for="edit_dl2">DL > 25 kg</label>
-                           <input type="text" id="edit_dl2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['DACIN LOGAM']?.['DL > 25 kg'] || '-'}" required>
-                       </div>
-                       <h5>SENTISIMAL</h5>
-                       <div class="form-group">
-                           <label for="edit_s1">S ≤ 150 kg</label>
-                           <input type="text" id="edit_s1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.SENTISIMAL?.['S ≤ 150 kg'] || '-'}" required>
-                       </div>
-                       <div class="form-group">
-                           <label for="edit_s2">150 kg < S ≤ 500 kg</label>
-                           <input type="text" id="edit_s2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.SENTISIMAL?.['150 kg < S ≤ 500 kg'] || '-'}" required>
-                       </div>
-                       <h5>BOBOT INGSUT</h5>
-                       <div class="form-group">
-                           <label for="edit_tbi1">TBI ≤ 25 kg</label>
-                           <input type="text" id="edit_tbi1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['BOBOT INGSUT']?.['TBI ≤ 25 kg'] || '-'}" required>
-                       </div>
-                       <div class="form-group">
-                           <label for="edit_tbi2">25 kg < TBI ≤ 150 kg</label>
-                           <input type="text" id="edit_tbi2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['BOBOT INGSUT']?.['25 kg < TBI ≤ 150 kg'] || '-'}" required>
-                       </div>
-                       <h5>PEGAS</h5>
-                       <div class="form-group">
-                           <label for="edit_tp1">TP ≤ 25 kg</label>
-                           <input type="text" id="edit_tp1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.PEGAS?.['TP ≤ 25 kg'] || '-'}" required>
-                       </div>
-                       <div class="form-group">
-                           <label for="edit_tp2">TP > 25 kg</label>
-                           <input type="text" id="edit_tp2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.PEGAS?.['TP > 25 kg'] || '-'}" required>
-                       </div>
-                       <h5>Lainnya</h5>
-                       <div class="form-group">
-                           <label for="edit_meja">MEJA</label>
-                           <input type="text" id="edit_meja" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.MEJA || '-'}" required>
-                       </div>
-                       <div class="form-group">
-                           <label for="edit_neraca">NERACA</label>
-                           <input type="text" id="edit_neraca" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.NERACA || '-'}" required>
-                       </div>
-                       <h5>TE (II)</h5>
-                       <div class="form-group">
-                           <label for="edit_te2_1">TE ≤ 1 kg</label>
-                           <input type="text" id="edit_te2_1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['TE (II)']?.['TE ≤ 1 kg'] || '-'}" required>
-                       </div>
-                       <div class="form-group">
-                           <label for="edit_te2_2">TE > 1 kg</label>
-                           <input type="text" id="edit_te2_2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['TE (II)']?.['TE > 1 kg'] || '-'}" required>
-                       </div>
-                       <h5>TE (III & IV)</h5>
-                       <div class="form-group">
-                           <label for="edit_te34_1">25 < kg TE ≤ 25 kg</label>
-                           <input type="text" id="edit_te34_1" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['TE (III & IV)']?.['25 < kg TE ≤ 25 kg'] || '-'}" required>
-                       </div>
-                       <div class="form-group">
-                           <label for="edit_te34_2">25 < kg TE ≤ 150 kg</label>
-                           <input type="text" id="edit_te34_2" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['TE (III & IV)']?.['25 < kg TE ≤ 150 kg'] || '-'}" required>
-                       </div>
-                       <div class="form-group">
-                           <label for="edit_te34_3">25 < kg TE ≤ 500 kg</label>
-                           <input type="text" id="edit_te34_3" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]].TIMBANGAN?.['TE (III & IV)']?.['25 < kg TE ≤ 500 kg'] || '-'}" required>
-                       </div>
-                   </div>
-                   <div class="form-section">
-                       <h4>Lainnya</h4>
-                       <div class="form-group">
-                           <label for="edit_alatUkur">Alat Ukur Tinggi Orang</label>
-                           <input type="text" id="edit_alatUkur" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]]['Alat Ukur Tinggi Orang'] || '-'}" required>
-                       </div>
-                       <div class="form-group">
-                           <label for="edit_teb">TEB 1000 KG</label>
-                           <input type="text" id="edit_teb" value="${data.DETAIL[0][Object.keys(data.DETAIL[0])[0]]['TEB 1000 KG'] || '-'}" required>
-                       </div>
-                   </div>
-                   <button type="submit" class="submit-btn">Simpan Perubahan</button>
-               `;            
+                            <label for="edit_up1">1 m ≤ up ≤ 2 m</label>
+                            <input type="text" id="edit_up1" value="${data.UP?.['1 m ≤ up ≤ 2 m'] || '-'}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_up2">up ≤ 1 m</label>
+                            <input type="text" id="edit_up2" value="${data.UP?.['up ≤ 1 m'] || '-'}" required>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h4>TAK</h4>
+                        <div class="form-group">
+                            <label for="edit_tak1">5 l ≤ tb ≤ 25 l</label>
+                            <input type="text" id="edit_tak1" value="${data.TAK?.['5 l ≤  tb ≤ 25 l'] || '-'}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_tak2">tb > 2 l</label>
+                            <input type="text" id="edit_tak2" value="${data.TAK?.['tb > 2 l'] || '-'}" required>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h4>ANAK TIMBANGAN</h4>
+                        <h5>Biasa</h5>
+                        <div class="form-group">
+                            <label for="edit_atb1">atb ≤ 1 kg</label>
+                            <input type="text" id="edit_atb1" value="${data['ANAK TIMBANGAN']?.Biasa?.['atb ≤ 1 kg'] || '-'}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_atb2">1 < atb ≤ 5 kg</label>
+                            <input type="text" id="edit_atb2" value="${data['ANAK TIMBANGAN']?.Biasa?.['1 < atb ≤ 5 kg'] || '-'}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_atb3">5 < atb ≤ 20 kg</label>
+                            <input type="text" id="edit_atb3" value="${data['ANAK TIMBANGAN']?.Biasa?.['5 < atb ≤ 20 kg'] || '-'}" required>
+                        </div>
+                        <h5>Halus</h5>
+                        <div class="form-group">
+                            <label for="edit_atbh1">atb ≤ 1 kg</label>
+                            <input type="text" id="edit_atbh1" value="${data['ANAK TIMBANGAN']?.Halus?.['atb ≤ 1 kg'] || '-'}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_atbh2">1 < atb ≤ 5 kg</label>
+                            <input type="text" id="edit_atbh2" value="${data['ANAK TIMBANGAN']?.Halus?.['1 < atb ≤ 5 kg'] || '-'}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_atbh3">5 < atb ≤ 20 kg</label>
+                            <input type="text" id="edit_atbh3" value="${data['ANAK TIMBANGAN']?.Halus?.['5 < atb ≤ 20 kg'] || '-'}" required>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h4>TIMBANGAN</h4>
+                        <h5>DACIN LOGAM</h5>
+                        <div class="form-group">
+                            <label for="edit_dl1">DL ≤ 25 kg</label>
+                            <input type="text" id="edit_dl1" value="${data.TIMBANGAN?.['DACIN LOGAM']?.['DL ≤ 25 kg'] || '-'}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_dl2">DL > 25 kg</label>
+                            <input type="text" id="edit_dl2" value="${data.TIMBANGAN?.['DACIN LOGAM']?.['DL > 25 kg'] || '-'}" required>
+                        </div>
+                        <h5>SENTISIMAL</h5>
+                        <div class="form-group">
+                            <label for="edit_s1">S ≤ 150 kg</label>
+                            <input type="text" id="edit_s1" value="${data.TIMBANGAN?.SENTISIMAL?.['S ≤ 150 kg'] || '-'}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_s2">150 kg < S ≤ 500 kg</label>
+                            <input type="text" id="edit_s2" value="${data.TIMBANGAN?.SENTISIMAL?.['150 kg < S ≤ 500 kg'] || '-'}" required>
+                        </div>
+                        <h5>BOBOT INGSUT</h5>
+                        <div class="form-group">
+                            <label for="edit_tbi1">TBI ≤ 25 kg</label>
+                            <input type="text" id="edit_tbi1" value="${data.TIMBANGAN?.['BOBOT INGSUT']?.['TBI ≤ 25 kg'] || '-'}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_tbi2">25 kg < TBI ≤ 150 kg</label>
+                            <input type="text" id="edit_tbi2" value="${data.TIMBANGAN?.['BOBOT INGSUT']?.['25 kg < TBI ≤ 150 kg'] || '-'}" required>
+                        </div>
+                        <h5>PEGAS</h5>
+                        <div class="form-group">
+                            <label for="edit_tp1">TP ≤ 25 kg</label>
+                            <input type="text" id="edit_tp1" value="${data.TIMBANGAN?.PEGAS?.['TP ≤ 25 kg'] || '-'}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_tp2">TP > 25 kg</label>
+                            <input type="text" id="edit_tp2" value="${data.TIMBANGAN?.PEGAS?.['TP > 25 kg'] || '-'}" required>
+                        </div>
+                        <h5>Lainnya</h5>
+                        <div class="form-group">
+                            <label for="edit_meja">MEJA</label>
+                            <input type="text" id="edit_meja" value="${data.TIMBANGAN?.MEJA || '-'}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_neraca">NERACA</label>
+                            <input type="text" id="edit_neraca" value="${data.TIMBANGAN?.NERACA || '-'}" required>
+                        </div>
+                        <h5>TE (II)</h5>
+                        <div class="form-group">
+                            <label for="edit_te2_1">TE ≤ 1 kg</label>
+                            <input type="text" id="edit_te2_1" value="${data.TIMBANGAN?.['TE (II)']?.['TE ≤ 1 kg'] || '-'}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_te2_2">TE > 1 kg</label>
+                            <input type="text" id="edit_te2_2" value="${data.TIMBANGAN?.['TE (II)']?.['TE > 1 kg'] || '-'}" required>
+                        </div>
+                        <h5>TE (III & IV)</h5>
+                        <div class="form-group">
+                            <label for="edit_te34_1">25 < kg TE ≤ 25 kg</label>
+                            <input type="text" id="edit_te34_1" value="${data.TIMBANGAN?.['TE (III & IV)']?.['25 < kg TE ≤ 25 kg'] || '-'}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_te34_2">25 < kg TE ≤ 150 kg</label>
+                            <input type="text" id="edit_te34_2" value="${data.TIMBANGAN?.['TE (III & IV)']?.['25 < kg TE ≤ 150 kg'] || '-'}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_te34_3">25 < kg TE ≤ 500 kg</label>
+                            <input type="text" id="edit_te34_3" value="${data.TIMBANGAN?.['TE (III & IV)']?.['25 < kg TE ≤ 500 kg'] || '-'}" required>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h4>Lainnya</h4>
+                        <div class="form-group">
+                            <label for="edit_alatUkur">Alat Ukur Tinggi Orang</label>
+                            <input type="text" id="edit_alatUkur" value="${data['Alat Ukur Tinggi Orang'] || '-'}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_teb">TEB 1000 KG</label>
+                            <input type="text" id="edit_teb" value="${data['TEB 1000 KG'] || '-'}" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Simpan Perubahan</button>
+                `;
             }  else if (table === 'marketplace') {
                 form.innerHTML = `
                     <div class="form-group">
@@ -2223,32 +2241,20 @@ window.editDataPerdagangan = function(key, table) {
                     const itemKey = form.getAttribute('data-key');
                     const currentTable = form.getAttribute('data-table');
                     const currentPath = getPathByTablePerdagangan(currentTable);
-                    
-                    // Gunakan reference yang benar untuk update
                     const updateRef = ref(db, `Bidang Perdagangan/${currentPath}/${itemKey}`);
                     
-                    // Dapatkan data yang sudah ada
-                    const snapshot = await get(updateRef);
-                    const existingData = snapshot.val();
-                    
-                    // Dapatkan data yang diupdate
                     const updatedData = await getUpdatedDataByTablePerdagangan(currentTable);
+                    await update(updateRef, updatedData);
                     
-                    // Gabungkan data yang ada dengan data yang diupdate
-                    const finalData = currentTable === 'teraKabWSB' ? {
-                        ...existingData,
-                        LOKASI: updatedData.LOKASI,
-                        DETAIL: updatedData.DETAIL
-                    } : updatedData;
-                    
-                    // Update data
-                    await update(updateRef, finalData);
+                    if (currentTable === 'teraKabWSB') {
+                        await updateTeraKabWSBSummary(); // Tambahkan ini
+                    }
                     
                     alert('Data berhasil diperbarui!');
                     editPopup.style.display = 'none';
                     loadBidangPerdagangan();
                 } catch (error) {
-                    console.error('Error saat update:', error);
+                    console.error('Error:', error);
                     alert('Terjadi kesalahan saat memperbarui data!');
                 }
             };
@@ -2327,99 +2333,97 @@ async function getUpdatedDataByTablePerdagangan(table) {
             }
         case 'teraKabWSB':
             return {
-                'LOKASI': document.getElementById('edit_lokasi').value,
-                'DETAIL': [{
-                    [document.getElementById('edit_nama_pasar').value]: {
-                        'UP': {
-                            '1 m ≤ up ≤ 2 m': document.getElementById('edit_up1').value || '-',
-                            'up ≤ 1 m': document.getElementById('edit_up2').value || '-'
-                        },
-                        'TAK': {
-                            '5 l ≤  tb ≤ 25 l': document.getElementById('edit_tak1').value || '-',
-                            'tb > 2 l': document.getElementById('edit_tak2').value || '-'
-                        },
-                        'ANAK TIMBANGAN': {
-                            'Biasa': {           'atb ≤ 1 kg': document.getElementById('edit_atb1').value || '-',
-                            '1 < atb ≤ 5 kg': document.getElementById('edit_atb2').value || '-',
-                            '5 < atb ≤ 20 kg': document.getElementById('edit_atb3').value || '-'
-                        },
-                        'Halus': {
-                            'atb ≤ 1 kg': document.getElementById('edit_atbh1').value || '-',
-                            '1 < atb ≤ 5 kg': document.getElementById('edit_atbh2').value || '-',
-                            '5 < atb ≤ 20 kg': document.getElementById('edit_atbh3').value || '-'
-                        }
+                'Kecamatan': document.getElementById('edit_kecamatan').value,
+                'Lokasi': document.getElementById('edit_lokasi').value,
+                'UP': {
+                    '1 m ≤ up ≤ 2 m': document.getElementById('edit_up1').value || '-',
+                    'up ≤ 1 m': document.getElementById('edit_up2').value || '-'
+                },
+                'TAK': {
+                    '5 l ≤  tb ≤ 25 l': document.getElementById('edit_tak1').value || '-',
+                    'tb > 2 l': document.getElementById('edit_tak2').value || '-'
+                },
+                'ANAK TIMBANGAN': {
+                    'Biasa': {
+                        'atb ≤ 1 kg': document.getElementById('edit_atb1').value || '-',
+                        '1 < atb ≤ 5 kg': document.getElementById('edit_atb2').value || '-',
+                        '5 < atb ≤ 20 kg': document.getElementById('edit_atb3').value || '-'
                     },
-                    'TIMBANGAN': {
-                        'DACIN LOGAM': {
-                            'DL ≤ 25 kg': document.getElementById('edit_dl1').value || '-',
-                            'DL > 25 kg': document.getElementById('edit_dl2').value || '-'
-                        },
-                        'SENTISIMAL': {
-                            'S ≤ 150 kg': document.getElementById('edit_s1').value || '-',
-                            '150 kg < S ≤ 500 kg': document.getElementById('edit_s2').value || '-'
-                        },
-                        'BOBOT INGSUT': {
-                            'TBI ≤ 25 kg': document.getElementById('edit_tbi1').value || '-',
-                            '25 kg < TBI ≤ 150 kg': document.getElementById('edit_tbi2').value || '-'
-                        },
-                        'PEGAS': {
-                            'TP ≤ 25 kg': document.getElementById('edit_tp1').value || '-',
-                            'TP > 25 kg': document.getElementById('edit_tp2').value || '-'
-                        },
-                        'MEJA': document.getElementById('edit_meja').value || '-',
-                        'NERACA': document.getElementById('edit_neraca').value || '-',
-                        'TE (II)': {
-                            'TE ≤ 1 kg': document.getElementById('edit_te2_1').value || '-',
-                            'TE > 1 kg': document.getElementById('edit_te2_2').value || '-'
-                        },
-                        'TE (III & IV)': {
-                            '25 < kg TE ≤ 25 kg': document.getElementById('edit_te34_1').value || '-',
-                            '25 < kg TE ≤ 150 kg': document.getElementById('edit_te34_2').value || '-',
-                            '25 < kg TE ≤ 500 kg': document.getElementById('edit_te34_3').value || '-'
-                        }
+                    'Halus': {
+                        'atb ≤ 1 kg': document.getElementById('edit_atbh1').value || '-',
+                        '1 < atb ≤ 5 kg': document.getElementById('edit_atbh2').value || '-',
+                        '5 < atb ≤ 20 kg': document.getElementById('edit_atbh3').value || '-'
+                    }
+                },
+                'TIMBANGAN': {
+                    'DACIN LOGAM': {
+                        'DL ≤ 25 kg': document.getElementById('edit_dl1').value || '-',
+                        'DL > 25 kg': document.getElementById('edit_dl2').value || '-'
                     },
-                    'Alat Ukur Tinggi Orang': document.getElementById('edit_alatUkur').value || '-',
-                    'TEB 1000 KG': document.getElementById('edit_teb').value || '-',
-                    'Jumlah Total UTTP': (() => {
-                        let total = 0;
-                        const inputIds = [
-                            'edit_up1', 'edit_up2',                     // UP
-                            'edit_tak1', 'edit_tak2',                   // TAK
-                            'edit_atb1', 'edit_atb2', 'edit_atb3',     // Anak Timbangan Biasa
-                            'edit_atbh1', 'edit_atbh2', 'edit_atbh3',  // Anak Timbangan Halus
-                            'edit_dl1', 'edit_dl2',                     // Dacin Logam
-                            'edit_s1', 'edit_s2',                       // Sentisimal
-                            'edit_tbi1', 'edit_tbi2',                   // Bobot Ingsut
-                            'edit_tp1', 'edit_tp2',                     // Timbangan Pegas
-                            'edit_meja', 'edit_neraca',                 // Timbangan Lainnya
-                            'edit_te2_1', 'edit_te2_2',                 // TE II
-                            'edit_te34_1', 'edit_te34_2', 'edit_te34_3', // TE III & IV
-                            'edit_alatUkur', 'edit_teb'                 // Lainnya
-                        ];
-                        inputIds.forEach(id => {
-                            const value = document.getElementById(id).value;
-                            if (value && value !== '-') {
-                                total += parseInt(value) || 0;
-                            }
-                        });
-                        return total.toString();
-                    })()
-                }
-            }]
-        };
+                    'SENTISIMAL': {
+                        'S ≤ 150 kg': document.getElementById('edit_s1').value || '-',
+                        '150 kg < S ≤ 500 kg': document.getElementById('edit_s2').value || '-'
+                    },
+                    'BOBOT INGSUT': {
+                        'TBI ≤ 25 kg': document.getElementById('edit_tbi1').value || '-',
+                        '25 kg < TBI ≤ 150 kg': document.getElementById('edit_tbi2').value || '-'
+                    },
+                    'PEGAS': {
+                        'TP ≤ 25 kg': document.getElementById('edit_tp1').value || '-',
+                        'TP > 25 kg': document.getElementById('edit_tp2').value || '-'
+                    },
+                    'MEJA': document.getElementById('edit_meja').value || '-',
+                    'NERACA': document.getElementById('edit_neraca').value || '-',
+                    'TE (II)': {
+                        'TE ≤ 1 kg': document.getElementById('edit_te2_1').value || '-',
+                        'TE > 1 kg': document.getElementById('edit_te2_2').value || '-'
+                    },
+                    'TE (III & IV)': {
+                        '25 < kg TE ≤ 25 kg': document.getElementById('edit_te34_1').value || '-',
+                        '25 < kg TE ≤ 150 kg': document.getElementById('edit_te34_2').value || '-',
+                        '25 < kg TE ≤ 500 kg': document.getElementById('edit_te34_3').value || '-'
+                    }
+                },
+                'Alat Ukur Tinggi Orang': document.getElementById('edit_alatUkur').value || '-',
+                'TEB 1000 KG': document.getElementById('edit_teb').value || '-',
+                'Jumlah Total UTTP': (() => {
+                    let total = 0;
+                    const inputIds = [
+                        'edit_up1', 'edit_up2',                     // UP
+                        'edit_tak1', 'edit_tak2',                   // TAK
+                        'edit_atb1', 'edit_atb2', 'edit_atb3',     // Anak Timbangan Biasa
+                        'edit_atbh1', 'edit_atbh2', 'edit_atbh3',  // Anak Timbangan Halus
+                        'edit_dl1', 'edit_dl2',                     // Dacin Logam
+                        'edit_s1', 'edit_s2',                       // Sentisimal
+                        'edit_tbi1', 'edit_tbi2',                   // Bobot Ingsut
+                        'edit_tp1', 'edit_tp2',                     // Timbangan Pegas
+                        'edit_meja', 'edit_neraca',                 // Timbangan Lainnya
+                        'edit_te2_1', 'edit_te2_2',                 // TE II
+                        'edit_te34_1', 'edit_te34_2', 'edit_te34_3', // TE III & IV
+                        'edit_alatUkur', 'edit_teb'                 // Lainnya
+                    ];
+                    inputIds.forEach(id => {
+                        const value = document.getElementById(id).value;
+                        if (value && value !== '-') {
+                            total += parseInt(value) || 0;
+                        }
+                    });
+                    return total.toString();
+                })()
+            };
         case 'marketplace':
-           return {
-               'Nama Marketplace': document.getElementById('edit_nama_marketplace').value,
-               'Tahun n-2': document.getElementById('edit_tahun_n2').value,
-               'Tahun n-1': document.getElementById('edit_tahun_n1').value,
-               'Tahun n': {
-                   'Triwuan 1': document.getElementById('edit_triwulan1').value,
-                   'Triwuan 2': document.getElementById('edit_triwulan2').value,
-                   'Triwuan 3': document.getElementById('edit_triwulan3').value,
-                   'Triwuan 4': document.getElementById('edit_triwulan4').value
-               },
-               'Keterangan': document.getElementById('edit_keterangan').value
-           };
+            return {
+                'Nama Marketplace': document.getElementById('edit_nama_marketplace').value,
+                'Tahun n-2': document.getElementById('edit_tahun_n2').value,
+                'Tahun n-1': document.getElementById('edit_tahun_n1').value,
+                'Tahun n': {
+                    'Triwuan 1': document.getElementById('edit_triwulan1').value,
+                    'Triwuan 2': document.getElementById('edit_triwulan2').value,
+                    'Triwuan 3': document.getElementById('edit_triwulan3').value,
+                    'Triwuan 4': document.getElementById('edit_triwulan4').value
+                },
+                'Keterangan': document.getElementById('edit_keterangan').value
+            };
         case 'tokoModern':
             return {
                 'TANGGAL SK': document.getElementById('edit_tanggal_sk').value,
@@ -2560,14 +2564,18 @@ window.deleteDataPerdagangan = async function(key, table) {
             const deleteRef = ref(db, `Bidang Perdagangan/${getPathByTablePerdagangan(table)}/${key}`);
             await remove(deleteRef);
             
+            if (table === 'teraKabWSB') {
+                await updateTeraKabWSBSummary(); // Tambahkan ini
+            }
+            
             alert('Data berhasil dihapus!');
             loadBidangPerdagangan();
         } catch (error) {
-            console.error('Error deleting data:', error);
-            alert('Terjadi kesalahan saat menghapus data: ' + error.message);
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat menghapus data!');
         }
-    };
-}
+    }
+};
 
 // Fungsi helper untuk mendapatkan path database berdasarkan tabel
 function getPathByTablePerdagangan(table) {
@@ -2597,6 +2605,27 @@ function getPathByTablePerdagangan(table) {
             return '';
     }
 } 
+
+async function updateTeraKabWSBSummary() {
+    const teraKabWSBRef = ref(db, 'Bidang Perdagangan/Data Semua Tera Kab WSB');
+    const snapshot = await get(teraKabWSBRef);
+    
+    if (snapshot.exists()) {
+        const data = snapshot.val();
+        let totalKeseluruhan = 0;
+
+        // Hitung total dari setiap entri
+        Object.entries(data).forEach(([key, value]) => {
+            if (key !== 'Jumlah Keseluruhan' && value['Jumlah Total UTTP'] && value['Jumlah Total UTTP'] !== '-') {
+                totalKeseluruhan += parseInt(value['Jumlah Total UTTP']);
+            }
+        });
+
+        // Update Jumlah Keseluruhan
+        const summaryRef = ref(db, 'Bidang Perdagangan/Data Semua Tera Kab WSB/Jumlah Keseluruhan');
+        await set(summaryRef, totalKeseluruhan.toString());
+    }
+}
 
 function loadBidangPasar() {
     const bidangPasarRef = ref(db, 'Bidang Pasar');
@@ -2854,26 +2883,26 @@ function openAddDataPopup(table) {
             </div>
             <button type="submit">Tambah Data</button>
         `;
-    } if (table === 'teraKabWSB') {
+    } else if (table === 'teraKabWSB') {
         form.innerHTML = `
+            <div class="form-group">
+                <label for="kecamatan">Kecamatan</label>
+                <input type="text" id="kecamatan" required>
+            </div>
             <div class="form-group">
                 <label for="lokasi">Lokasi</label>
                 <input type="text" id="lokasi" required>
-            </div>
-            <div class="form-group">
-                <label for="namaPasar">Nama Pasar</label>
-                <input type="text" id="namaPasar" required>
             </div>
             
             <div class="form-section">
                 <h3>UP (Ukuran Panjang)</h3>
                 <div class="form-group">
                     <label for="up1">1 m ≤ up ≤ 2 m</label>
-                    <input type="text" id="up1" placeholder="-">
+                    <input type="number" id="up1" placeholder="-">
                 </div>
                 <div class="form-group">
                     <label for="up2">up ≤ 1 m</label>
-                    <input type="text" id="up2" placeholder="-">
+                    <input type="number" id="up2" placeholder="-">
                 </div>
             </div>
 
@@ -2881,11 +2910,11 @@ function openAddDataPopup(table) {
                 <h3>TAK (Takaran)</h3>
                 <div class="form-group">
                     <label for="tak1">5 l ≤ tb ≤ 25 l</label>
-                    <input type="text" id="tak1" placeholder="-">
+                    <input type="number" id="tak1" placeholder="-">
                 </div>
                 <div class="form-group">
                     <label for="tak2">tb > 2 l</label>
-                    <input type="text" id="tak2" placeholder="-">
+                    <input type="number" id="tak2" placeholder="-">
                 </div>
             </div>
 
@@ -2893,15 +2922,15 @@ function openAddDataPopup(table) {
                 <h3>Anak Timbangan Biasa</h3>
                 <div class="form-group">
                     <label for="atb1">atb ≤ 1 kg</label>
-                    <input type="text" id="atb1" placeholder="-">
+                    <input type="number" id="atb1" placeholder="-">
                 </div>
                 <div class="form-group">
                     <label for="atb2">1 < atb ≤ 5 kg</label>
-                    <input type="text" id="atb2" placeholder="-">
+                    <input type="number" id="atb2" placeholder="-">
                 </div>
                 <div class="form-group">
                     <label for="atb3">5 < atb ≤ 20 kg</label>
-                    <input type="text" id="atb3" placeholder="-">
+                    <input type="number" id="atb3" placeholder="-">
                 </div>
             </div>
 
@@ -2909,15 +2938,15 @@ function openAddDataPopup(table) {
                 <h3>Anak Timbangan Halus</h3>
                 <div class="form-group">
                     <label for="atbh1">atb ≤ 1 kg</label>
-                    <input type="text" id="atbh1" placeholder="-">
+                    <input type="number" id="atbh1" placeholder="-">
                 </div>
                 <div class="form-group">
                     <label for="atbh2">1 < atb ≤ 5 kg</label>
-                    <input type="text" id="atbh2" placeholder="-">
+                    <input type="number" id="atbh2" placeholder="-">
                 </div>
                 <div class="form-group">
                     <label for="atbh3">5 < atb ≤ 20 kg</label>
-                    <input type="text" id="atbh3" placeholder="-">
+                    <input type="number" id="atbh3" placeholder="-">
                 </div>
             </div>
 
@@ -2925,11 +2954,11 @@ function openAddDataPopup(table) {
                 <h3>Dacin Logam</h3>
                 <div class="form-group">
                     <label for="dl1">DL ≤ 25 kg</label>
-                    <input type="text" id="dl1" placeholder="-">
+                    <input type="number" id="dl1" placeholder="-">
                 </div>
                 <div class="form-group">
                     <label for="dl2">DL > 25 kg</label>
-                    <input type="text" id="dl2" placeholder="-">
+                    <input type="number" id="dl2" placeholder="-">
                 </div>
             </div>
 
@@ -2937,11 +2966,11 @@ function openAddDataPopup(table) {
                 <h3>Sentisimal</h3>
                 <div class="form-group">
                     <label for="s1">S ≤ 150 kg</label>
-                    <input type="text" id="s1" placeholder="-">
+                    <input type="number" id="s1" placeholder="-">
                 </div>
                 <div class="form-group">
                     <label for="s2">150 kg < S ≤ 500 kg</label>
-                    <input type="text" id="s2" placeholder="-">
+                    <input type="number" id="s2" placeholder="-">
                 </div>
             </div>
 
@@ -2949,11 +2978,11 @@ function openAddDataPopup(table) {
                 <h3>Bobot Ingsut</h3>
                 <div class="form-group">
                     <label for="tbi1">TBI ≤ 25 kg</label>
-                    <input type="text" id="tbi1" placeholder="-">
+                    <input type="number" id="tbi1" placeholder="-">
                 </div>
                 <div class="form-group">
                     <label for="tbi2">25 kg < TBI ≤ 150 kg</label>
-                    <input type="text" id="tbi2" placeholder="-">
+                    <input type="number" id="tbi2" placeholder="-">
                 </div>
             </div>
 
@@ -2961,11 +2990,11 @@ function openAddDataPopup(table) {
                 <h3>Timbangan Pegas</h3>
                 <div class="form-group">
                     <label for="tp1">TP ≤ 25 kg</label>
-                    <input type="text" id="tp1" placeholder="-">
+                    <input type="number" id="tp1" placeholder="-">
                 </div>
                 <div class="form-group">
                     <label for="tp2">TP > 25 kg</label>
-                    <input type="text" id="tp2" placeholder="-">
+                    <input type="number" id="tp2" placeholder="-">
                 </div>
             </div>
 
@@ -2973,11 +3002,11 @@ function openAddDataPopup(table) {
                 <h3>Timbangan Lainnya</h3>
                 <div class="form-group">
                     <label for="meja">Meja</label>
-                    <input type="text" id="meja" placeholder="-">
+                    <input type="number" id="meja" placeholder="-">
                 </div>
                 <div class="form-group">
                     <label for="neraca">Neraca</label>
-                    <input type="text" id="neraca" placeholder="-">
+                    <input type="number" id="neraca" placeholder="-">
                 </div>
             </div>
 
@@ -2985,11 +3014,11 @@ function openAddDataPopup(table) {
                 <h3>Timbangan Elektronik II</h3>
                 <div class="form-group">
                     <label for="te2_1">TE ≤ 1 kg</label>
-                    <input type="text" id="te2_1" placeholder="-">
+                    <input type="number" id="te2_1" placeholder="-">
                 </div>
                 <div class="form-group">
                     <label for="te2_2">TE > 1 kg</label>
-                    <input type="text" id="te2_2" placeholder="-">
+                    <input type="number" id="te2_2" placeholder="-">
                 </div>
             </div>
 
@@ -2997,15 +3026,15 @@ function openAddDataPopup(table) {
                 <h3>Timbangan Elektronik III & IV</h3>
                 <div class="form-group">
                     <label for="te34_1">TE ≤ 25 kg</label>
-                    <input type="text" id="te34_1" placeholder="-">
+                    <input type="number" id="te34_1" placeholder="-">
                 </div>
                 <div class="form-group">
                     <label for="te34_2">25 kg < TE ≤ 150 kg</label>
-                    <input type="text" id="te34_2" placeholder="-">
+                    <input type="number" id="te34_2" placeholder="-">
                 </div>
                 <div class="form-group">
                     <label for="te34_3">150 kg < TE ≤ 500 kg</label>
-                    <input type="text" id="te34_3" placeholder="-">
+                    <input type="number" id="te34_3" placeholder="-">
                 </div>
             </div>
 
@@ -3013,11 +3042,11 @@ function openAddDataPopup(table) {
                 <h3>Lainnya</h3>
                 <div class="form-group">
                     <label for="alatUkur">Alat Ukur Tinggi Orang</label>
-                    <input type="text" id="alatUkur" placeholder="-">
+                    <input type="number" id="alatUkur" placeholder="-">
                 </div>
                 <div class="form-group">
                     <label for="teb">TEB 1000 KG</label>
-                    <input type="text" id="teb" placeholder="-">
+                    <input type="number" id="teb" placeholder="-">
                 </div>
             </div>
 
@@ -3851,6 +3880,10 @@ function openAddDataPopup(table) {
                 <label for="jenisProduksi">Jenis Produksi</label>
                 <input type="text" id="jenisProduksi" required>
             </div>
+            <div class="form-group">
+                <label for="bulan">Bulan</label>
+                <input type="month" id="bulan" required>
+            </div>
             <button type="submit">Tambah Data</button>
         `;
     } else if (table === 'koperasiAktif') {
@@ -4508,6 +4541,15 @@ function loadBidangKoperasi() {
     onValue(koperasiRef, (snapshot) => {
         if (snapshot.exists()) {
             const data = snapshot.val();
+            const rekapOmzetData = data['Rekap Omzet Koperasi'] ? 
+                Object.entries(data['Rekap Omzet Koperasi'])
+                    .filter(([key]) => key !== 'Jumlah')
+                    .reduce((obj, [key, value]) => {
+                        obj[key] = value;
+                        return obj;
+                    }, {}) : {};
+            
+            const rekapOmzetSummary = data['Rekap Omzet Koperasi']?.Jumlah || null;
             
             renderPelakuUKMTable(data['Data Pelaku UKM'] || {});
             renderUKMBerijinTable(data['UKM Berijin'] || {});
@@ -4516,11 +4558,11 @@ function loadBidangKoperasi() {
             renderAksesModalUsahaTable(data['Masyarakat Akses Modal Usaha'] || {});
             renderMiskinPesertaPelatihanTable(data['Masyarakat Miskin Peserta Pelatihan'] || {});
             renderKoperasiProduksiTable(data['Jumlah Koperasi Produksi'] || {});
-            renderKoperasiAktifTable(data['Jumlah Koperasi Seluruh Koperasi Aktif'] || {});
+            renderKoperasiAktifTable(data['Jumlah Seluruh Koperasi Aktif'] || {});
             renderAksesPasarOnlineTable(data['Koperasi Produksi Akses Pasar Online'] || {});
             renderAksesKreditBankTable(data['Koperasi Akses Kredit Bank'] || {});
             renderKoperasiSehatTable(data['Jumlah Koperasi Sehat'] || {});
-            renderRekapOmzetTable(data['Rekap Omzet Koperasi'] || {});
+            renderRekapOmzetTable(rekapOmzetData, rekapOmzetSummary);
         }
     });
 }
@@ -4569,7 +4611,7 @@ function renderUKMBerijinTable(data) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${no++}</td>
-            <td>${value.NAMA || '-'}</td>
+            <td>${value.Nama || '-'}</td>
             <td>${value.Gender || '-'}</td>
             <td>${value.NIK || '-'}</td>
             <td>${value.Alamat || '-'}</td>
@@ -4602,7 +4644,7 @@ function renderUKMAksesPerbankanTable(data) {
         row.innerHTML = `
             <td>${no++}</td>
             <td>${value.NIK || '-'}</td>
-            <td>${value.NAMA || '-'}</td>
+            <td>${value.Nama || '-'}</td>
             <td>${value.Gender || '-'}</td>
             <td>${value.Alamat || '-'}</td>
             <td>${value['Bidang Usaha'] || '-'}</td>
@@ -4716,6 +4758,7 @@ function renderMiskinPesertaPelatihanTable(data) {
     });
 }
 
+// Fungsi untuk render tabel Koperasi Produksi
 function renderKoperasiProduksiTable(data) {
     const tbody = document.getElementById('jmlKoperasiProduksiBody');
     tbody.innerHTML = '';
@@ -4727,7 +4770,8 @@ function renderKoperasiProduksiTable(data) {
             <td>${no++}</td>
             <td>${value['Nama Koperasi'] || '-'}</td>
             <td>${value.Alamat || '-'}</td>
-            <td>${value['Jenis Produksi'] || '-'}</td>
+            <td>${value.Produk || '-'}</td>
+            <td>${value.Bulan || '-'}</td>
             <td>
                 <div class="action-buttons">
                     <button class="edit-btn" onclick="editDataKoperasi('${key}', 'koperasiProduksi')">
@@ -4775,6 +4819,7 @@ function renderKoperasiAktifTable(data) {
     });
 }
 
+// Fungsi untuk render tabel Koperasi Akses Pasar Online
 function renderAksesPasarOnlineTable(data) {
     const tbody = document.getElementById('aksesPasarOnlineBody');
     tbody.innerHTML = '';
@@ -4860,11 +4905,16 @@ function renderKoperasiSehatTable(data) {
 }
 
 // Fungsi untuk render tabel Rekap Omzet
-function renderRekapOmzetTable(data) {
+function renderRekapOmzetTable(data, summary) {
     const tbody = document.getElementById('rekapOmzetBody');
+    const tfoot = document.getElementById('rekapOmzetFooter');
+    if (!tbody || !tfoot) return;
+    
     tbody.innerHTML = '';
+    tfoot.innerHTML = '';
     let no = 1;
 
+    // Render body table
     Object.entries(data).forEach(([key, value]) => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -4900,6 +4950,33 @@ function renderRekapOmzetTable(data) {
         `;
         tbody.appendChild(row);
     });
+
+    // Render footer dengan data summary
+    if (summary) {
+        const footerRow = document.createElement('tr');
+        footerRow.innerHTML = `
+            <td colspan="2" style="font-weight: bold; text-align: center;">JUMLAH</td>
+            <td>${summary.Koperasi?.['Jumlah Koperasi'] || 0}</td>
+            <td>${summary.Koperasi?.Aktif || 0}</td>
+            <td>${summary.Koperasi?.['Tidak Aktif'] || 0}</td>
+            <td>${summary.Anggota?.['Jumlah Anggota'] || 0}</td>
+            <td>${summary.Anggota?.Aktif || 0}</td>
+            <td>${summary.Anggota?.['Tidak Aktif'] || 0}</td>
+            <td>${summary['RAT Unit'] || 0}</td>
+            <td>${summary.Manajer?.Jumlah || 0}</td>
+            <td>${summary.Manajer?.Aktif || 0}</td>
+            <td>${summary.Manajer?.['Tidak Aktif'] || 0}</td>
+            <td>${summary.Karyawan?.Jumlah || 0}</td>
+            <td>${summary.Karyawan?.Aktif || 0}</td>
+            <td>${summary.Karyawan?.['Tidak Aktif'] || 0}</td>
+            <td>${summary['Modal Sendiri'] || 'Rp. 0'}</td>
+            <td>${summary['Modal Luar'] || 'Rp. 0'}</td>
+            <td>${summary['Volume Usaha'] || 'Rp. 0'}</td>
+            <td>${summary.SHU || 'Rp. 0'}</td>
+            <td></td>
+        `;
+        tfoot.appendChild(footerRow);
+    }
 }
 
 // Fungsi Edit Data Koperasi
@@ -5128,7 +5205,11 @@ window.editDataKoperasi = function(key, table) {
                     </div>
                     <div class="form-group">
                         <label for="edit_jenisProduksi">Jenis Produksi</label>
-                        <input type="text" id="edit_jenisProduksi" value="${data['Jenis Produksi'] || ''}" required>
+                        <input type="text" id="edit_jenisProduksi" value="${data.Produk || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_bulan">Bulan</label>
+                        <input type="month" id="edit_bulan" value="${data.Bulan || ''}" required>
                     </div>
                     <button type="submit">Simpan Perubahan</button>
                 `;
@@ -5365,6 +5446,10 @@ window.editDataKoperasi = function(key, table) {
                 try {
                     const updatedData = getUpdatedDataByTable(table);
                     await update(dataRef, updatedData);
+
+                    if (table === 'rekapOmzet') {
+                        await updateRekapOmzetSummary();
+                    }
                     
                     editPopup.style.display = 'none';
                     loadBidangKoperasi();
@@ -5378,11 +5463,15 @@ window.editDataKoperasi = function(key, table) {
     });
 };
 
-window.deleteDataKopeasi = async function(key, table) {
+window.deleteDataKoperasi = async function(key, table) {
     if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
         try {
             const deleteRef = ref(db, `Bidang Koperasi/${getPathByTableKoperasi(table)}/${key}`);
             await remove(deleteRef);
+            
+            if (table === 'rekapOmzet') {
+                await updateRekapOmzetSummary();
+            }
             
             alert('Data berhasil dihapus!');
             loadBidangKoperasi();
@@ -5410,7 +5499,7 @@ function getPathByTableKoperasi(table) {
         case 'koperasiProduksi':
             return 'Jumlah Koperasi Produksi';
         case 'koperasiAktif':
-            return 'Jumlah Koperasi Seluruh Koperasi Aktif';
+            return 'Jumlah Seluruh Koperasi Aktif';
         case 'aksesPasarOnline':
             return 'Koperasi Produksi Akses Pasar Online';
         case 'aksesKreditBank':
@@ -5481,7 +5570,8 @@ function getUpdatedDataByTable(table) {
         return {
             'Nama Koperasi': document.getElementById('edit_namaKoperasi').value,
             Alamat: document.getElementById('edit_alamat').value,
-            'Jenis Produksi': document.getElementById('edit_jenisProduksi').value
+            'Jenis Produksi': document.getElementById('edit_jenisProduksi').value,
+            Bulan: document.getElementById('edit_bulan').value
         };
     } else if (table === 'miskinPesertaPelatihan') {
         return {
@@ -5556,6 +5646,89 @@ function getUpdatedDataByTable(table) {
     return {};
 }
 
+async function updateRekapOmzetSummary() {
+    const rekapOmzetRef = ref(db, 'Bidang Koperasi/Rekap Omzet Koperasi');
+    const snapshot = await get(rekapOmzetRef);
+    
+    if (snapshot.exists()) {
+        const data = snapshot.val();
+        let summary = {
+            Koperasi: {
+                'Jumlah Koperasi': 0,
+                'Aktif': 0,
+                'Tidak Aktif': 0
+            },
+            Anggota: {
+                'Jumlah Anggota': 0,
+                'Aktif': 0,
+                'Tidak Aktif': 0
+            },
+            'RAT Unit': 0,
+            Manajer: {
+                'Jumlah': 0,
+                'Aktif': 0,
+                'Tidak Aktif': 0
+            },
+            Karyawan: {
+                'Jumlah': 0,
+                'Aktif': 0,
+                'Tidak Aktif': 0
+            },
+            'Modal Sendiri': 'Rp. 0',
+            'Modal Luar': 'Rp. 0',
+            'Volume Usaha': 'Rp. 0',
+            'SHU': 'Rp. 0'
+        };
+
+        let totalModalSendiri = 0;
+        let totalModalLuar = 0;
+        let totalVolumeUsaha = 0;
+        let totalSHU = 0;
+
+        Object.entries(data).forEach(([key, value]) => {
+            if (key !== 'Jumlah') {
+                // Update Koperasi
+                summary.Koperasi['Jumlah Koperasi'] += parseInt(value.Koperasi?.['Jumlah Koperasi'] || 0);
+                summary.Koperasi['Aktif'] += parseInt(value.Koperasi?.Aktif || 0);
+                summary.Koperasi['Tidak Aktif'] += parseInt(value.Koperasi?.['Tidak Aktif'] || 0);
+
+                // Update Anggota
+                summary.Anggota['Jumlah Anggota'] += parseInt(value.Anggota?.['Jumlah Anggota'] || 0);
+                summary.Anggota['Aktif'] += parseInt(value.Anggota?.Aktif || 0);
+                summary.Anggota['Tidak Aktif'] += parseInt(value.Anggota?.['Tidak Aktif'] || 0);
+
+                // Update RAT Unit
+                summary['RAT Unit'] += parseInt(value['RAT Unit'] || 0);
+
+                // Update Manajer
+                summary.Manajer['Jumlah'] += parseInt(value.Manajer?.Jumlah || 0);
+                summary.Manajer['Aktif'] += parseInt(value.Manajer?.Aktif || 0);
+                summary.Manajer['Tidak Aktif'] += parseInt(value.Manajer?.['Tidak Aktif'] || 0);
+
+                // Update Karyawan
+                summary.Karyawan['Jumlah'] += parseInt(value.Karyawan?.Jumlah || 0);
+                summary.Karyawan['Aktif'] += parseInt(value.Karyawan?.Aktif || 0);
+                summary.Karyawan['Tidak Aktif'] += parseInt(value.Karyawan?.['Tidak Aktif'] || 0);
+
+                // Update nilai keuangan (menghapus 'Rp. ' dan mengkonversi ke number)
+                totalModalSendiri += parseInt(value['Modal Sendiri']?.replace(/[^0-9]/g, '') || 0);
+                totalModalLuar += parseInt(value['Modal Luar']?.replace(/[^0-9]/g, '') || 0);
+                totalVolumeUsaha += parseInt(value['Volume Usaha']?.replace(/[^0-9]/g, '') || 0);
+                totalSHU += parseInt(value.SHU?.replace(/[^0-9]/g, '') || 0);
+            }
+        });
+
+        // Format nilai keuangan kembali ke format rupiah
+        summary['Modal Sendiri'] = `Rp. ${totalModalSendiri}`;
+        summary['Modal Luar'] = `Rp. ${totalModalLuar}`;
+        summary['Volume Usaha'] = `Rp. ${totalVolumeUsaha}`;
+        summary['SHU'] = `Rp. ${totalSHU}`;
+
+        const summaryRef = ref(db, 'Bidang Koperasi/Rekap Omzet Koperasi/Jumlah');
+        await update(summaryRef, summary);
+    }
+}
+
 async function loadExportData() {
     const exportSelectedBtn = document.querySelector('.export-selected-btn'); 
     
@@ -5610,7 +5783,7 @@ async function loadExportData() {
                         lastColumn = 'F';
                         break;
                     case 'teraKabWSB':
-                        lastColumn = 'AD'; // No, Nama Wajib Tera, Alamat, Jenis UTTP, Tanggal Tera, Status
+                        lastColumn = 'AE'; // No, Nama Wajib Tera, Alamat, Jenis UTTP, Tanggal Tera, Status
                         break;
                     case 'marketplace':
                         lastColumn = 'I';
@@ -5645,7 +5818,7 @@ async function loadExportData() {
                         lastColumn = 'I'; // No, Nama Pasar, Alamat, Kecamatan, Kelurahan, Luas, Status
                         break;
                     case 'profil':
-                        lastColumn = 'H'; // No, Nama Kios, Alamat, Pemilik, Status, Jenis Dagangan, Keterangan
+                        lastColumn = 'U'; // No, Nama Kios, Alamat, Pemilik, Status, Jenis Dagangan, Keterangan
                         break;
 
                     // Bidang Koperasi
@@ -5671,7 +5844,7 @@ async function loadExportData() {
                         lastColumn = 'E'; // No, Nama Koperasi, Alamat, Produk, Bulan
                         break;
                     case 'koperasiAktif':
-                        lastColumn = 'D'; // No, Nama Koperasi, NIK, No Badan Hukum, Alamat, Kelurahan, Kecamatan, Desa
+                        lastColumn = 'H'; // No, Nama Koperasi, NIK, No Badan Hukum, Alamat, Kelurahan, Kecamatan, Desa
                         break;
                     case 'aksesPasarOnline':
                         lastColumn = 'D'; // No, Nama Koperasi, Alamat, Media Pemasaran
@@ -5965,193 +6138,185 @@ async function getTeraKabWSBData() {
 
 async function generateTeraKabWSBSheet(worksheet, data) {
 
-    // Merge cells yang lebih akurat
-    worksheet.mergeCells('A9:A11');  // NO
-    worksheet.mergeCells('B9:B11');  // LOKASI
+    // Merge cells untuk header
+    worksheet.mergeCells('A10:A12');  // NO
+    worksheet.mergeCells('B10:B12');  // Kecamatan
+    worksheet.mergeCells('C10:C12');  // Lokasi
     
     // UP
-    worksheet.mergeCells('C9:D9');   // UP
-    worksheet.mergeCells('C10:C11'); // 1 m ≤
-    worksheet.mergeCells('D10:D11'); // up ≤ 1
+    worksheet.mergeCells('D10:E10');   // UP
+    worksheet.mergeCells('D11:D12');   // 1 m ≤ up ≤ 2 m
+    worksheet.mergeCells('E11:E12');   // up ≤ 1 m
     
     // TAK
-    worksheet.mergeCells('E9:F9');   // TAK
-    worksheet.mergeCells('E10:E11'); // 5 l ≤
-    worksheet.mergeCells('F10:F11'); // tb > 2
+    worksheet.mergeCells('F10:G10');   // TAK
+    worksheet.mergeCells('F11:F12');   // 5 l ≤ tb ≤ 25 l
+    worksheet.mergeCells('G11:G12');   // tb > 2 l
     
     // ANAK TIMBANGAN
-    worksheet.mergeCells('G9:L9');   // ANAK
-    worksheet.mergeCells('G10:I10'); // Biasa
-    worksheet.mergeCells('J10:L10'); // Halus
+    worksheet.mergeCells('H10:M10');   // ANAK TIMBANGAN
+    worksheet.mergeCells('H11:J11');   // Biasa
+    worksheet.mergeCells('K11:M11');   // Halus
     
     // TIMBANGAN
-    worksheet.mergeCells('M9:AA9');  // TIMBANGAN
-    worksheet.mergeCells('M10:N10'); // DACIN
-    worksheet.mergeCells('O10:P10'); // SENT
-    worksheet.mergeCells('Q10:R10'); // BOBOT
-    worksheet.mergeCells('S10:T10'); // PEG
-    worksheet.mergeCells('U10:U12'); // MEJA
-    worksheet.mergeCells('V10:V12'); // NERACA
-    worksheet.mergeCells('W10:X10'); // TE (II)
-    worksheet.mergeCells('Y10:AA10');// TE (III & IV)
+    worksheet.mergeCells('N10:AB10');  // TIMBANGAN
+    worksheet.mergeCells('N11:O11');   // DACIN LOGAM
+    worksheet.mergeCells('P11:Q11');   // SENTISIMAL
+    worksheet.mergeCells('R11:S11');   // BOBOT INGSUT
+    worksheet.mergeCells('T11:U11');   // PEGAS
+    worksheet.mergeCells('V11:V12');   // MEJA
+    worksheet.mergeCells('W11:W12');   // NERACA
+    worksheet.mergeCells('X11:Y11');   // TE (II)
+    worksheet.mergeCells('Z11:AB11');  // TE (III & IV)
     
     // Kolom terakhir
-    worksheet.mergeCells('AB9:AB11');// Alat Ukur Tinggi
-    worksheet.mergeCells('AC9:AC11');// TEB 1000 KG
-    worksheet.mergeCells('AD9:AD11');// JUMLAH TOTAL
-    
+    worksheet.mergeCells('AC10:AC12'); // Alat Ukur Tinggi Orang
+    worksheet.mergeCells('AD10:AD12'); // TEB 1000 KG
+    worksheet.mergeCells('AE10:AE12'); // Jumlah Total UTTP
+
     const headers = [
         [
-            'NO', 'LOKASI', 
-            'UP', 'UP', 'TAK', 'TAK',
-            'ANAK', 'ANAK', 'ANAK', 'ANAK', 'ANAK', 'ANAK',
-            'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN', 'TIMBANGAN',
-            'Alat Ukur Tinggi', 'TEB 1000 KG', 'JUMLAH TOTAL'
+            'NO', 'Kecamatan', 'Lokasi',
+            'UP', 'UP',
+            'TAK', 'TAK',
+            'Anak Timbangan', 'Anak Timbangan', 'Anak Timbangan', 'Anak Timbangan', 'Anak Timbangan', 'Anak Timbangan',
+            'Timbangan', 'Timbangan', 'Timbangan', 'Timbangan', 'Timbangan', 'Timbangan', 'Timbangan', 'Timbangan', 'Timbangan', 'Timbangan', 'Timbangan', 'Timbangan', 'Timbangan', 'Timbangan', 'Timbangan',
+            'Alat Ukur Tinggi Orang', 'TEB 1000 KG', 'Jumlah Total UTTP'
         ],
         [
-            '', '', 
-            '1 m ≤', 'up ≤ 1', '5 l ≤', 'tb > 2',
+            'NO', 'Kecamatan', 'Lokasi',  // Menambahkan kembali header yang di-merge vertikal
+            '1 m ≤ up ≤ 2 m', 'up ≤ 1 m',
+            '5 ≤ tb ≤ 25 l', 'tb ≥ 2 l',
             'Biasa', 'Biasa', 'Biasa',
             'Halus', 'Halus', 'Halus',
-            'DACIN', 'DACIN',
-            'SENT', 'SENT',
-            'BOBOT', 'BOBOT',
-            'PEG', 'PEG',
+            'Dacin Logam', 'Dacin Logam',
+            'Sentisimal', 'Sentisimal',
+            'Bobot Ingsut', 'Bobot Ingsut',
+            'Pegas', 'Pegas',
             'MEJA', 'NERACA',
             'TE', 'TE',
             'TE', 'TE', 'TE',
-            '', '', ''
+            'Alat Ukur Tinggi Orang', 'TEB 1000 KG', 'Jumlah Total UTTP'  // Menambahkan kembali header yang di-merge vertikal
         ],
         [
-            '', '',
-            'up ≤ 2', 'm', 'tb ≤ 25', 'l',
-            'atb ≤ 1', '1 < atb ≤', '5 < atb ≤',
-            'atb ≤ 1', '1 < atb ≤', '5 < atb ≤',
-            'DL ≤ 25', 'DL > 25',
-            'S ≤ 150', '150 < S ≤ 500',
-            'TBI ≤ 25', '25 < TBI ≤ 150',
-            'TP ≤ 25', 'TP > 25',
-            '', '',
-            'TE ≤ 1', 'TE > 1',
-            'TE ≤ 25', '25 < TE ≤ 150', '25 < TE ≤ 500',
-            '', '', ''
-        ],
-        [
-            '', '',
-            'm', '', 'l', '',
-            'kg', '5 kg', '20 kg',
-            'kg', '5 kg', '20 kg',
-            'kg', 'kg',
-            'kg', 'kg',
-            'kg', 'kg',
-            'kg', 'kg',
-            '', '',
-            'kg', 'kg',
-            'kg', 'kg', 'kg',
-            '', '', ''
+            'NO', 'Kecamatan', 'Lokasi',  // Menambahkan kembali header yang di-merge vertikal
+            '1 m ≤ up ≤ 2 m', 'up ≤ 1 m',
+            '5 ≤ tb ≤ 25 l', 'tb ≥ 2 l',
+            'atb ≤1 kg', '1 < atb ≤5 kg', '5 < atb ≥ 20 kg',
+            'atb ≤1 kg (H)', '1 < atb ≤5 kg (H)', '5 < atb ≥ 20 kg (H)',
+            'DL ≤25 kg', 'DL > 25 kg',
+            'S ≤150 kg', 'S > 150 kg',
+            'S ≤150 kg', 'S > 150 kg',
+            'TP ≤25 kg', 'TP > 25 kg',
+            'MEJA', 'NERACA',
+            'TE ≤ 1 kg', 'TE > 1 kg',
+            'TE ≤ 25 kg', '25 kg < TE ≤ 150 kg', '150 kg < TE ≤ 500 kg',
+            'Alat Ukur Tinggi Orang', 'TEB 1000 KG', 'Jumlah Total UTTP'  // Menambahkan kembali header yang di-merge vertikal
         ]
     ];
 
-    // Terapkan header dengan rotasi teks
+    // Terapkan header
     headers.forEach((headerRow, idx) => {
-        const row = worksheet.getRow(idx + 9);
+        const row = worksheet.getRow(idx + 10);
         headerRow.forEach((header, colIdx) => {
             const cell = row.getCell(colIdx + 1);
             cell.value = header;
-            cell.font = { 
-                bold: true, 
-                color: { argb: '000000' },
-                size: 8
-            };
-            cell.alignment = { 
-                horizontal: 'center',
-                vertical: 'middle',
-                wrapText: true,
-            };
-            cell.border = {
-                top: { style: 'thin' },
-                bottom: { style: 'thin' },
-                left: { style: 'thin' },
-                right: { style: 'thin' }
-            };
+            cell.font = { bold: true };
+            cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
         });
-        row.height = 25;
+        styleHeader(row);
     });
 
     let rowIndex = 13;
     let no = 1;
+    let totalUTTP = 0;
 
     if (data) {
         Object.entries(data).forEach(([key, value]) => {
-            if (value.DETAIL) {
-                value.DETAIL.forEach(detail => {
-                    Object.entries(detail).forEach(([lokasi, items]) => {
-                        const row = worksheet.getRow(rowIndex);
-                        const values = new Array(30).fill('-');
+            if (key !== 'Jumlah Keseluruhan') {
+                const row = worksheet.getRow(rowIndex);
+                const values = new Array(31).fill('-');
 
-                        values[0] = no++;
-                        values[1] = lokasi;
+                values[0] = no++;
+                values[1] = value.Kecamatan || '-';
+                values[2] = value.Lokasi || '-';
 
-                        // UP
-                        values[2] = items.UP['1 m ≤ up ≤ 2 m'];
-                        values[3] = items.UP['up ≤ 1 m'];
+                // UP
+                values[3] = value.UP['1 m ≤ up ≤ 2 m'];
+                values[4] = value.UP['up ≤ 1 m'];
 
-                        // TAK
-                        values[4] = items.TAK['5 l ≤  tb ≤ 25 l'];
-                        values[5] = items.TAK['tb > 2 l'];
+                // TAK
+                values[5] = value.TAK['5 l ≤  tb ≤ 25 l'];
+                values[6] = value.TAK['tb > 2 l'];
 
-                        // ANAK TIMBANGAN - Biasa
-                        values[6] = items['ANAK TIMBANGAN'].Biasa['atb ≤ 1 kg'];
-                        values[7] = items['ANAK TIMBANGAN'].Biasa['1 < atb ≤ 5 kg'];
-                        values[8] = items['ANAK TIMBANGAN'].Biasa['5 < atb ≤ 20 kg'];
+                // ANAK TIMBANGAN
+                values[7] = value['ANAK TIMBANGAN'].Biasa['atb ≤ 1 kg'];
+                values[8] = value['ANAK TIMBANGAN'].Biasa['1 < atb ≤ 5 kg'];
+                values[9] = value['ANAK TIMBANGAN'].Biasa['5 < atb ≤ 20 kg'];
+                values[10] = value['ANAK TIMBANGAN'].Halus['atb ≤ 1 kg'];
+                values[11] = value['ANAK TIMBANGAN'].Halus['1 < atb ≤ 5 kg'];
+                values[12] = value['ANAK TIMBANGAN'].Halus['5 < atb ≤ 20 kg'];
 
-                        // ANAK TIMBANGAN - Halus
-                        values[9] = items['ANAK TIMBANGAN'].Halus['atb ≤ 1 kg'];
-                        values[10] = items['ANAK TIMBANGAN'].Halus['1 < atb ≤ 5 kg'];
-                        values[11] = items['ANAK TIMBANGAN'].Halus['5 < atb ≤ 20 kg'];
+                // TIMBANGAN
+                values[13] = value.TIMBANGAN['DACIN LOGAM']['DL ≤ 25 kg'];
+                values[14] = value.TIMBANGAN['DACIN LOGAM']['DL > 25 kg'];
+                values[15] = value.TIMBANGAN.SENTISIMAL['S ≤ 150 kg'];
+                values[16] = value.TIMBANGAN.SENTISIMAL['150 kg < S ≤ 500 kg'];
+                values[17] = value.TIMBANGAN['BOBOT INGSUT']['TBI ≤ 25 kg'];
+                values[18] = value.TIMBANGAN['BOBOT INGSUT']['25 kg < TBI ≤ 150 kg'];
+                values[19] = value.TIMBANGAN.PEGAS['TP ≤ 25 kg'];
+                values[20] = value.TIMBANGAN.PEGAS['TP > 25 kg'];
+                values[21] = value.TIMBANGAN.MEJA;
+                values[22] = value.TIMBANGAN.NERACA;
+                values[23] = value.TIMBANGAN['TE (II)']['TE ≤ 1 kg'];
+                values[24] = value.TIMBANGAN['TE (II)']['TE > 1 kg'];
+                values[25] = value.TIMBANGAN['TE (III & IV)']['25 < kg TE ≤ 25 kg'];
+                values[26] = value.TIMBANGAN['TE (III & IV)']['25 < kg TE ≤ 150 kg'];
+                values[27] = value.TIMBANGAN['TE (III & IV)']['25 < kg TE ≤ 500 kg'];
 
-                        // TIMBANGAN
-                        const timbangan = items.TIMBANGAN;
-                        values[12] = timbangan['DACIN LOGAM']['DL ≤ 25 kg'];
-                        values[13] = timbangan['DACIN LOGAM']['DL > 25 kg'];
-                        values[14] = timbangan.SENTISIMAL['S ≤ 150 kg'];
-                        values[15] = timbangan.SENTISIMAL['150 kg < S ≤ 500 kg'];
-                        values[16] = timbangan['BOBOT INGSUT']['TBI ≤ 25 kg'];
-                        values[17] = timbangan['BOBOT INGSUT']['25 kg < TBI ≤ 150 kg'];
-                        values[18] = timbangan.PEGAS['TP ≤ 25 kg'];
-                        values[19] = timbangan.PEGAS['TP > 25 kg'];
-                        values[20] = timbangan.MEJA;
-                        values[21] = timbangan.NERACA;
-                        values[22] = timbangan['TE (II)']['TE ≤ 1 kg'];
-                        values[23] = timbangan['TE (II)']['TE > 1 kg'];
-                        values[24] = timbangan['TE (III & IV)']['TE ≤ 25 kg'];
-                        values[25] = timbangan['TE (III & IV)']['25 kg < TE ≤ 150 kg'];
-                        values[26] = timbangan['TE (III & IV)']['25 kg < TE ≤ 500 kg'];
+                // Kolom terakhir
+                values[28] = value['Alat Ukur Tinggi Orang'];
+                values[29] = value['TEB 1000 KG'];
+                values[30] = value['Jumlah Total UTTP'];
 
-                        // Kolom terakhir
-                        values[27] = items['Alat Ukur Tinggi Orang'];
-                        values[28] = items['TEB 1000 KG'];
-                        values[29] = items['Jumlah Total UTTP'];
-
-                        // Set nilai dan style
-                        row.values = values.map(v => v === '-' ? '-' : v || '-');
-                        styleDataRow(row);
-                        row.height = 25;
-                        rowIndex++;
-                    });
-                });
+                row.values = values;
+                styleDataRow(row);
+                
+                // Menambahkan total UTTP
+                if (value['Jumlah Total UTTP'] && value['Jumlah Total UTTP'] !== '-') {
+                    totalUTTP += parseInt(value['Jumlah Total UTTP']);
+                }
+                
+                rowIndex++;
             }
         });
+
+        // Tambahkan Jumlah Keseluruhan
+        const totalRow = worksheet.getRow(rowIndex);
+        
+        // Gabungkan kolom untuk Jumlah Keseluruhan
+        worksheet.mergeCells(`A${rowIndex}:AD${rowIndex}`);
+        worksheet.getCell(`A${rowIndex}`).value = 'Jumlah Keseluruhan';
+        worksheet.getCell(`A${rowIndex}`).alignment = { horizontal: 'center' };
+        worksheet.getCell(`AE${rowIndex}`).value = totalUTTP.toString();
+        worksheet.getCell(`AE${rowIndex}`).alignment = { horizontal: 'center' };
+        
+        styleDataRow(totalRow);
+        totalRow.font = { bold: true };
     }
 
+    // Set lebar kolom
     worksheet.columns.forEach((col, idx) => {
-        if (idx === 0) col.width = 4;       // NOMOR
-        else if (idx === 1) col.width = 12;  // LOKASI
-        else col.width = 5;                  // Kolom lainnya
+        if (idx === 0) col.width = 4;      // NO
+        else if (idx === 1) col.width = 15; // Kecamatan
+        else if (idx === 2) col.width = 15; // Lokasi
+        else col.width = 8;                 // Kolom lainnya
     });
-    worksheet.getRow(9).height = 30;
+
+    // Set tinggi baris header
     worksheet.getRow(10).height = 30;
     worksheet.getRow(11).height = 30;
+    worksheet.getRow(12).height = 30;
 }
 
 // 3. Marketplace
@@ -6850,36 +7015,94 @@ async function generateProfilSheet(worksheet, data) {
     let rowIndex = 12;
     let no = 1;
     
+    // Untuk menyimpan total
+    let totalLos = 0;
+    let totalKios = 0;
+    let totalDasaran = 0;
+    let totalPedagangLos = 0;
+    let totalPedagangKios = 0;
+    let totalPedagangDasaran = 0;
+    let totalPasar = 0;
+    
     if (data) {
         Object.entries(data).forEach(([key, value]) => {
-            const row = worksheet.getRow(rowIndex);
-            row.values = [
-                no++,
-                value['UPT'] || '',
-                value['Nama Pasar'] || '',
-                value['Jumlah Paguyuban Pedagang'] || '',
-                value['Alamat'] || '',
-                value['Tahun Berdiri'] || '',
-                value['Luas'].tanah || '',
-                value['Luas'].bangunan || '',
-                value['Luas'].lantai || '',
-                value['Jumlah'].los || '',
-                value['Jumlah'].kios || '',
-                value['Jumlah'].dasaran || '',
-                value['Jumlah Pedagang'].los || '',
-                value['Jumlah Pedagang'].kios || '',
-                value['Jumlah Pedagang'].dasaran || '',
-                value['Fasilitas']?.['Areal Parkir'] || '',
-                value['Fasilitas'].TPS || '',
-                value['Fasilitas'].MCK || '',
-                value['Fasilitas']?.['Tempat Ibadah'] || '',
-                value['Fasilitas']?.['Bongkar Muat'] || '',
-                value['Keterangan'] || ''
-            ];
-            styleDataRow(row);
-            rowIndex++;
+            if (key !== 'Jumlah') {
+                const row = worksheet.getRow(rowIndex);
+                
+                // Menambah total
+                totalLos += parseInt(value['Jumlah']?.los ?? 0);
+                totalKios += parseInt(value['Jumlah']?.kios ?? 0);
+                totalDasaran += parseInt(value['Jumlah']?.dasaran ?? 0);
+                totalPedagangLos += parseInt(value['Jumlah Pedagang']?.los ?? 0);
+                totalPedagangKios += parseInt(value['Jumlah Pedagang']?.kios ?? 0);
+                totalPedagangDasaran += parseInt(value['Jumlah Pedagang']?.dasaran ?? 0);
+                totalPasar++;
+
+                row.values = [
+                    no++,
+                    value['UPT'] || '',
+                    value['Nama Pasar'] || '',
+                    value['Jumlah Paguyuban Pedagang'] || '',
+                    value['Alamat'] || '',
+                    value['Tahun Berdiri'] || '',
+                    value['Luas']?.tanah ?? '',
+                    value['Luas']?.bangunan ?? '',
+                    value['Luas']?.lantai ?? '',
+                    value['Jumlah']?.los ?? '',
+                    value['Jumlah']?.kios ?? '',
+                    value['Jumlah']?.dasaran ?? '',
+                    value['Jumlah Pedagang']?.los ?? '',
+                    value['Jumlah Pedagang']?.kios ?? '',
+                    value['Jumlah Pedagang']?.dasaran ?? '',
+                    value['Fasilitas']?.['Areal Parkir'] ?? '',
+                    value['Fasilitas']?.TPS ?? '',
+                    value['Fasilitas']?.MCK ?? '',
+                    value['Fasilitas']?.['Tempat Ibadah'] ?? '',
+                    value['Fasilitas']?.['Bongkar Muat'] ?? '',
+                    value['Keterangan'] ?? ''
+                ];
+                styleDataRow(row);
+                rowIndex++;
+            }
         });
+
+        // Tambahkan baris Jumlah
+        const totalRow = worksheet.getRow(rowIndex);
+        
+        // Merge cells untuk kata "JUMLAH"
+        worksheet.mergeCells(`A${rowIndex}:I${rowIndex}`);
+        worksheet.getCell(`A${rowIndex}`).value = 'JUMLAH';
+        worksheet.getCell(`A${rowIndex}`).alignment = { horizontal: 'center' };
+        
+        totalRow.values = [
+            '', // A - akan di-merge
+            '', // B - akan di-merge
+            '', // C - akan di-merge
+            '', // D - akan di-merge
+            '', // E - akan di-merge
+            '', // F - akan di-merge
+            '', // G - akan di-merge
+            '', // H - akan di-merge
+            '', // I - akan di-merge
+            totalLos,           // J
+            totalKios,          // K
+            totalDasaran,       // L
+            totalPedagangLos,   // M
+            totalPedagangKios,  // N
+            totalPedagangDasaran, // O
+            '', // P
+            '', // Q
+            '', // R
+            '', // S
+            '', // T
+            `${totalPasar} Pasar` // U
+        ];
+        
+        styleDataRow(totalRow);
+        totalRow.font = { bold: true };
+        totalRow.alignment = { horizontal: 'center' };
     }
+    
     autoFitColumns(worksheet);
 }
 
@@ -7168,7 +7391,8 @@ async function generateKoperasiProduksiSheet(worksheet, data) {
         'No',
         'Nama Koperasi',
         'Alamat',
-        'Produk'
+        'Produk',
+        'Bulan'
     ];
     
     const headerRow = worksheet.getRow(10);
@@ -7184,7 +7408,8 @@ async function generateKoperasiProduksiSheet(worksheet, data) {
                 no++,
                 value['Nama Koperasi'] || '',
                 value['Alamat'] || '',
-                value['Produk'] || ''
+                value['Produk'] || '',
+                value['Bulan'] || ''
             ];
             styleDataRow(row);
             rowIndex++;
@@ -7195,7 +7420,7 @@ async function generateKoperasiProduksiSheet(worksheet, data) {
 
 // 8. Koperasi Aktif
 async function getKoperasiAktifData() {
-    const koperasiRef = ref(db, 'Bidang Koperasi/Jumlah Koperasi Seluruh Koperasi Aktif');
+    const koperasiRef = ref(db, 'Bidang Koperasi/Jumlah Seluruh Koperasi Aktif');
     const snapshot = await get(koperasiRef);
     return snapshot.val();
 }
@@ -7353,46 +7578,172 @@ async function generateKoperasiSehatSheet(worksheet, data) {
 
 // 12. Rekap Omzet
 async function getRekapOmzetData() {
-    const omzetRef = ref(db, 'Bidang Koperasi/Data Rekap Omzet');
+    const omzetRef = ref(db, 'Bidang Koperasi/Rekap Omzet Koperasi');
     const snapshot = await get(omzetRef);
     return snapshot.val();
 }
 
 async function generateRekapOmzetSheet(worksheet, data) {
+    // Header
     worksheet.getRow(10).values = [
         'No',
-        'Nama Koperasi',
-        'Jenis Koperasi',
-        'Tahun',
-        'Triwulan',
-        'Omzet',
-        'Pertumbuhan (%)',
-        'Keterangan'
+        'Kecamatan',
+        'Anggota',
+        '',
+        '',
+        'Koperasi',
+        '',
+        '',
+        'Manajer',
+        '',
+        '',
+        'Karyawan',
+        '',
+        '',
+        'Modal Sendiri',
+        'Modal Luar',
+        'Volume Usaha',
+        'SHU',
+        'RAT Unit'
     ];
-    
-    const headerRow = worksheet.getRow(10);
-    styleHeader(headerRow);
 
-    let rowIndex = 11;
+    // Sub header
+    worksheet.getRow(11).values = [
+        '',
+        '',
+        'Jumlah',
+        'Aktif',
+        'Tidak Aktif',
+        'Jumlah',
+        'Aktif',
+        'Tidak Aktif',
+        'Jumlah',
+        'Aktif',
+        'Tidak Aktif',
+        'Jumlah',
+        'Aktif',
+        'Tidak Aktif',
+        '',
+        '',
+        '',
+        '',
+        ''
+    ];
+
+    // Merge cells untuk header
+    worksheet.mergeCells('A10:A11');  // No
+    worksheet.mergeCells('B10:B11');  // Kecamatan
+    worksheet.mergeCells('C10:E10');  // Anggota
+    worksheet.mergeCells('F10:H10');  // Koperasi
+    worksheet.mergeCells('I10:K10');  // Manajer
+    worksheet.mergeCells('L10:N10');  // Karyawan
+    worksheet.mergeCells('O10:O11');  // Modal Sendiri
+    worksheet.mergeCells('P10:P11');  // Modal Luar
+    worksheet.mergeCells('Q10:Q11');  // Volume Usaha
+    worksheet.mergeCells('R10:R11');  // SHU
+    worksheet.mergeCells('S10:S11');  // RAT Unit
+
+    // Style headers
+    styleHeader(worksheet.getRow(10));
+    styleHeader(worksheet.getRow(11));
+
+    let rowIndex = 12;
     let no = 1;
     
+    // Untuk menyimpan total
+    let totalAnggota = { jumlah: 0, aktif: 0, tidakAktif: 0 };
+    let totalKoperasi = { jumlah: 0, aktif: 0, tidakAktif: 0 };
+    let totalManajer = { jumlah: 0, aktif: 0, tidakAktif: 0 };
+    let totalKaryawan = { jumlah: 0, aktif: 0, tidakAktif: 0 };
+    let totalModalSendiri = 0;
+    let totalModalLuar = 0;
+    let totalVolumeUsaha = 0;
+    let totalSHU = 0;
+    let totalRAT = 0;
+
     if (data) {
         Object.entries(data).forEach(([key, value]) => {
-            const row = worksheet.getRow(rowIndex);
-            row.values = [
-                no++,
-                value['Nama Koperasi'] || '',
-                value['Jenis Koperasi'] || '',
-                value['Tahun'] || '',
-                value['Triwulan'] || '',
-                value['Omzet'] || '',
-                value['Pertumbuhan'] || '',
-                value['Keterangan'] || ''
-            ];
-            styleDataRow(row);
-            rowIndex++;
+            if (key !== 'Jumlah') {
+                const row = worksheet.getRow(rowIndex);
+                
+                // Menghitung total
+                totalAnggota.jumlah += parseInt(value.Anggota?.['Jumlah Anggota'] || 0);
+                totalAnggota.aktif += parseInt(value.Anggota?.Aktif || 0);
+                totalAnggota.tidakAktif += parseInt(value.Anggota?.['Tidak Aktif'] || 0);
+                totalKoperasi.jumlah += parseInt(value.Koperasi?.['Jumlah Koperasi'] || 0);
+                totalKoperasi.aktif += parseInt(value.Koperasi?.Aktif || 0);
+                totalKoperasi.tidakAktif += parseInt(value.Koperasi?.['Tidak Aktif'] || 0);
+                totalManajer.jumlah += parseInt(value.Manajer?.Jumlah || 0);
+                totalManajer.aktif += parseInt(value.Manajer?.Aktif || 0);
+                totalManajer.tidakAktif += parseInt(value.Manajer?.['Tidak Aktif'] || 0);
+                totalKaryawan.jumlah += parseInt(value.Karyawan?.Jumlah || 0);
+                totalKaryawan.aktif += parseInt(value.Karyawan?.Aktif || 0);
+                totalKaryawan.tidakAktif += parseInt(value.Karyawan?.['Tidak Aktif'] || 0);
+                totalModalSendiri += parseInt(value['Modal Sendiri']?.replace(/[^\d]/g, '') || 0);
+                totalModalLuar += parseInt(value['Modal Luar']?.replace(/[^\d]/g, '') || 0);
+                totalVolumeUsaha += parseInt(value['Volume Usaha']?.replace(/[^\d]/g, '') || 0);
+                totalSHU += parseInt(value['SHU']?.replace(/[^\d]/g, '') || 0);
+                totalRAT += parseInt(value['RAT Unit'] || 0);
+
+                row.values = [
+                    no++,
+                    value.Kecamatan || '',
+                    value.Anggota?.['Jumlah Anggota'] || '',
+                    value.Anggota?.Aktif || '',
+                    value.Anggota?.['Tidak Aktif'] || '',
+                    value.Koperasi?.['Jumlah Koperasi'] || '',
+                    value.Koperasi?.Aktif || '',
+                    value.Koperasi?.['Tidak Aktif'] || '',
+                    value.Manajer?.Jumlah || '',
+                    value.Manajer?.Aktif || '',
+                    value.Manajer?.['Tidak Aktif'] || '',
+                    value.Karyawan?.Jumlah || '',
+                    value.Karyawan?.Aktif || '',
+                    value.Karyawan?.['Tidak Aktif'] || '',
+                    value['Modal Sendiri'] || '',
+                    value['Modal Luar'] || '',
+                    value['Volume Usaha'] || '',
+                    value['SHU'] || '',
+                    value['RAT Unit'] || ''
+                ];
+                styleDataRow(row);
+                rowIndex++;
+            }
         });
+
+        // Tambahkan baris Jumlah
+        const totalRow = worksheet.getRow(rowIndex);
+
+        totalRow.values = [
+            'JUMLAH',
+            '',
+            totalAnggota.jumlah,
+            totalAnggota.aktif,
+            totalAnggota.tidakAktif,
+            totalKoperasi.jumlah,
+            totalKoperasi.aktif,
+            totalKoperasi.tidakAktif,
+            totalManajer.jumlah,
+            totalManajer.aktif,
+            totalManajer.tidakAktif,
+            totalKaryawan.jumlah,
+            totalKaryawan.aktif,
+            totalKaryawan.tidakAktif,
+            `Rp. ${totalModalSendiri.toLocaleString()}`,
+            `Rp. ${totalModalLuar.toLocaleString()}`,
+            `Rp. ${totalVolumeUsaha.toLocaleString()}`,
+            `Rp. ${totalSHU.toLocaleString()}`,
+            totalRAT
+        ];
+
+        worksheet.mergeCells(`A${rowIndex}:B${rowIndex}`);
+        worksheet.getCell(`A${rowIndex}`).value = 'JUMLAH';
+        worksheet.getCell(`A${rowIndex}`).alignment = { horizontal: 'center' };
+
+        styleDataRow(totalRow);
+        totalRow.font = { bold: true };
     }
+    
     autoFitColumns(worksheet);
 }
 
@@ -7427,11 +7778,29 @@ function autoFitColumns(worksheet) {
     worksheet.columns.forEach(column => {
         let maxLength = 0;
         column.eachCell({ includeEmpty: true }, cell => {
+            // Jika nilai cell adalah angka, gunakan panjang default
+            if (typeof cell.value === 'number') {
+                maxLength = Math.max(maxLength, 8);
+                return;
+            }
+            
             const columnLength = cell.value ? cell.value.toString().length : 10;
             if (columnLength > maxLength) {
                 maxLength = columnLength;
             }
         });
-        column.width = maxLength < 10 ? 10 : maxLength + 2;
+        
+        // Tetapkan batas minimum dan maksimum untuk lebar kolom
+        const minWidth = 8;
+        const maxWidth = 20;
+        
+        // Hitung lebar yang sesuai
+        let finalWidth = maxLength < minWidth ? minWidth : maxLength + 2;
+        
+        // Terapkan batas maksimum
+        finalWidth = Math.min(finalWidth, maxWidth);
+        
+        // Terapkan lebar kolom
+        column.width = finalWidth;
     });
 }
