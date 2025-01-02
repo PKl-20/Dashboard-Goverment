@@ -1537,3 +1537,17 @@ aside .sidebar .dropdown-btn {
     }
 }
 
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#myChart {
+    width: 100% !important;
+    height: 400px !important;
+}

@@ -65,6 +65,11 @@ function updateActiveState(activeLink) {
         activeLink.classList.add('active');
     }
 }
+
+function setZoom(zoomLevel) {
+    document.body.style.transform = `scale(${zoomLevel})`;
+    document.body.style.transformOrigin = '0 0'; // Mengatur titik asal transformasi
+}
         
 if (dashboardLink) {
     dashboardLink.addEventListener('click', function() {
@@ -76,6 +81,7 @@ if (dashboardLink) {
         importData.style.display = 'none';
         newDocument.style.display = 'none';
         updateActiveState(this);
+        setZoom(1);
     });
 }
         
@@ -89,6 +95,7 @@ if (bidangPerdaganganLink) {
         importData.style.display = 'none';
         newDocument.style.display = 'none';
         updateActiveState(this);
+        setZoom(0.75);
     });
 }
 
@@ -102,6 +109,7 @@ if (bidangPasarLink) {
         importData.style.display = 'none';
         newDocument.style.display = 'none';
         updateActiveState(this);
+        setZoom(0.75);
     });
 }
 
@@ -115,6 +123,7 @@ if (bidangKoperasiLink) {
         importData.style.display = 'none';
         newDocument.style.display = 'none';
         updateActiveState(this);
+        setZoom(0.8);
     });
 }
 
@@ -128,6 +137,7 @@ if (exportDataLink) {
         importData.style.display = 'none';
         newDocument.style.display = 'none';
         updateActiveState(this);
+        setZoom(0.75);
     });
 }
 
@@ -141,6 +151,7 @@ if (newDocumentLink) {
         importData.style.display = 'none';
         newDocument.style.display = 'block';
         updateActiveState(this);
+        setZoom(1);
     });
 }
 
@@ -154,6 +165,7 @@ if (importDataLink) {
         importData.style.display = 'block';
         newDocument.style.display = 'none';
         updateActiveState(this);
+        setZoom(1);
     });
 }
 
