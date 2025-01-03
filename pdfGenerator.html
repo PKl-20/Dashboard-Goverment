@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate PDF with Template</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+</head>
+<body>
+    <h1>Generate PDF from Template</h1>
+    <form id="pdf-form">
+        <label for="nmfile">Nama File:</label>
+        <input type="text" id="nmfile" name="nmfile" required><br><br>
+        <label for="nomor">Nomor Surat:</label>
+        <input type="text" id="nomor" name="nomor" required><br><br>
+        <label for="hal">Keperluan Surat:</label>
+        <input type="text" id="hal" name="hal" required><br><br>
+        <label for="tanggal">Tanggal Surat:</label>
+        <input type="date" id="tanggal" name="tanggal" required><br><br>
+        <label for="isi">Isi Surat:</label><br>
+        <textarea id="isi" name="isi" rows="5" cols="40" required></textarea><br><br>
+
+        <button type="button" onclick="generatePDF()">Generate PDF</button>
+    </form>
+
+    <script>
+        async function generatePDF() {
+            // Ambil data dari form
+            const namaFile = document.getElementById("nmfile").value;
+            const hal = document.getElementById("hal").value;
+            const nomor = document.getElementById("nomor").value;
+            const tanggal = document.getElementById("tanggal").value;
+            const isi = document.getElementById("isi").value;
+
+            // Menggunakan file template PDF yang sudah ditetapkan
+            const response = await fetch('assets/Files/Contoh Template.pdf'); // Ganti dengan path yang sesuai
+            const arrayBuffer = await response.arrayBuffer();
+            const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+
+            // Manipulasi PDF
+            const pages = pdfDoc.getPages();
+            const firstPage = pages[0];
+            const { width, height } = firstPage.getSize();
+
+            // Tambahkan teks dinamis ke template
+            firstPage.drawText(nomor, { x: 100, y: height - 223, size: 12, color: PDFLib.rgb(0, 0, 0) });
+            firstPage.drawText(hal, { x: 100, y: height - 237, size: 12, color: PDFLib.rgb(0, 0, 0) });
+            firstPage.drawText(tanggal, { x: 70, y: height - 370, size: 12, color: PDFLib.rgb(0, 0, 0) });
+            firstPage.drawText(isi, { x: 70, y: height - 390, size: 12, color: PDFLib.rgb(0, 0, 0), lineHeight: 14 });
+
+            // Simpan PDF hasil modifikasi
+            const pdfBytes = await pdfDoc.save();
+            const blob = new Blob([pdfBytes], { type: "application/pdf" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = namaFile+".pdf";
+            link.click();
+        }
+    </script>
+</body>
+</html>
